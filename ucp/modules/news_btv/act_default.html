@@ -1,0 +1,362 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+</style>
+<?php if($_GET['category_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsCategory->getBreadcrumb($_GET['category_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_default') ?>
+        </ul>
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu_btv') ?>
+        </ul>
+        <ul class="menu-left menu-left-blue">
+        <?php if($listCategory) foreach($listCategory as $oneCat) { ?>
+        <li class="<?php if($_GET['is_picker']=='1' && $_GET['category_id']==$oneCat) echo 'active' ?>"><a href="?mod=news&is_picker=1&category_id=<?php echo $oneCat ?>">NB <?php echo $clsCategory->getTitle($oneCat) ?></a></li>
+        <?php } ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="4">Tiêu đề</td>
+                    <td>Xem</td>
+                    <td>Ngày tạo</td>
+                    <td>Ngày xuất bản</td>
+                    <td>Danh mục</td>
+                    <td>Preview</td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem,false,3600); ?>
+                <tr>
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <?php
+                        $link = '?mod='.$mod.'&act=edit&id='.$oneItem[$pkeyTable];
+                        if($_GET['category_id']) $link.='&category_id='.$_GET['category_id'];
+                        if($_GET['is_hot']) $link.='&is_hot='.$_GET['is_hot'];
+                        if($_GET['is_picker']) $link.='&is_picker='.$_GET['is_picker'];
+                        if($_GET['is_draft']) $link.='&is_draft='.$_GET['is_draft'];
+                    ?>
+                    <td style="width: 25px; padding-left: 10px;"><a href="<?php echo $link ?>"><img style="border: 1px solid #bababa;" src="<?php echo $clsClassTable->getImage($oneItem[$pkeyTable], 77, 52, 'out') ?>" width="77" height="52" /></a></td>
+                    <td class="title va_top">
+                        <div class="title_default"><a href="<?php echo $link ?>"><?php echo $oneItem['title'] ?></a>
+                           
+                        </div>
+                        <div class="message_default">
+                            <img title="Chỉnh sửa nhanh bài viết" class="img_ed" rel="<?php echo $oneItem['news_id'] ?>" width="15px" src="<?php echo URL_IMAGES?>/edit_status.png" style="vertical-align: sub; cursor:pointer"/>
+                            <?php if(strtotime($oneItem['show_date']) > time()) echo '<span style="color:red">Bài hẹn giờ: '.$oneItem['show_date'].'</span>' ?>
+                        </div>
+                        <div class="intro_default"><?php echo $oneItem['intro'] ?></div>
+                    </a>
+                    <?php if($oneItem['status']=='2') { ?> - <a style="color: #469e14;font-size: 11px;" href="/admin.php?mod=news&act=xac_nhan&id=<?php echo $oneItem['news_id'] ?>" title="">Duyệt lại</a><?php } ?>
+                    </td>
+
+                    <td class="iField"><a href="<?php echo $clsClassTable->getLink($oneItem[$pkeyTable]) ?>" target="_blank" title=""><?php echo $oneItem['views'] ?> view</a></td>
+                    <td class="iField" style="width:120px"><?php echo $clsClassTable->getRegDate($oneItem[$pkeyTable]);?><br/>Bởi: <a href=""><?php echo $clsUser->getFullName($oneItem['user_id'])?></a></td>
+                    <td class="iField" style="width:120px"><?php echo $clsClassTable->getRegDate($oneItem[$pkeyTable], 'push_date');?><br/>Bởi: <a href=""><?php echo $clsUser->getFullName($oneItem['user_push'])?></a></td>
+                    
+                    <td class="iField" style="width: 127px;"><a href="?mod=<?php echo $mod?>&category_id=1<?php echo $oneItem['category_id'] ?>" title="View list news in category: <?php echo $clsCategory->getTitle($oneItem['category_id']) ?>"><?php echo $clsCategory->getTitle($oneItem['category_id']) ?></a></td>
+                    <td class="iField" style="width: 75px;">
+                        <?php if($oneItem['seo_note'] != '' || $clsClassTable->checkSeo($oneItem)) { ?>
+                            <a href="" class="show_error"><img src="/ucp/themes/images/alert.png" height="20" /></a>
+                        <?php } else if($oneItem['is_seo_note_check'] == 1) { ?>
+                            <a href="" class="show_error"><img src="/ucp/themes/images/dacheck.gif" height="20" /></a>
+                        <?php } ?>
+                        <div class="dialog" style="display: none;z-index:99999">
+						  <textarea name="note" style="margin: 0px;width: 259px;height: 113px; resize: none;" ><?php echo $oneItem['seo_note'] ?></textarea>
+						  <?php if($_SESSION['USER'] == 'quangduy') echo '<a class="btn2 updatedacheck" data="'.$oneItem[$pkeyTable].'">Đã check</a>'; ?>
+                        </div>
+                        <a href="/admin.php?mod=history&news_id=<?php echo $oneItem[$pkeyTable] ?>" target="_blank" title="Xem lịch sử"><img src="/ucp/themes/images/history.png" height="20" /></a>
+                        <a href="#" onclick="window.open('/index.php?mod=news&act=preview&news_id=<?php echo $oneItem[$pkeyTable] ?>&time=<?= time() ?>', '', 'scrollbars=1,width=510,height=600,top=50,left=200'); return false;" title="Xem nhanh"><img src="/ucp/themes/images/preview.png" height="20" /></a>
+                    </td>
+                    <td style="display: none;" class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                    <?php $first=true; $url='?'; if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else $url.='&'; $url.=$key.'='.$val; } ?>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php $link_export  = $core->getAddress().'&output=excelerror'; ?>
+            
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            
+            <a href="<?php echo $link_export ?>&nolimit=1" class="btn2" style="float: right; margin-right: 8px;">Xuất lỗi All</a>
+            <a href="<?php echo $link_export ?>" class="btn2" style="float: right; margin-right: 8px;">Xuất lỗi</a>
+
+            
+        </div>
+        
+   	    <script>
+            $(".show_error").click(function(){
+                $(this).parents('.iField').find(".dialog" ).dialog();
+                return false;
+            });
+        </script>
+    </div>
+</div>
+
+
+<div class="box_comment">
+</div>
+
+<script>
+    $(".updatedacheck").click(function(){
+        var news_id_ = $(this).attr('data');
+        $.ajax({
+            type: "POST",
+            url: "admin.php?mod=news&act=updatedacheck",
+            data: {news_id:news_id_},
+            context: $(this),
+            dataType: "html",
+            success: function(msg){
+                location.reload();
+            }
+        });
+    });
+
+    function _showPopup(header, content, action,user_id) {
+        var address = '<div class="address_mes">Gửi đến: <input type="checkbox" class="cb_mes" checked value="'+user_id+'">Tác giả <input class="select_member" type="button" value="Thêm người nhận"><div id="select_member"></div></div>';
+        var temp = '<div id="dialog_comment"><div style="margin-top: -100px;"><div class="header">'+header+'</div>' +
+                    '<div class="content"><div class="history_message"></div>'+address+content+'</div>' + 
+                    '<div class="action">' + action + '</div></div></div>';
+        $(".box_comment").append(temp);
+        
+        $('.btnCancel').click(function () {
+            $('#dialog_comment').remove();
+        });
+        $('.select_member').click(function(){
+            $.ajax({
+                type: "POST",
+                url: "admin.php?mod=home&act=get_cb_member",
+                dataType: "html",
+                success: function(msg){
+                    $('#select_member').html(msg);
+                }
+            });
+        })
+    }
+    $(".message_default img.img_mes").click(function() {
+        var news_id = $(this).attr('nrel');
+        var user_id = $(this).attr('urel');
+        $.ajax({
+            type: "POST",
+            url: "admin.php?mod=home&act=get_message",
+            data: {
+                news_id: news_id                                           
+            },
+            dataType: "html",
+            success: function(msg){
+                $('.history_message').html(msg);
+            }
+        });
+        
+        _showPopup("GỬI TIN NHẮN", '<textarea placeholder="Nội dung tin nhắn ..." class="txtareamessage" style="width: 97%;height: 70px;"></textarea>','<button class="btnSubmit" style="display: inline-block;">Gửi tin nhắn</button><button class="btnCancel" style="display: inline-block;">Đóng</button>',user_id);
+        $(".btnSubmit").click(function() {
+            var content = $(".txtareamessage").val();          
+            $('.news_'+news_id).html(content);
+            var user_receive_id = '';
+            $('.address_mes input:checkbox:checked').each(function() {
+                user_receive_id += $(this).val()+'|';
+            });
+            if(content.trim() == '') {
+                $('#dialog_comment').remove();
+               _showPopup("THÔNG TIN CHƯA ĐẦY ĐỦ", "Nội dung không thể để trống. Vui lòng điền vào đầy đủ.",'<button class="btnCancel" style="display: inline-block;">Đóng</button>');
+            } else {                
+                $('#dialog_comment').remove();
+                $.ajax({
+                    type: "POST",
+                    url: "admin.php?mod=home&act=add_message",
+                    data: {
+                        content: content,
+                        user_send_id: <?php echo $me['user_id']?>,
+                        user_receive_id: user_receive_id,
+                        news_id: news_id                                           
+                    },
+                    dataType: "html",
+                    success: function(msg){
+                        
+                    }
+                });
+            }
+        });
+    });
+    
+    
+    
+    function _showPopupedit(header, content, action) {
+        var ip_cn = '<div><span style="font-size: 13px;font-weight: bold;padding: 4px;">Sự kiện</span><div class="stack_arr" style="padding: 5px;"><div class="input_data" style="width: 100%;"><ul id="input_data_ul_keywords"></ul><input class="text_input" rel="load_ajax" alt="channel&amp;mod=channel" type="text"></div><div class="show_data"></div><input id="txt_keywords" class="curent_input" type="hidden" name="channel_path" value="||"></div><label style="line-height: 19px;" id="lbl_keywords">Thêm mới sự kiện »</label><div id="form_keywords"><input class="text" type="text" id="input_keywords"><span id="add_keywords">Thêm</span></div></div>';
+        var temp = '<div id="dialog_comment"><div style="margin-top: -100px;"><div class="header">'+header+'</div>' +
+                    '<div class="content tbl_edit">'+content+'</div>' + ip_cn +
+                    '<div class="action" style="margin-top:1px;">' + action + '</div></div></div>';
+                    
+        $(".box_comment").append(temp);
+        
+        $('.btnCancel').click(function () {
+            $('#dialog_comment').remove();
+        });
+        
+        $('.stack_arr .text_input').keyup(function(e){
+            var title = $(this).val();
+            var obj = $(this).parents('.stack_arr');
+            if(!title) {
+                obj.find('.show_data').hide();
+            }
+            var act = $(this).attr('rel');
+            var iClass = $(this).attr('alt');
+            obj.find('.show_data').show();
+            $.ajax({
+                type: "POST",
+                url: 'admin.php?act='+act+'&title='+title+'&class='+iClass,
+                dataType: "html",
+                success: function(msg){
+                    if(parseInt(msg)!='') {
+                        obj.find('.show_data').html(msg);
+                    }
+                }
+            });
+        });
+        $('.stack_arr .show_data li a').live('click', function(){
+            var obj = $(this).parents('.stack_arr');
+            var ival = obj.find('.curent_input').val()+$(this).attr('rel')+'|';
+            var itext = $(this).text();
+            obj.find('.input_data ul').append('<li><span class="title">'+itext+'</span><span class="remove" rel="'+$(this).attr('rel')+'"></span></li>');
+            obj.find('.curent_input').val(ival);
+            if(!obj.find('.text_input').hasClass('noreset')) {
+                obj.find('.text_input').val('');
+                $(this).parents('.show_data').html('').hide();
+            }
+            return false;
+        });
+        $('.stack_arr .remove').live('click', function(){
+            var obj = $(this).parents('.stack_arr');
+            $(this).parents('li').remove();
+            var ival = obj.find('.curent_input').val();
+            ival = ival.replace("|"+$(this).attr('rel')+"|", "|");
+            obj.find('.curent_input').val(ival);
+        });
+        $('.stack_arr').click(function(){
+            $(this).find('.text_input').focus();
+        });
+        
+        
+        
+        $('#lbl_keywords').click(function(){
+            if($('#form_keywords').hasClass('form_keywords_open')) $('#form_keywords').hide().removeClass('form_keywords_open');
+            else $('#form_keywords').show().addClass('form_keywords_open');
+        });
+        $('.keywords_fix .title').click(function(){
+            if(!$('#form_keywords').hasClass('form_keywords_open')) {
+                $('#lbl_keywords').click();
+            }
+            $('#input_keywords').val($(this).text()).focus();
+            setTimeout(function(){
+                $('#add_keywords').click();
+            }, 200);
+        });
+        $('#add_keywords').live('click', function(){
+            var title = $('#input_keywords').val();
+            if(!title || title=='') return false;
+            $.ajax({
+                type: "POST",
+                url: 'admin.php?mod=channel&act=add_ajax&title='+title,
+                dataType: "html",
+                success: function(msg){
+                    if(parseInt(msg)>0) {
+                        $('#input_data_ul_keywords').append('<li><span class="title">'+title+'</span><span class="remove" rel="'+msg+'"></span></li>');
+                        $('#input_keywords').val('');
+                        var txt_keywords = $('#txt_keywords').val();
+                        $('#txt_keywords').val(txt_keywords+msg+'|');
+                    } else {
+                        $('#input_keywords').val('');
+                    }
+                }
+            });
+        });
+        $('#input_keywords').keypress(function(e){
+            if(e.keyCode==13) {
+                $('#add_keywords').click();
+            }
+        });
+        
+    }
+    $(".message_default img.img_ed").click(function() {
+        var news_id = $(this).attr('rel');
+        $.ajax({
+            type: "POST",
+            url: "admin.php?mod=home&act=get_status",
+            data: {     
+                news_id:news_id,
+            },
+            dataType: "html",
+            success: function(msg){
+                $('.tbl_edit').html(msg);
+                $('.act_ajax').click(function(){
+                    if($(this).hasClass('group_status')) {
+                        if($(this).hasClass('js_check_off')) {
+                            $('.group_status').removeClass('js_check_on').addClass('js_check_off');
+                        }
+                    }
+                    var status;
+                    var obj = $(this);
+                    var iHref = obj.attr('href');
+                    if($(this).hasClass('js_check_on')) status=1;
+                    else status=0;
+                    if(status==1) obj.removeClass('js_check_on').addClass('js_check_off');
+                    else obj.removeClass('js_check_off').addClass('js_check_on');
+                    $.ajax({
+                        type: "POST",
+                        url: iHref,
+                        dataType: "html",
+                        success: function(msg){
+                            if(!parseInt(msg)==1) {
+                                if(status==1) obj.removeClass('js_check_off').addClass('js_check_on');
+                                else obj.removeClass('js_check_on').addClass('js_check_off');
+                                $('#wrap-message').text(msg); alertMsg();
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+        });
+        
+        _showPopupedit("Chỉnh sửa bài viết", '','<button class="sm_cn" style="display: inline-block;">Xác nhận</button><button class="btnCancel" style="display: inline-block;">Đóng</button>');
+        
+        
+        $('.sm_cn').click(function(){
+            var channel_path = $('.curent_input').attr('value');
+            $.ajax({
+                type: "POST",
+                url: 'admin.php?mod=channel&act=add_channel_path',
+                data: {
+                    news_id:news_id,
+                    channel_path:channel_path                                       
+                },
+                dataType: "html",
+                success: function(msg){
+                }
+            });
+            $('#dialog_comment').remove();
+        });
+    });
+</script>

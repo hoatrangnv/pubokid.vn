@@ -1,0 +1,27 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        
+        
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php
+                global $Cache;
+                $key = $_GET['keyword'];
+                $all = $Cache->get($key);
+                if(is_array($all)) foreach($all as $one) {
+                ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td class="title"><a href="/admin.php?mod=cache&act=default&keyword=<?php echo $one ?>"><?php echo $one ?></a></td>
+                </tr>
+                
+                <?php } elseif($all) echo $all; else { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>

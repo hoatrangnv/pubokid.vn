@@ -1,0 +1,219 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+
+            <div class="OneField">
+                <div class="col-10">
+                    <label>Nổi bật trang chủ</label>
+                    <div>
+                        <input type="hidden" name="is_pick" value="0" />
+                        <input id="is_pick" type="checkbox" class="iToggle" name="is_pick" <?php if($is_pick==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Tiêu điểm</label>
+                    <div>
+                        <input type="hidden" name="is_top" value="0" />
+                        <input id="is_top" type="checkbox" class="iToggle" name="is_top" <?php if($is_top==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Tin mới</label>
+                    <div>
+                        <input type="hidden" name="is_hot" value="0" />
+                        <input id="is_hot" type="checkbox" class="iToggle" name="is_hot" <?php if($is_hot==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>NB chuyên mục</label>
+                    <div>
+                        <input type="hidden" name="is_featured" value="0" />
+                        <input id="is_featured" type="checkbox" class="iToggle" name="is_featured" <?php if($is_featured==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Lưu nháp</label>
+                    <div>
+                        <input type="hidden" name="is_draft" value="0" />
+                        <input id="is_draft" type="checkbox" class="iToggle" name="is_draft" <?php if($is_draft==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Ghim bài</label>
+                    <div>
+                        <input type="hidden" name="order_hot" value="9" />
+                        <input id="order_hot" type="checkbox" class="iToggle" name="order_hot" <?php if($order_hot==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Xuất bản</label>
+                    <div>
+                        <input name="is_push" type="hidden" value="0" />
+                        <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?= $title ?>" />
+            </div>
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Sân nhà</label>
+                    <div class="stack_arr">
+                        <div class="input_data">
+                            <ul id="input_data_ul_keywords">
+                            <?php if($home_team_id) { ?>
+                                <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $clsTeam->getTitle($home_team_id) ?></span><span class="remove" rel="<?= $home_team_id ?>"></span></li>
+                            <?php } ?>
+                            </ul>
+                            <input class="text_input" rel="load_ajax" alt="team" type="text" style="width: 100px;"  />
+                        </div>
+                        <div class="show_data" type="1"></div>
+                        <input id="txt_keywords" class="curent_input" type="hidden" name="home_team_id" value="<?php if($home_team_id) echo $home_team_id; ?>" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label>Sân khách</label>
+                    <div class="stack_arr">
+                        <div class="input_data">
+                            <ul id="input_data_ul_keywords">
+                            <?php if($away_team_id) { ?>
+                                <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $clsTeam->getTitle($away_team_id) ?></span><span class="remove" rel="<?= $away_team_id ?>"></span></li>
+                            <?php } ?>
+                            </ul>
+                            <input class="text_input" rel="load_ajax" alt="team" type="text"  style="width: 100px;" />
+                        </div>
+                        <div class="show_data" type="1"></div>
+                        <input id="txt_keywords" class="curent_input" type="hidden" name="away_team_id" value="<?php if($away_team_id) echo $away_team_id; ?>" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label>Giải đấu</label>
+                    <input class="text" type="text" name="league" value="<?php echo $league ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Hình ảnh</label>
+                <span class="col-3"><input disabled="disabled" class="text" type="text" name="image" /></span>
+                <img width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" id="imageupload" type="file" name="image" />
+            </div>
+            <div class="OneField">
+                <div class="col-4">
+                    <label>Thời gian</label>
+                    <input class="text" type="text" name="match_time" placeholder="00:00" value="<?php echo $match_time ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Ngày tháng</label>
+                    <input class="text datepicker" type="text" name="match_date" value="<?php echo $match_date ?>" />
+                </div>
+            </div>
+            
+            <div class="OneField">
+                <div class="col-2">
+                    <label>Tỷ lệ Châu Á</label>
+                    <input class="text" type="text" name="history_home" placeholder="6/4 10/4 15/3" value="<?php echo $history_home ?>" />
+                </div>
+                <div class="col-2">
+                    <label>Tổng số bàn thắng</label>
+                    <input class="text" type="text" name="history_away" placeholder="21/10 20/3 6/7" value="<?php echo $history_away ?>" />
+                </div>
+            </div>
+            
+            <?php $recent_home = explode(",",$recent_home); ?>
+            <div class="OneField">
+                <div class="col-2">
+                    <label>Recent form Home</label>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_home[]" placeholder="" value="<?= $recent_home[0] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_home[]" placeholder="" value="<?= $recent_home[1] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_home[]" placeholder="" value="<?= $recent_home[2] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_home[]" placeholder="" value="<?= $recent_home[3] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_home[]" placeholder="" value="<?= $recent_home[4] ?>" />
+                    </div>
+                </div>
+                
+                <?php $recent_away = explode(",",$recent_away); ?>
+                <div class="col-2">
+                    <label>Recent form Away</label>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_away[]" placeholder="" value="<?= $recent_away[0] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_away[]" placeholder="" value="<?= $recent_away[1] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_away[]" placeholder="" value="<?= $recent_away[2] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_away[]" placeholder="" value="<?= $recent_away[3] ?>" />
+                    </div>
+                    <div class="col-5">
+                        <input class="text" type="text" name="recent_away[]" placeholder="" value="<?= $recent_away[4] ?>" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Key Stat</label>
+                <textarea class="tinymce" name="keystat" style="width: 925px; height: 300px;"><?php echo $keystat ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Expertverdic</label>
+                <textarea class="tinymce" name="expertverdic" style="width: 925px; height: 300px;"><?php echo $expertverdic ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Dự đoán</label>
+                <textarea class="" name="recomment" style="width: 925px; height: 100px;"><?php echo $recomment ?></textarea>
+            </div>
+            <div class="OneField">
+                <div class="col-5">
+                    <label>Trọng tài</label>
+                    <input class="text" type="text" name="referee" placeholder="" value="<?= $referee ?>" />
+                </div>
+                <div class="col-5">
+                    <label>Sân vận động</label>
+                    <input class="text" type="text" name="stadium" placeholder="" value="<?= $stadium ?>" />
+                </div>
+            </div>
+            <?php $head_to_head = json_decode($head_to_head,true);
+            ?>
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Đối đầu</label>
+                    <?php foreach($head_to_head as $one) { if($one){ ?>
+                        <ol>
+                            <li><input class="text" type="text" name="head_to_head[]" value="<?= $one ?>"  style="width: 80% !important;margin-bottom: 10px;" /></li>
+                        </ol>
+                    <?php }} ?>
+                    <ol>
+                        <li><input class="text" type="text" name="head_to_head[]" value=""  style="width: 80% !important;margin-bottom: 10px;" /></li>
+                    </ol>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$('.OneField ol li:last input').live('focus',function(){
+    $(this).parents('.OneField ol').append('<li class="one"><input class="text" type="text" name="head_to_head[]" value=""  style="width: 80% !important;margin-bottom: 10px;" /></li>');
+});
+
+$('.datepicker').datepicker({
+    dateFormat: 'dd-mm-yy',
+});
+</script>

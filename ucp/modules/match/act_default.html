@@ -1,0 +1,53 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="3">Trận đấu</td>
+                    <td>Kết thúc</td>
+                    <td>Giải đấu</td>
+                    <td>Thời gian</td>
+                    <td>Views</td>
+                    <td>Ngày xuất bản</td>
+                    <td>ID</td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <?php $link = '?mod='.$mod.'&act=edit&id='.$oneItem[$pkeyTable]; ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td class="title"><a href="<?= $link ?>"><?= $oneItem['title'] ?></a></td>
+                    <td class="title"><?= $oneItem['full_time'] ?></td>
+                    <td class="iField" style="width: 200px;"><?= $oneItem['league'] ?></td>
+                    <td class="iField" style="width: 100px;"><?= $oneItem['match_time'].' '.$oneItem['match_date']  ?></td>
+                    <td class="iField"><a target="_blank" href="<?= $clsClassTable->getLink($oneItem['news_id']) ?>"><?= $oneItem['views'] ?></a></td>
+                    <td class="reg_date"><?php echo date("H:i:s d/m/Y",$oneItem['push_date']) ?></td>
+                    <td class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            
+            <?php $link_export  = $core->getAddress().'&output=excel'; ?>
+            
+            <a href="<?php echo $link_export ?>&nolimit=1" class="btn2" style="float: right; margin-right: 8px;">Xuất excel All</a>
+            <a href="<?php echo $link_export ?>" class="btn2" style="float: right; margin-right: 8px;">Xuất excel</a>
+
+            
+        </div>
+    </div>
+</div>

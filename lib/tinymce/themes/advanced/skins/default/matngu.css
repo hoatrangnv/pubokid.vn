@@ -1,0 +1,39 @@
+.zorobook_list {
+margin-bottom: 20px;
+}
+.zorobook_list .item table {
+border: 4px solid #e397c2;
+}
+.zorobook_list .item .left_content {
+width: 112px;
+padding: 0;
+text-align: center;
+}
+.zorobook_list .item table td {
+padding: 4px 0px;
+padding-left: 8px;
+border: 2px solid #e397c2;
+}
+.zorobook_list .item .left_content {
+text-align: center;
+}
+.zorobook_list .item .important {
+color: #b8519e;
+font-size: 15px;
+font-weight: bold;
+min-width: 92px;
+}
+.zorobook_list .item .stars {
+margin-left: 2px;
+}
+.zorobook_list .item .star {
+background: url(../images/sao.png)repeat-x;
+height: 13px;
+width: 14px;
+}
+.zorobook_list .item .item_des {
+padding-right: 8px;
+}
+.clearfix {
+    zoom: 1;
+}

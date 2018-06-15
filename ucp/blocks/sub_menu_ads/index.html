@@ -1,0 +1,12 @@
+<?php
+$allTemp[] = array(0=>'header', 1=>'Header');
+$allTemp[] = array(0=>'trangchu', 1=>'Trang chủ');
+$allTemp[] = array(0=>'chuyenmucc1', 1=>'Chuyên mục');
+$allTemp[] = array(0=>'detail', 1=>'Chi tiết');
+$allTemp[] = array(0=>'ballon', 1=>'Ballon');
+$allTemp[] = array(0=>'left', 1=>'Left');
+$allTemp[] = array(0=>'right', 1=>'Right');
+$allTemp[] = array(0=>'data', 1=>'Data');
+foreach($allTemp as $one) { ?>
+<li class="<?php if($_GET['name']==$one[0]) echo 'active' ?>"><a href="?mod=ads&name=<?php echo $one[0] ?>"><?php echo $one[1] ?></a></li>
+<?php } ?>

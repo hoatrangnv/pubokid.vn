@@ -1,0 +1,101 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable(<?= $array ?>);
+
+    var options = {
+      title: 'Thống kê số lượng bài viết trong ngày',
+      lineWidth: 3,
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+</script>
+<style>
+fieldset {padding: 20px;margin: 10px 10px 10px -30px;}
+fieldset legend {font-size: 11px;padding: 0 8px}
+fieldset legend b {cursor: pointer; font-weight: normal; margin-left: 8px;}
+fieldset input {}
+fieldset label {font-size: 11px;font-weight: bold;margin-right: 34px;}
+.w-content {margin-top: 15px;min-height: 100px;}
+.frm_submit {padding-bottom: 25px;}
+</style>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_statistic') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post">
+            <div class="OneField">               
+                <div class="col-4">
+                <fieldset style="    padding: 10px;">
+                    <legend>User <b>[Tất cả]</b></legend>
+                    <?php if($listUser) foreach($listUser as $one) { $one = $clsUser->getOne($one) ?>
+                        <label><input <?php if($checked1) { if($checked1[$one['user_id']] == 'checked') echo 'checked="checked"';} else {echo 'checked="checked"';} ?> type="checkbox" name="user_id[]" value="<?= $one['user_id'] ?>"><?= $one['user_name'] ?></label>
+                    <?php } ?>
+                </fieldset>
+                </div>
+                    
+
+                <div class="col-5">
+                    <input placeholder="Từ ngày" class="text datepicker1" type="text" name="start_date" value="<?php echo $start_date ?>" />
+                </div>
+                <div class="col-5">
+                    <input placeholder="Đến ngày" class="text datepicker1" type="text" name="end_date" value="<?php echo $end_date ?>" />
+                </div>
+                <div class="col-5">
+                    <input type="submit" name="thongke" class="btn2" value="Thống kê" style="cursor: pointer;" style="margin-top: 4px;" />
+                </div>
+            </div>
+        </form>
+        <div id="chart_div" style="width: 1129px; height: 500px;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+var date = $('.datepicker1').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+$(document).ready(function(){
+    $('fieldset legend b').each(function(){
+        var is_check=1;
+        $(this).click(function(){
+            if(is_check==0) {
+                is_check=1;
+                $(this).parents('fieldset').find('input').attr('checked', 'checked');
+            }
+            else {
+                is_check=0;
+                $(this).parents('fieldset').find('input').removeAttr('checked');
+            }
+        });
+    });
+    function removeAll() {
+        $('#field_news_ctv input').attr('disabled', 'disabled').removeAttr('checked');
+        $('#field_news_btv input').attr('disabled', 'disabled').removeAttr('checked');
+        $('#field_news input').attr('disabled', 'disabled').removeAttr('checked');
+    }
+    function checkOne(id) {
+        $('#'+id+' input').removeAttr('disabled').attr('checked', 'checked');
+    }
+    $('select[name=user_level_id]').change(function(){
+        var val = $(this).val();
+        if(val>0) removeAll();
+        if(val==1 || val==2) {
+            if(val==1) checkOne('field_news_ctv');
+            else checkOne('field_news_btv');
+            $('.field_category_id').show();
+        }
+        else {
+            $('.field_category_id').hide();
+            checkOne('field_news');
+        }
+        if(val==2) $('.field_push').show();
+        else $('.field_push').hide();
+    });
+    $('select[name=user_level_id]').change();
+});
+</script>

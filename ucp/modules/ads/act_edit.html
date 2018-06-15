@@ -1,0 +1,102 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_ads') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-10">
+                    <label>Mobile</label>
+                    <div>
+                        <input type="hidden" name="is_mobile" value="0" />
+                        <input id="is_mobile" type="checkbox" class="iToggle" name="is_mobile" <?php if($is_mobile==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>PC</label>
+                    <div>
+                        <input type="hidden" name="is_pc" value="0" />
+                        <input id="is_pc" type="checkbox" class="iToggle" name="is_pc" <?php if($is_pc==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Trang chi tiết</label>
+                    <div>
+                        <input type="hidden" name="is_detail" value="0" />
+                        <input id="is_detail" type="checkbox" class="iToggle" name="is_detail" <?php if($is_detail==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Hiện thị</label>
+                    <div>
+                        <input type="hidden" name="is_push" value="0" />
+                        <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+            <div class="col-5">
+                <label title="Hiện tại: <?php echo date('d/m/Y H:i') ?>">Bắt đầu chạy QC</label> 
+                <input class="text datetimepicker" name="start_" value="<?php if($start_ && $start_ != '0000-00-00 00:00:00') echo date('d/m/Y H:i', strtotime($start_)); else echo date('d/m/Y H:i'); ?>" />
+            </div>
+            <div class="col-5">
+                <label>Kết thúc chạy QC</label> 
+                <input class="text datetimepicker" name="finish_" value="<?php if($finish_ && $finish_ != '0000-00-00 00:00:00') echo date('d/m/Y H:i', strtotime($finish_)); else echo '31/12/2020 00:00'; ?>" />
+            </div>
+            </div>
+            <div class="OneField">
+                <div class="col-3" id="field_type">
+                    <label>Hiển thị</label>
+                    <select name="type" class="required" disabled="disabled">
+                        <option> -- Select -- </option>
+                        <option value="0" <?php if($type=='0') echo 'selected="selected"' ?>>Tất cả các trang</option>
+                        <option value="1" <?php if($type=='1') echo 'selected="selected"' ?>>Hiển thị theo danh mục gốc</option>
+                        <option value="2" <?php if($type=='2') echo 'selected="selected"' ?>>Hiển thị theo danh mục con</option>
+                    </select>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Intro</label>
+                <textarea name="intro" style="width: 917px; height: 50px;"><?php echo $intro ?></textarea>
+            </div>
+            <?php if($type=='0') { ?>
+            <div class="OneField">
+                <label>Content</label>
+                <textarea class="tinymcemini" name="content" style="width: 917px; height: 100px;"><?php echo $content ?></textarea>
+            </div>
+            <?php } elseif($type=='1') if($allCategory) foreach($allCategory as $oneCat) { $oneCat=$clsCategory->getOne($oneCat); ?>
+            <div class="OneField">
+                <label>Content for <?php echo $oneCat['title'] ?></label>
+                <textarea class="tinymcemini2" name="data[<?php echo $oneCat['category_id'] ?>]" style="width: 917px; height: 100px;"><?php echo $clsAdsContent->getContent($ads_id, $oneCat['category_id']) ?></textarea>
+            </div>
+            <?php } if($type=='2') if($allCategory) foreach($allCategory as $oneCat) { $oneCat=$clsCategory->getOne($oneCat); ?>
+            <fieldset style="width: 895px; margin: 15px 0; padding: 15px;">
+                <legend style="padding: 0 5px;">Category <?php echo $oneCat['title'] ?></legend>
+                <div class="OneField">
+                <?php $all = $clsCategory->getChild($oneCat['category_id']); if($all) foreach($all as $one) { $one=$clsCategory->getOne($one); ?>
+                <div class="col-5">
+                    <label>Content for <?php echo $one['title'] ?></label>
+                    <textarea class="tinymcemini3" name="data[<?php echo $one['category_id'] ?>]" style="width: 135px; height: 100px;"><?php echo $clsAdsContent->getContent($ads_id, $one['category_id']) ?></textarea>
+                </div>
+                <?php } ?>
+                </div>
+            </fieldset>
+            <?php } ?>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('.datetimepicker').datetimepicker({
+    dateFormat: "dd/mm/yy"
+});
+</script>

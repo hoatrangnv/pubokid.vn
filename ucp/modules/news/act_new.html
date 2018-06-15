@@ -1,0 +1,334 @@
+<?php if($_GET['category_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsCategory->getBreadcrumb($_GET['category_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_default') ?>
+        </ul>
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu_news') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-10">
+                    <label>Tin mới</label>
+                    <div>
+                        <input id="is_hot" type="checkbox" class="iToggle" name="is_hot" <?php if($is_hot==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>NB chuyên mục</label>
+                    <div>
+                        <input id="is_featured" type="checkbox" class="iToggle" name="is_featured" <?php if($is_featured==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Lưu nháp</label>
+                    <div>
+                        <input name="is_draft" type="hidden" value="0" />
+                        <input id="is_draft" type="checkbox" class="iToggle" name="is_draft" <?php if($is_draft==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Xuất bản</label>
+                    <div>
+                        <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="OneField" style="position: relative;">
+                <label>Tiêu đề (<b id="count_seo__title">0</b>)</label>
+                <input class="text required" id="seo__title" type="text" name="title" value="<?php echo htmlentities($title, ENT_QUOTES | ENT_IGNORE, "UTF-8") ?>" />
+<style>
+.box_check{position: absolute;top: 36px;right: 16px;zoom: 0.8;}
+.box_check.none .check {background: url(/ucp/themes/images/btn-next.png) center no-repeat;width: 25px;height: 25px;display: inline-block;}
+.box_check.off .active {background: url(/ucp/themes/images/i-noactive.png);width: 30px;height: 30px;display: inline-block;}
+.box_check.on .active {background: url(/ucp/themes/images/i-active.png);width: 30px;height: 30px;display: inline-block;}
+.box_check.load .loading {display: inline-block;width: 30px;height: 30px;background: url(/ucp/themes/images/i-loading.gif);}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.box_check .check').click(function(){
+        var title = $('input[name=title]').val();
+        var obj = $('.box_check');
+        obj.removeClass('on').removeClass('off').removeClass('none').addClass('load');
+        $.ajax({
+            type: "POST",
+            url: '/index.php?act=checkSlug',
+            data:  {title: title},
+            dataType: "html",
+            success: function(msg){
+                obj.removeClass('load');
+                if(parseInt(msg)==1) obj.addClass('on');
+                else obj.addClass('off');
+            }
+        });
+        return false;
+    });
+    $('input[name=title]').keyup(function(){
+        $('.box_check').removeClass('on').removeClass('off').removeClass('load').addClass('none');
+    });
+});
+</script>
+<div class="box_check none">
+    <a class="check" href="#"></a>
+    <span class="loading"></span>
+    <span class="active"></span>
+</div>
+            </div>
+
+
+
+
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('#seo__title').keyup(function(){
+                        $('#count_seo__title').text(parseInt($(this).val().length));
+                        if(parseInt($(this).val().length) > 65) {
+                            $("#count_seo__title").css("color","#c32c2c");
+                        } else {
+                            $("#count_seo__title").css("color","#000");
+                        }
+                    });
+                    $('#seo__title').keyup();
+
+                });
+                </script>
+            <div class="OneField">
+                <label>Image</label>
+                <img class="field_photo" width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" id="imageupload" type="file" name="image" />
+            </div>
+                               
+            <div class="OneField">
+                <div class="col-5">
+                    <label>Category</label>
+                    <?php echo $clsCategory->getSelectCat('category_id', $_GET['category_id'], 'required') ?>
+                </div>
+                <div class="col-5">
+                    <label title="Hiện tại: <?php echo date('d/m/Y H:i') ?>">Hẹn giờ hiển thị</label>
+                    <input class="text datetimepicker" name="show_date" value="<?php if($show_date) echo date('d/m/Y H:i', strtotime($show_date)); else echo date('d/m/Y H:i'); ?>" />
+                </div>
+            </div>
+                        <div class="OneField">
+                <label>Danh mục liên quan</label>
+                <div class="stack_arr">
+                    <div class="input_data">
+                        <ul id="">
+                            <?php if($category_related && trim($category_related,'|')!='') $arr = explode("|", trim($category_related,'|')); if($arr) foreach($arr as $one) if($one) { $oneCategory=$clsCategory->getOne($one); ?>
+                            <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $oneCategory['title'] ?></span><span class="remove" rel="<?php echo $oneCategory['category_id'] ?>"></span></li>
+                            <?php } ?>
+                        </ul>
+                        <input class="text_input" rel="load_ajax" alt="category" type="text" />
+                    </div>
+                    <div class="show_data"></div>
+                    <input class="curent_input" type="hidden" name="category_related" value="<?php if($category_related) echo $category_related; else echo '|'; ?>" />
+                </div>
+            </div>
+            <style>
+            .OneFieldNewsRelated li {float: none !important;}
+            .OneFieldNewsRelated ul {display: block !important; float: none !important; padding-bottom: 0 !important;}
+            .OneFieldNewsRelated .stack_arr .input_data .text_input {margin: 0 8px 8px; height: 20px; width: 97%;}
+            .OneFieldNewsRelated .stack_arr .show_data {display: block !important;}
+            </style>
+            <div class="OneField OneFieldNewsRelated">
+                <label>Tin liên quan</label>
+                <div class="stack_arr">
+                    <div class="input_data">
+                        <ul>
+                            <?php $arr = explode("|", $news_related); if($arr) foreach($arr as $one) if($one) { ?>
+                            <li style="background: #ddd;"><span class="title"><?php echo $clsClassTable->getTitle($one) ?></span><span class="remove" rel="<?php echo $one ?>"></span></li>
+                            <?php } ?>
+                        </ul>
+                        <input class="text_input noreset" rel="load_ajax" alt="news&cat=<?php echo $clsCategory->getParentID($category_id) ?>" type="text" />
+                    </div>
+                    <div class="show_data"></div>
+                    <input class="curent_input" type="hidden" name="news_related" value="<?php if($news_related) echo $news_related; else echo '|'; ?>" />
+                </div>
+            </div>
+ 
+            <div class="OneField">
+                <label>Mô tả (<b id="count_seo__des">0</b>)</label>
+                <textarea name="intro" id="seo__des" style="width: 917px; height: 100px;"><?php echo $intro ?></textarea>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('#seo__des').keyup(function(){
+                        $('#count_seo__des').text(parseInt($(this).val().length));
+                        if(parseInt($(this).val().length) > 160) {
+                            $("#count_seo__des").css("color","#c32c2c");
+                        } else {
+                            $("#count_seo__des").css("color","#000");
+                        }
+                    });
+                    $('#seo__des').keyup();
+                });
+            </script>
+            <div class="OneField">
+                <label>Nội dung</label>
+                <textarea class="tinymce" name="content" style="width: 925px; height: 600px;"><?php echo $content ?></textarea>
+            </div>
+
+            <div class="OneField">
+                <label>Tác giả</label>
+                <input class="text" type="text" name="author" value="<?php echo $author ?>"/>
+            </div>
+            
+            <div class="OneField tags">
+                <label>Tags</label>
+                <div class="input_data">
+                    <ul>
+                    <?php $arr = explode(",", html_entity_decode($tags)); if($arr) foreach($arr as $one) if(trim($one)!='') {  ?>
+                    <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $one ?></span><span class="remove" rel="<?php echo $one ?>"></span></li>
+                    <?php } ?>
+                    </ul>
+                    <input class="text_input" rel="load_ajax" type="text">
+                </div>
+                <input class="text curent_input"  type="hidden" value="<?php if($tags) echo $tags; else echo ','; ?>" name="tags" />
+                <div class="show_data"></div>
+            </div>
+            
+                        <!-- Begin -->
+            <style>
+            .SEO {width: 900px;}
+            .SEO a {color: #0384C2;text-decoration: none;text-shadow: 0px 0px 0px transparent;}
+            .SEO label {display: inline;width: 160px;font-size: 12px;line-height: 1.5;color: #303030;padding-right: 15px;float: left;}
+            .SEO input[type = "text"] {width: 450px;float: left;display: inline-block;margin-right: 20px;}
+            .SEO div.cleaner {border-bottom: solid 1px #e8e7e3;height: 10px;margin-bottom: 10px;clear: both;}
+            .SEO textarea {line-height: 1.6;height: 130px;}
+            .SEO .star-score {display: inline;width: 160px;font-size: 12px;line-height: 1.5;color: #303030;padding-right: 15px;float: left;}
+            </style>            
+            <script type="text/javascript">
+            function seo_config() {var ele = document.getElementById("seoConfigText");var text = document.getElementById("seoDisplayConfig");if(ele.style.display == "block") {ele.style.display = "none";text.innerHTML = "SEO";}else {ele.style.display = "block";text.innerHTML = "SEO";}}
+            </script>
+            <div class="SEO" style="background: none repeat scroll 0 0 #FFFFDD; border: 1px solid #DDDDDD; padding: 10px;">
+            <a id="seoDisplayConfig" href="javascript:seo_config();" class="text-seo">SEO</a>
+                <div id="seoConfigText" class="quick_table" style="display: none; margin-top: 20px;">   
+                    <label>Title:<br />
+                        <b id="count_seo_tit">65</b>
+                    </label>
+                    <input class="text" id="seo_tit" type="text" value="<?php echo $meta_title ?>" name="meta_title" />
+                    <div class="cleaner">&nbsp;</div>
+                    <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('#seo_tit').keyup(function(){
+                            $('#count_seo_tit').text(parseInt($(this).val().length));
+                            if(parseInt($(this).val().length) > 65) {
+                                $("#count_seo_des").css("color","#c32c2c");
+                            } else {
+                                $("#count_seo_des").css("color","#000");
+                            }
+                        });
+                        $('#seo_tit').keyup();
+                    });
+                    </script>
+                    
+                    <label>Slug:</label>
+                    <input class="text" disabled="" type="text" value="<?php echo $slug ?>" name="slug" />
+                    <div class="cleaner">&nbsp;</div>
+                                        <label>Keyword:</label>
+                    <textarea name="meta_keyword" cols="80"><?= $meta_keyword ?></textarea>
+                    <div class="cleaner">&nbsp;</div>
+                    <label>Description:<br />
+                        <b id="count_seo_des">160</b>
+                    </label>
+                    <textarea id="seo_des" name="meta_description" cols="80"><?php echo $meta_description ?></textarea>
+                    <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('#seo_des').keyup(function(){
+                            $('#count_seo_des').text(parseInt($(this).val().length));
+                            if(parseInt($(this).val().length) > 160) {
+                                $("#count_seo_des").css("color","#c32c2c");
+                            } else {
+                                $("#count_seo_des").css("color","#000");
+                            }    
+                        });
+                        $('#seo_des').keyup();
+                    });
+                    </script>
+
+                </div>
+            </div>
+            <!-- End -->
+            
+            <div style="padding-left: 404px; margin: 18px;"><input type="submit" class="btn2" value="Cập nhật" style="cursor: pointer;" /></div>
+            <input type="hidden" name="status" value="3" />
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#lbl_keywords').click(function(){
+        if($('#form_keywords').hasClass('form_keywords_open')) $('#form_keywords').hide().removeClass('form_keywords_open');
+        else $('#form_keywords').show().addClass('form_keywords_open');
+    });
+    $('.keywords_fix .title').click(function(){
+        if(!$('#form_keywords').hasClass('form_keywords_open')) {
+            $('#lbl_keywords').click();
+        }
+        $('#input_keywords').val($(this).text()).focus();
+        setTimeout(function(){
+            $('#add_keywords').click();
+        }, 200);
+    });
+    $('#add_keywords').live('click', function(){
+        var title = $('#input_keywords').val();
+        if(!title || title=='') return false;
+        $.ajax({
+            type: "POST",
+            url: 'admin.php?mod=channel&act=add_ajax&title='+title,
+            dataType: "html",
+            success: function(msg){
+                if(parseInt(msg)>0) {
+                    $('#input_data_ul_keywords').append('<li><span class="title">'+title+'</span><span class="remove" rel="'+msg+'"></span></li>');
+                    $('#input_keywords').val('');
+                    var txt_keywords = $('#txt_keywords').val();
+                    $('#txt_keywords').val(txt_keywords+msg+'|');
+                } else {
+                    $('#input_keywords').val('');
+                }
+            }
+        });
+    });
+    $('#input_keywords').keypress(function(e){
+        if(e.keyCode==13) {
+            $('#add_keywords').click();
+        }
+    });
+});
+</script>
+
+<script type="text/javascript">
+$('.datetimepicker').datetimepicker({
+    dateFormat: "dd/mm/yy"
+});
+</script>
+<script>
+    var _URL = window.URL || window.webkitURL;
+    $("#imageupload").change(function(e) {
+        var image, file;
+        if ((file = this.files[0])) {
+            image = new Image(); 
+            image.onload = function() {
+                if(this.width>1000) {
+                    alert("Kích thước ảnh quá lớn");
+                }     
+    
+            };
+            image.src = _URL.createObjectURL(file);
+        }
+    });
+</script>

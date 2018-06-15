@@ -1,0 +1,61 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="col-10">
+                <label>Đã check</label>
+                <div>
+                    <input type="hidden" name="is_check" value="0" />
+                    <input id="is_check" type="checkbox" class="iToggle" name="is_check" <?php if($is_check==1) echo 'checked="checked"' ?> value="1" />
+                </div>
+            </div>
+            <div class="OneField">
+                <div class="col-2">
+                    <label>Họ tên</label>
+                    <input class="text" type="text" name="full_name" value="<?php echo $full_name ?>" />
+                </div>
+                <div class="col-2">
+                    <label>Địa chỉ</label>
+                    <input class="text" type="text" name="address" value="<?php echo $address ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <div class="col-5">
+                    <label title="Hiện tại: <?php echo date('d/m/Y H:i') ?>">Thời gian đặt hàng</label> 
+                    <input class="text datetimepicker" name="reg_date" value="<?php if($reg_date) echo date('d/m/Y H:i', $reg_date); else echo date('d/m/Y H:i'); ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <div class="col-2">
+                    <label>Mobile</label>
+                    <input class="text" type="text" name="mobile" value="<?php echo $mobile ?>" />
+                </div>
+                <div class="col-2">
+                    <label>Email</label>
+                    <input class="text" type="text" name="email" value="<?php echo $email ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                    <label>Địa chỉ nhập SDT</label>
+                    <input class="text" type="text" name="add_start" value="<?php echo $add_start ?>" />
+                </div>
+                            <div class="OneField">
+                <label>Tình trạng của con</label>
+                <textarea name="note" style="width: 917px; height: 100px;"><?php echo $tinhtrangcon ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Ghi chú</label>
+                <textarea name="note" style="width: 917px; height: 100px;"><?php echo $note ?></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$('.datetimepicker').datetimepicker({
+    dateFormat: "dd/mm/yy"
+});
+</script>

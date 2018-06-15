@@ -1,0 +1,130 @@
+<script type="text/javascript">
+    var mod = "<?php echo $mod ?>";
+    var cat = "<?php echo $cat_id ?>";
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        function alertMsg() {
+            var mes_get = $('#wrap-message').text();
+            if(mes_get!='') {
+                $('#wrap-message').animate({bottom: '-5px'}, 1000, 'easeOutBounce');
+                setTimeout(function(){
+                    $('#wrap-message').animate({bottom: '-50px'}, 1000, 'easeInOutBack');
+                }, 3000);
+            }
+        }
+        alertMsg();
+        $('#btn_edit').click(function(){
+            if($('tr.selected').size()>0) {
+                window.location="?mod="+mod+"&act=edit&id="+$('tr.selected:eq(0)').find('.value_id:last').text();
+            }
+        });
+        $("#frm_submit").validate();
+        $('#btn_save').click(function(){$('.frm_submit').submit();});
+        $('#btn_trash').click(function(){
+            $('tr.selected').each(function(){
+                var obj = $(this);
+                var id = $(this).find('.value_id:last').text();
+                var link = "admin.php?mod="+mod+"&act=trash&id="+id;
+                $.ajax({
+                    type: "POST",
+                    url: link,
+                    dataType: "html",
+                    success: function(msg){
+                        if(parseInt(msg)==1) {
+                            obj.fadeOut();
+                        } else {
+                            $('#wrap-message').text(msg); alertMsg();
+                        }
+                    }
+                });
+            });
+        });
+        $('#btn_restore').click(function(){
+            $('tr.selected').each(function(){
+                var obj = $(this);
+                var id = $(this).find('.value_id:last').text();
+                var link = "admin.php?mod="+mod+"&act=restore&id="+id;
+                $.ajax({
+                    type: "POST",
+                    url: link,
+                    dataType: "html",
+                    success: function(msg){
+                        if(parseInt(msg)==1) {
+                            obj.fadeOut();
+                        } else {
+                            $('#wrap-message').text(msg); alertMsg();
+                        }
+                    }
+                });
+            });
+        });
+        $('#btn_delete').click(function(){
+            $('tr.selected').each(function(){
+                var obj = $(this);
+                var id = $(this).find('.value_id:last').text();
+                var link = "admin.php?mod="+mod+"&act=delete&id="+id;
+                $.ajax({
+                    type: "POST",
+                    url: link,
+                    dataType: "html",
+                    success: function(msg){
+                        if(parseInt(msg)==1) {
+                            obj.fadeOut();
+                        } else {
+                            $('#wrap-message').text(msg); alertMsg();
+                        }
+                    }
+                });
+            });
+        });
+        $('#btn_delete_book').click(function(){
+            $('tr.selected').each(function(){
+                var obj = $(this);
+                var id = $(this).find('.value_id:last').text();
+                var link = "admin.php?mod="+mod+"&act=delete_book&id="+id;
+                $.ajax({
+                    type: "POST",
+                    url: link,
+                    dataType: "html",
+                    success: function(msg){
+                        if(parseInt(msg)==1) {
+                            obj.fadeOut();
+                        } else alert('Error: ' + msg);
+                    }
+                });
+            });
+        });
+    });
+</script>
+<?php if($act=='default' || $act=='in_trash' || $act=='booking') { ?>
+<div class="btn-group">
+    <div class="btn tooltip btn-checkbox" title="Chọn"><div><i></i></div></div>
+</div>
+<?php } ?>
+<div class="btn-group">
+    <?php if($act!='default' and $act!='in_trash' and $act!='booking') { ?>
+    <a href="?mod=<?php echo $mod ?><?php if($_GET['parent_id']) echo '&parent_id='.$_GET['parent_id'];if($_GET['gltt_id']) echo '&gltt_id='.$_GET['gltt_id']; if($_GET['category_id']) echo '&category_id='.$_GET['category_id']; if($_GET['is_hot']) echo '&is_hot='.$_GET['is_hot']; if($_GET['is_picker']) echo '&is_picker='.$_GET['is_picker']; if($_GET['is_draft']) echo '&is_draft='.$_GET['is_draft']; if($_GET['id']) echo '&back_id='.$_GET['id']; ?>"class="btn tooltip btn-back" id="btn_back" title="Quay lại"><span style="background-position: 0 -42px;"></span></a>
+    <?php } ?>
+    <?php if($act=='default' || $act=='in_trash' || ($act=='edit')) { ?>
+    <a href="?mod=<?php echo $mod ?>&act=new<?php if($_GET['parent_id']) echo '&parent_id='.$_GET['parent_id'];if($_GET['gltt_id']) echo '&gltt_id='.$_GET['gltt_id']; if($_GET['category_id']) echo '&category_id='.$_GET['category_id']; ?>" class="btn tooltip" id="btn_new" title="Tạo mới"><span style="background-position: -84px -21px;"></span></a>
+    <?php } ?>
+    <?php if($act=='new' || $act=='edit' || $act=='profile') { ?>
+    <div class="btn tooltip" id="btn_save" title="Lưu trữ"><span style="background-position: 0 0;"></span></div>
+    <?php } ?>
+    <?php if($act=='default') { ?>
+    <div class="btn tooltip" id="btn_edit" title="Sửa"><span style="background-position: -0 -21px;"></span></div>
+    <div class="btn tooltip" id="btn_trash" title="Di chuyển vào thùng rác"><span style="background-position: -63px -42px;"></span></div>
+    <?php } ?>
+    <?php if($act=='in_trash') { ?>
+    <div class="btn tooltip" id="btn_restore" title="Phục hồi"><span style="background-position: -21px -63px;"></span></div>
+    <div class="btn tooltip" id="btn_delete" title="Xóa vĩnh viễn"><span style="background-position: -21px 0;"></span></div>
+    <?php } ?>
+</div>
+
+<?php if($mod == 'news_crawler') { ?>
+        <form method="POST" action="" style="float: right;">
+            <input type="hidden" name="source" value="<?= $_GET['source'] ?>" />
+            <input type="submit" style="float: right;" class="btn2" name="crawler_news" value="Lấy bài">
+        </form>
+<?php } ?>

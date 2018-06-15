@@ -1,0 +1,31 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <div class="col-3" id="field_type">
+                    <label>Hiển thị</label>
+                    <select name="type" class="required">
+                        <option> -- Select -- </option>
+                        <option value="0" <?php if($type=='0') echo 'selected="selected"' ?>>Tất cả các trang</option>
+                        <option value="1" <?php if($type=='1') echo 'selected="selected"' ?>>Hiển thị theo danh mục gốc</option>
+                        <option value="2" <?php if($type=='2') echo 'selected="selected"' ?>>Hiển thị theo danh mục con</option>
+                    </select>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Intro</label>
+                <textarea name="intro" style="width: 917px; height: 50px;"><?php echo $intro ?></textarea>
+            </div>
+            <input name="order_no" value="<?php echo $maxOrderNo ?>" type="hidden" />
+        </form>
+    </div>
+</div>

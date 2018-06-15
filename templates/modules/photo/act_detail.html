@@ -1,0 +1,189 @@
+<div class="grid1060 pkg">
+    <div class="col740 fl">
+    <div class="break_cump_detail pkg" style="border-bottom: none;margin-bottom: 0px;    margin-top: 10px;">
+        <?php $breadc = $clsCategory->getBreadcrumb($oneNews['category_id']);
+          if($breadc) foreach($breadc as $key=>$oneBread) { ?>
+            <div itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" style="float: left;"><a itemprop="url" href="<?=$clsCategory->getLink($oneBread) ?>"><span itemprop="title" style="font-weight: bold;    font-family: 'UTMswissB';"><?=$clsCategory->getTitle($oneBread) ?></span></a> <?php if($key!=2)  echo '<span class="arr_break"><img src="'.URL_IMAGES.'/arr_break.png"/> </span>';  ?> </div>
+          <?php } ?>
+    </div>
+    </div>
+</div>
+<div class="top_photo_detail pkg" style="clear: both;">
+	<div class="grid1060">
+        <div class="col740 fl">
+			<script>
+				$(document).ready(function(){
+					$('.list_photo_slide').bxSlider({
+						pager:false,
+						auto:false,
+					    captions: true
+					});
+				})
+			</script>
+			<div class="slide_photo_detail">
+				<ul class="list_photo_slide">
+				    <?php
+                        $news_id_js = $oneNews['news_id'];
+                        $all = $clsNews->getAllImage($oneNews['news_id']); if($all) foreach($all as $k=>$one) {
+                    ?>
+                    <li>
+						<img title="<?php echo str_replace("\"","'",$one['title']) ?>" alt="<?php echo str_replace("\"","'",$one['title']) ?>" src="<?php echo $one['src'] ?>" />
+					</li>
+                    <?php } ?>
+                  </ul>
+			</div>
+		</div>
+		<div class="col300 fr">
+			<div class="title_detail_photo"><?= $oneNews['title'] ?></div>
+			<div><span class="time_detail f14"><?= date("H:i d/m/Y",$oneNews['push_date']) ?></span></div>
+            <div class="share_detail pkg">
+              <div class="fr" style="width: 65px;float:right"><!-- Place this tag where you want the share button to render. -->
+                <div class="g-plus" data-action="share" data-annotation="none"></div>
+                
+                <!-- Place this tag after the last share tag. -->
+                <script type="text/javascript">
+                  (function() {
+                    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                    po.src = 'https://apis.google.com/js/platform.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                  })();
+                </script>
+              </div>
+              <div class="fr" style="float:right ;   width: 128px;"><div class="fb-like" data-href="<?php echo $post_link ?>" data-send="true" data-layout="button_count" data-width="500" data-show-faces="true" data-font="tahoma"></div></div>
+            </div>
+			<div class="sapo_detail"><?= $oneNews['intro'] ?></div>
+            <?php $core->getBlock('adsend300x250_detail') ?>
+            <?php $core->getBlock("adsendmobileduoinoibat") ?> 
+		</div>
+	</div>
+
+</div>
+
+<div class="grid1060">
+    <div class="content_wrapper pkg">
+      <div class="col740 fl">
+            
+        <div class="pkg">
+          <div class="tag_detail"> <strong>Tags:</strong>
+            <?php echo $clsNews->getLinkKeywords($oneNews['news_id']); ?>
+          </div>
+          
+        </div>
+        <div class="box_left box_slidevideo">
+            <?php $core->getBlock('comment') ?>
+        </div>
+       
+    <div class="box_left box_slidevideo">
+          <div class="head_left pkg"><a class="bg_head_left fl" href="">Video liên quan</a>
+            
+          </div>
+          <div class="slidevideo">
+            <ul class="slide_video1">
+            <?php foreach($listVideo as $video) { $video = $clsNews->getOne($video) ?>
+              <li><a class="thumbblock thumb215x130" href="<?= $clsNews->getLink($video['news_id']) ?>"><span class="icon_video"></span><img src="<?= $clsNews->getImage($video['news_id'],160,90) ?>" /></a>
+                <a href="<?= $clsNews->getLink($video['news_id']) ?>" class="title_slide_video"><?= $video['title'] ?></a></li>
+            <?php } ?>
+            </ul>
+          </div>
+          <script>
+		$(document).ready(function(){
+			
+			var w_window = $(window).width();
+			if (w_window >= 680 ) { 
+				   $('.slide_video1').bxSlider({
+				  minSlides: 1,
+				  maxSlides: 4,
+				  slideWidth: 160,
+				  slideMargin: 10,
+				  moveSlides:1,
+				  pager:false
+				});
+			}
+			if (w_window <= 680 ) { 
+				$('.slide_video1').bxSlider({
+				  minSlides:2,
+				  maxSlides: 2,
+				  slideWidth: 400,
+				  slideMargin: 20,
+				  moveSlides:1,
+				  pager:false
+				});
+			}
+        
+		});
+        </script> 
+  </div>   
+       
+    <div class="box_left box_slidevideo pkg">
+          <div class="head_left pkg"><a class="bg_head_left fl" href="">Tin cùng chuyên mục</a></div>
+          <ul class="content-sub pkg">
+            <?php foreach($list_other as $k=>$one) { if($k<4) {$one = $clsNews->getOne($one); unset($list_other[$k]) ?>
+                <li> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>"> <img src="<?= $clsNews->getImage($one['news_id'],160,120) ?>" alt="<?= str_replace("\"","'",$one['title']) ?>" class="thumb-modem"/></a>
+                  <h2 class="title-sub"> <a href="<?= $clsNews->getLink($one['news_id']) ?>" title="<?= str_replace("\"","'",$one['title']) ?>"><?= $one['title'] ?></a> </h2>
+                </li>
+            <?php } else break;} ?>
+          </ul>
+          <?php $core->getBlock("adsendmobileduoichuyenmuc") ?> 
+          <div class="col50per fl">
+            <ul class="list_news_right news50per">
+            <?php foreach($list_other as $k=>$one) { if($k>=4 && $k<8) {$one = $clsNews->getOne($one); unset($list_other[$k]) ?>
+              <li class="pkg"> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="thumb100x75 fl thumbblock">
+              <img alt="<?= str_replace("\"","'",$one['title']) ?>" src="<?= $clsNews->getImage($one['news_id'],115,86) ?>"></a> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="title_news_right "><?= $one['title'] ?></a> 
+                <span class="time_index"><?= date("d/m/Y H:i",$one['push_date']) ?></span> </li>
+            <?php }} ?>
+            </ul>
+          </div>
+          
+          <div class="col50per fr">
+            
+            <ul class="list_news_right news50per">
+              <?php foreach($list_other as $k=>$one) { $one = $clsNews->getOne($one); unset($list_other[$k]) ?>
+              <li class="pkg"> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="thumb100x75 fl thumbblock">
+                <img alt="<?= str_replace("\"","'",$one['title']) ?>" src="<?= $clsNews->getImage($one['news_id'],115,86) ?>"></a> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="title_news_right "><?= $one['title'] ?></a> 
+                <span class="time_index"><?= date("d/m/Y H:i",$one['push_date']) ?></span> 
+              </li>
+              <?php } ?>
+            </ul>
+          </div>
+          </div>
+        
+        
+      </div>
+      <div class="col300 fr">
+        <?php $core->getBlock("adsend300x250") ?> 
+        <div class="box300 box_match pkg">
+        <?php $core->getBlock('ket_qua_thi_dau') ?>
+        </div>
+
+        <div class="box300 box_match align-center">
+        <?php $core->getBlock('like_fanpage') ?>
+        </div>
+        <?php //$core->getBlock("adsend300x250_v2") ?> 
+        <div class="box300 border_box">
+            <?php $core->getBlock('tin_doc_nhieu') ?>
+        </div>
+
+        <div class="box300">
+            <?php $core->getBlock('truyen_hinh') ?> 
+        </div>
+        <?php $core->getBlock('box_anh') ?> 
+      </div>
+    </div>
+    
+    <script>
+		$(document).ready(function(){
+			$('.slide_business').bxSlider({
+					  minSlides: 2,
+					  maxSlides: 6,
+					  moveSlides:1,
+					  slideWidth: 155,
+					  slideMargin: 20,
+					  pager:false,
+					  auto:true,
+					});
+
+		})
+    </script>
+  </div>
+  <div class="block20"></div>
+  

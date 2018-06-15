@@ -1,0 +1,33 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Tiêu đề</label>
+                    <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+                </div>
+                <div class="col-3">
+                    <label>Slug</label>
+                    <input class="text required" type="text" name="slug" value="<?php echo $slug ?>" />
+                </div>
+                <div class="col-3">
+                    <label>Domain</label>
+                    <input class="text required" type="text" name="domain" value="<?php echo $domain ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Keywords</label>
+                <input class="text" type="text" name="keywords" value="<?php echo $keywords ?>" />
+            </div>
+            <div class="OneField">
+                <label>Desciption</label>
+                <input class="text" type="text" name="intro" value="<?php echo $intro ?>" />
+            </div>
+        </form>
+    </div>
+</div>

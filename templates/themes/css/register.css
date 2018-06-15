@@ -1,0 +1,57 @@
+label.error {
+    color:red;
+}
+input.error, .inputError, select.error {
+    border: 1px solid red !important;
+}
+.col-3-select {
+    padding: 5px 2%;
+    border: 1px solid #ddd;
+    display: block;
+    float:left;
+    width: 25%;
+    margin: 10px 10px 10px 0;   
+}
+.col-3-select-end {
+    padding: 5px 2%;
+    border: 1px solid #ddd;
+    display: block;
+    float:left;
+    margin: 10px 0px 10px 0;   
+    width: 30%;
+}
+input:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+.errorPanel {
+        margin: 10px 0 20px;
+        color: rgb(180,0,0);
+        background: rgb(255, 235, 235);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        border: 1px solid rgb(180,0,0);
+    }
+    .errorPanel .errors {
+        margin: .75em 2em;
+        display: block;
+        line-height: 1.5;
+    }
+    .errorPanel .errorHeading {
+        margin: .75em;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+.notifyjs-bootstrap-error {
+    color: #B94A48 !important;
+    background-color: #F2FCFF !important;
+    border-color: #C8E8FF !important;
+}
+.notifyjs-container {
+    font-size: 12px !important;
+}

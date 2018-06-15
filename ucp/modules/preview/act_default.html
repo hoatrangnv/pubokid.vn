@@ -1,0 +1,37 @@
+<link href="/templates/themes/css/style.css" rel="stylesheet" />
+<link href="/templates/themes/css/content.css" rel="stylesheet" />
+<style>
+body {background: #FFF !important;}
+.container {min-width: 0 !important;}
+</style>
+
+<div style="padding: 8px; width: 470px;">
+<h3 class="name-news"><?php echo $oneNews['title'] ?></h3>
+<div class="des-detail"><?php echo $oneNews['intro'] ?></div>
+<?php $arr = explode("|",trim($oneNews['news_related'], "|")); if($arr) { ?>
+<ul id="list-detail-news">
+<?php foreach($arr as $one) if($one) { $one = $clsNews->getOne($one); ?>
+  <li><a href="<?php echo $clsNews->getLink($one['news_id']) ?>"><?php echo $one['title'] ?></a></li>
+<?php } ?>
+</ul>
+<?php } ?>
+<div id="content-detail">
+  <div id="logo_site"><?php echo $oneNews['content'] ?></div>
+  <div style="float: right;">Theo <a href="<?php $clsSource = new Source(); echo $clsSource->getLink($oneNews['source_id']) ?>"><?php echo $clsSource->getTitle($oneNews['source_id']) ?></a></div>
+</div>
+<br />
+<div id="tag">
+  <div class="line-ver"></div>
+  <span class="fl"></span><strong>Từ khóa:</strong><?php echo $clsNews->getLinkKeywords($oneNews['news_id']); ?>
+  <div class="line-ver"></div>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(window).keyup(function(e){
+        if(e.which == 27){
+            window.close();
+        }
+    });
+});
+</script>

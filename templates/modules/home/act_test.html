@@ -1,0 +1,19 @@
+<script type="text/javascript" src="<?= URL_JS ?>/pixlr.js"></script>
+
+<a href="" id="edit_image">Edit ảnh nâng cao</a>
+
+<script>
+    $("#edit_image").click(function(){
+        pixlr.overlay.show({
+                service:'editor',
+                locktitle: true, 
+                method: "GET", 
+                referrer: "Instructables", 
+                locktarget: true, 
+                target: "http://hairmart.vn/?mod=home&act=getPi", 
+                exit: "http://hairmart.vn/"
+            });
+        return false;
+    });
+    
+</script>

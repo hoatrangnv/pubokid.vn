@@ -1,0 +1,113 @@
+<?php if($_GET['category_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsCategory->getBreadcrumb($_GET['category_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-7">
+                    <label>Nổi bật</label>
+                    <div>
+                        <input type="hidden" name="is_pick" value="0" />
+                        <input id="is_pick" type="checkbox" class="iToggle" name="is_pick" <?php if($is_pick==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <label>Image</label>
+                <span class="col-3"><input class="text" type="text" name="image" /></span>
+                <img class="field_photo" width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" type="file" name="image" />
+            </div>
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Category</label>
+                    <?php echo $clsCategory->getSelectCat('category_id', $_GET['category_id'], '') ?>
+                </div>
+                <div class="col-3">
+                    <label>Nguồn tin</label>
+                    <select name="source_id">
+                    <option value="">--- Lựa chọn ---</option>
+                    <?php $clsSource=new Source(); $allSource=$clsSource->getAll('is_trash=0'); if($allSource) foreach($allSource as $oneSource) { $oneSource=$clsSource->getOne($oneSource); ?>
+                    <option <?php if($source_id==$oneSource['source_id']) echo 'selected="selected"' ?> value="<?php echo $oneSource['source_id'] ?>"><?php echo $oneSource['title'] ?></option>
+                    <?php } ?>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="OneField">
+                <label>Mô tả</label>
+                <textarea name="intro" style="width: 917px; height: 100px;"><?php echo $intro ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Hình ảnh</label>
+            </div>
+            <?php for($i=1; $i<=$MAX_PHOTOS; $i++) { ?>
+            <div class="OneField">
+                <span class="col-3"><input class="text" type="text" name="gallery_title_<?php echo $i ?>" placeholder="Tiêu đề ..." value="<?php echo ${'gallery_title_'.$i} ?>" /></span>
+                <img class="field_photo" width="30" height="30" src="<?php if(${'gallery_'.$i}) echo ${'gallery_'.$i}; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" type="file" name="gallery_<?php echo $i ?>" />
+            </div>
+            <?php } ?>
+            <div class="OneField">
+                <label>Tags</label>
+                <input class="text" type="text" value="<?php echo $tags ?>" name="tags" />
+            </div>
+            
+            <!-- Begin -->
+            <style>
+            .SEO {width: 900px;}
+            .SEO a {color: #0384C2;text-decoration: none;text-shadow: 0px 0px 0px transparent;}
+            .SEO label {display: inline;width: 160px;font-size: 12px;line-height: 1.5;color: #303030;padding-right: 15px;float: left;}
+            .SEO input[type = "text"] {width: 450px;float: left;display: inline-block;margin-right: 20px;}
+            .SEO div.cleaner {border-bottom: solid 1px #e8e7e3;height: 10px;margin-bottom: 10px;clear: both;}
+            .SEO textarea {line-height: 1.6;height: 130px;}
+            </style>            
+            <script type="text/javascript">
+            function seo_config() {var ele = document.getElementById("seoConfigText");var text = document.getElementById("seoDisplayConfig");if(ele.style.display == "block") {ele.style.display = "none";text.innerHTML = "SEO";}else {ele.style.display = "block";text.innerHTML = "SEO";}}
+            </script>
+            <div class="SEO" style="background: none repeat scroll 0 0 #FFFFDD; border: 1px solid #DDDDDD; padding: 10px;">
+            <a id="seoDisplayConfig" href="javascript:seo_config();" class="text-seo">SEO</a>
+                <div id="seoConfigText" class="quick_table" style="display: none; margin-top: 20px;">
+                    
+                    <label>Title:</label>
+                    <input class="text" type="text" value="<?php echo $meta_title ?>" name="meta_title" />
+                    <div class="cleaner">&nbsp;</div>
+                    
+                    <label>Keyword:</label>
+                    <textarea name="meta_keyword" cols="80"><?php echo $meta_keyword ?></textarea>
+                    <div class="cleaner">&nbsp;</div>
+                    
+                    <label>Description:</label>
+                    <textarea name="meta_description" cols="80"><?php echo $meta_description ?></textarea>
+                    
+                </div>
+            </div>
+            <!-- End -->
+            
+            
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('.datetimepicker').datetimepicker();
+</script>

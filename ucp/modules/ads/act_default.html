@@ -1,0 +1,58 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_ads') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        
+        <?php if($_GET['name'] == 'trangchu') { ?>
+            <a class="btn2" href="http://webthethao.com.vn/?mod=home&act=home_preview">Trực quan</a>
+        <?php } else if($_GET['name']=='chuyenmucc1') { ?>
+            <a class="btn2" href="http://webthethao.com.vn/?mod=news&act=cat_preview&slug=bong-da-viet-nam">Trực quan</a>
+        <?php } else if($_GET['name']=='detail') { ?>
+            <a class="btn2" href="http://webthethao.com.vn/?mod=news&act=detail_preview&id=17003">Trực quan</a>
+            
+        <?php } ?>
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="2">Vị trí quảng cáo</td>
+                    <td>Click</td>
+                    <td>Hiển thị</td>
+                    <td>Mô tả</td>
+                    <td>Bắt đầu</td>
+                    <td>Kết thúc</td>
+                    <td>Slug</td>
+                    <td>ID</td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr class="">
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td class="title"><a href="?mod=<?php echo $mod ?>&act=edit&id=<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem['title'] ?></a></td>
+                    <td class="iField"><?php echo $oneItem['views'] ?> click</td>
+                    <td class="iField" style="width: 150px;"><?php if($oneItem['is_push'] == 1) echo '<span style="color:red">Đã hiển thị quảng cáo</span>'; else echo 'Chưa hiện thị quảng cáo'; ?></td>
+                    <td class="iField" style="width: 200px;"><em title="intro"><?php echo $oneItem['intro'] ?></em></td>
+                    <td class="iField" style="width: 130px;"><?php echo $oneItem['start_'] ?></td>
+                    <td class="iField" style="width: 130px;"><?php echo $oneItem['finish_'] ?></td>
+                    <td class="iField" style="width: 50px;"><em title="slug"><?php echo $oneItem['slug'] ?></em></td>
+                    <td class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+        </div>
+    </div>
+</div>

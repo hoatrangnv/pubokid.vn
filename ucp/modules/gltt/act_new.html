@@ -1,0 +1,87 @@
+<?php if($_GET['category_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsCategory->getBreadcrumb($_GET['category_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-7">
+                    <label>Cho phép hỏi</label>
+                    <div>
+                        <input name="is_question" type="hidden" value="0" />
+                        <input id="is_question" type="checkbox" class="iToggle" name="is_question" <?php if($is_question==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-7">
+                    <label>Thùng rác</label>
+                    <div>
+                        <input name="is_trash" type="hidden" value="0" />
+                        <input id="is_trash" type="checkbox" class="iToggle" name="is_trash" <?php if($is_trash==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="OneField" style="position: relative;">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <label>Hình ảnh</label>
+                <span class="col-3"><input disabled="disabled" class="text" type="text" name="image" /></span>
+                <img class="field_photo" width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" type="file" name="image" />
+            </div>
+
+            <style>
+            .SEO {width: 900px;}
+            .SEO a {color: #0384C2;text-decoration: none;text-shadow: 0px 0px 0px transparent;}
+            .SEO label {display: inline;width: 160px;font-size: 12px;line-height: 1.5;color: #303030;padding-right: 15px;float: left;}
+            .SEO input[type = "text"] {width: 450px;float: left;display: inline-block;margin-right: 20px;}
+            .SEO div.cleaner {border-bottom: solid 1px #e8e7e3;height: 10px;margin-bottom: 10px;clear: both;}
+            .SEO textarea {line-height: 1.6;height: 130px;}
+            .SEO select {height: 29px;}
+            </style>            
+ 
+            <?php if($ngtraloi_khachmoi) $ngtraloi_khachmoi=json_decode($ngtraloi_khachmoi); if(is_object($ngtraloi_khachmoi)) $ngtraloi_khachmoi=get_object_vars($ngtraloi_khachmoi); ?>
+            <br />
+            <div class="SEO" style="background: none repeat scroll 0 0 #FFFFDD; border: 1px solid #DDDDDD; padding: 10px;">
+            <a class="seoDisplayConfig" href="#" class="text-seo">Người trả lời - Khách mời</a>
+                <div class="seoConfigText quick_table" style="display: none; margin-top: 20px;">
+                    
+                    <?php for($i=1; $i<10; $i++) { ?>
+                    <div class="cleaner">&nbsp;</div>
+                    <div style="float: left;width:25%"><?php echo $clsUser->getSelect('ngtraloi_khachmoi[ngtraloi'.$i.']',$ngtraloi_khachmoi['ngtraloi'.$i],'') ?></div>
+                    <div style="float: left;width:30%"><input style="width: 120px; text-align: center;" class="text" type="text" value="<?php echo $ngtraloi_khachmoi['khachmoi'.$i] ?>" name="ngtraloi_khachmoi[khachmoi<?php echo $i ?>]" placeholder="<?php echo 'Khách mời '.$i ?>" /></div>
+                    <?php } ?>
+                    
+                    <div style="clear: both;"></div>
+                    
+                </div>
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $('.seoDisplayConfig').click(function(){
+                    $(this).parents('.SEO').find('.seoConfigText').slideToggle();
+                    return false;
+                });
+            });
+            </script>
+            
+            <div style="padding-left: 404px; margin: 18px;"><input type="submit" class="btn2" value="Cập nhật" style="cursor: pointer;" /></div>
+        </form>
+    </div>
+</div>

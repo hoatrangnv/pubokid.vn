@@ -1,0 +1,62 @@
+<div class="content_main pkg">
+  
+  <div class="head_cart pkg"> <span class="f24 fl">Giỏ hàng</span> <a href="<?php echo PCMS_URL;?>" class="next_buy fr">Tiếp tục mua hàng</a> </div>
+  <table class="tbl_cart" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <th>Sản phẩm đã chọn</th>
+      <th>Giá</th>
+      <th>Số lượng</th>
+      <th>Tổng cộng</th>
+    </tr>
+    <?php
+        if(!empty($listProduct)) foreach($listProduct as $key=>$val) { $one = $clsProduct->getOne($key); 
+    ?>
+    <tr>
+      <td width="50%">
+        <a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="thumb_over thumb120x100 fl"><img width="120px" title="<?php echo $one['title']?>" alt="<?php echo $one['title']?>" src="<?php echo $clsProduct->getImage($one['product_id'],120,100)?>"/></a>
+  		<a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="title_product_cart "><?php echo $one['title']?></a>
+        <a rel="<?php echo $one['product_id']?>" class="delete_product delete_pro">Xóa khỏi danh sách</a>
+      </td>
+      <td valign="top" width="20%">
+        <strong><?php echo $clsProduct->getPriceNew1($one['product_id'])?> VND</strong>
+        <div class="price_old"><?php echo $clsProduct->getPriceOld1($one['product_id'])?> vnđ </div>
+      </td>
+      <td valign="top" width="10%"><input class="txt_number" type="text" value="<?php echo $val?>"/><a rel="<?php echo $one['product_id']?>" class="delete_product update_pro">Update</a></td>
+      <td valign="top" width="20%"><strong><?php echo number_format($one['price_new']*$val ,0 , '', '.')?> VND</strong></td>
+    </tr>
+    <?php } ?>
+  </table><a href="/dat-hang.html" class="btn_buy_detail fr">đặt hàng</a>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.delete_pro').click(function () {
+        var product_id = $(this).attr('rel');
+        $.ajax({
+            type: "POST",
+            url: 'index.php?mod=invoice&act=deleteProduct',
+            data: {product_id: product_id},
+            success: function (msg) {
+                if (parseInt(msg) != '') {
+                }
+            }
+        });
+        $(this).parents('tr:first').remove();
+//            location.reload();
+    });
+
+    $('.update_pro').click(function(){
+        var product_id = $(this).attr('rel');
+        var num = $(this).parent().find('input').val();
+        $.ajax({                        
+            type: "POST",
+            url: 'index.php?mod=invoice&act=updateProduct',
+            data: { product_id: product_id, num: num},
+            success: function(msg){
+                if(parseInt(msg)!='') {
+                } 
+            }
+        });
+        location.reload();
+    });
+})    
+</script>

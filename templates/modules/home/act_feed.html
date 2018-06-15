@@ -1,0 +1,36 @@
+<style type="text/css">
+    .rss { margin: 20px 0px; }
+    .rss a { background: url(<?= URL_IMAGES ?>/rss_item.png) no-repeat left; padding-left: 43px; font-size: 13px; font-weight: bold; }
+</style>
+<div class="grid1060">
+    <div style="padding: 5px;">
+        <div style="font-size: 13px;">
+            <b>RSS là gì?</b><br />
+            RSS (Really Simple Syndication) Dịch vụ cung cấp thông tin cực kì đơn giản. Dành cho việc phân tán và khai thác nội dung thông tin Web từ xa (ví dụ như các tiêu đề, tin tức). Sử dụng RSS, các nhà cung cấp nội dung Web có thể dễ dàng tạo và phổ biến các nguồn dữ liệu ví dụ như các link tin tức, tiêu đề, và tóm tắt.<br />
+            Một cách sử dụng nguồn kênh tin RSS được nhiều người ưa thích là kết hợp nội dung vào các nhật trình Web (weblogs, hay "blogs"). Blogs là những trang web mang tính các nhân và bao gồm các mẩu tin và liên kết ngắn, thường xuyên cập nhật.<br />
+            Danh mục tin RSS mà thethao24.tv cung cấp<br />
+            thethao24.tv hiện tại cung cấp các nguồn kênh dữ liệu dưới đây theo định dạng chuẩn mới nhất RSS 2.0. Các nguồn kênh tin này là miễn phí cho việc sử dụng dưới mục đích cá nhân và phi lợi nhuận. Bạn chỉ việc copy và dán các địa chỉ URL này vào những trang web hoặc phần mềm hỗ trợ đọc tin từ RSS Feeds hoặc kéo thả biểu tượng RSS dưới đây vào các phần mềm hỗ trợ RSS là được.
+        </div>
+        <div class="rss">
+            <?php if($list_cat_home) foreach($list_cat_home as $one_cat) { $one_cat=$clsCategory->getOne($one_cat); ?>
+                <div style='padding:3px 0px'><a href='<?php echo $clsCategory->getLinkRSS($one_cat['category_id']) ?>'><?php echo $one_cat['title'] ?></a></div>
+                <?php $list_sub_cat = $clsCategory->getAll('is_trash=0 and parent_id='.$one_cat['category_id'].' order by home_display, category_id desc'); ?>
+                <?php if($list_sub_cat) foreach($list_sub_cat as $one_sub_cat) { $one_sub_cat = $clsCategory->getOne($one_sub_cat); ?>
+                    <div style='padding:2px 20px;'><a href='<?php echo $clsCategory->getLinkRSS($one_sub_cat['category_id']) ?>'><?php echo $one_sub_cat['title'] ?></a></div>
+                <?php } ?>
+            <?php } ?>
+        </div>
+        <div style="font-size: 13px; margin-bottom: 20px;">
+            <b>Sử dụng RSS như thế nào</b><br />
+            Các ứng dụng phổ biến về việc cung cấp và sử dụng RSS bao gồm:<br />
+            Sử dụng một chương trình Khai Thác Thông Tin (News Aggregator,News Spider) để thu thập, cập nhật và hiển thị các nguồn kênh tin dạng RSS
+        Kết hợp nguồn kênh tin RSS vào một nhật trình Web (weblogs)<br />
+            News Aggregators (hay trình Khai Thác Thông Tin) sẽ tải xuống và hiển thị các nguồn kênh tin RSS cho bạn. Có một số các chương trình dạng này cho phép bạn download miễn phí. Các chương trình phổ biến gồm có : AmphetaDesk, NetNewsWire, và Radio Userland.<br />
+            Các giới hạn sử dụng<br />
+            Các nguồn kênh tin được cung cấp miễn phí cho các cá nhân và các tổ chức phi lợi nhuận. Chúng tôi yêu cầu bạn cung cấp rõ các thông tin cần thiết khi bạn sử dụng các nguồn kênh tin này từ thethao24.tv<br />
+            Nếu bạn định ghi dưới dạng văn bản, hãy ghi: "thethao24.tv” Nếu bạn định ghi dưới dạng đồ họa, hãy sử dụng biểu tượng của thethao24.tv đi kèm trong mỗi nguồn tin<br />
+            thethao24.tv hoàn toàn có quyền yêu cầu bạn ngừng cung cấp và phân tán thông tin dưới dạng này ở bất kỳ thời điểm nào và với bất kỳ lý do nào.<br />
+        </div>
+    </div>
+</div>
+

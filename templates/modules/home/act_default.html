@@ -1,0 +1,66 @@
+<section class="bannerOut">
+  <div id="banner" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+    
+    <?php $count = 0; foreach($listBanner as $k=>$id) { $count++;$one = $clsBanner->getOne($id); ?>
+      <div class="item banner <?php if($k==0) echo 'active'; ?>"><img src="<?= PCMS_URL ?>/<?= $one['image'] ?>" alt="" /> </div>
+	<?php } ?>
+    </div>
+    <ol class="carousel-indicators">
+      <?php for($i = 0; $i < $count;$i++) { ?>
+      <li data-target="#banner" data-slide-to="<?= $i ?>" class="<?php if($k==0) echo 'active'; ?>"></li>
+	<?php } ?>
+    </ol>
+  </div>
+</section>
+<section class="info">
+    <?php
+        $one0 = $clsNews->getOne(4);
+        $one1 = $clsNews->getOne($list_pick[1]);
+        $one2 = $clsNews->getOne($list_pick[2]);
+    ?>
+  <div class="container clearfix">
+    <div class="col-sm-4 col-md-4 col-sm-4 infoItem infoY">
+      <h3>Thông tin sản phẩm</h3>
+      <p class="infoT"><?php echo $core->get_limit_content($one0['intro'],230);  ?></p>
+      <p class="infoL"><a href="<?= $clsNews->getLink($one0['news_id']) ?>">Xem thêm</a></p>
+    </div>
+    <div class="col-sm-4 col-md-4 col-sm-4 infoItem infoR">
+      <h3>Tư vấn sản phẩm</h3>
+      <p class="infoT"><?php echo $core->get_limit_content($one1['intro'],230);  ?></p>
+      <p class="infoL"><a href="<?= $clsNews->getLink($one1['news_id']) ?>">Xem thêm</a></p>
+    </div>
+    <div class="col-sm-4 col-md-4 col-sm-4 infoItem infoG">
+      <h3>Liên hệ mua sản phẩm</h3>
+      <p class="infoT"><?php echo $core->get_limit_content($one2['intro'],230);  ?></p>
+      <p class="infoL"><a href="https://pubokid.vn/datmua-pubokid.html">Xem thêm</a></p>
+    </div>
+  </div>
+</section>
+<section class="gioithieu">
+  <div class="container clearfix">
+    <div class="col-sm-6 col-md-6 col-sm-6 gtR">
+      <h3>Giới thiệu về công ty</h3>
+      <p class="gtTxt"><?php $o = $clsNews->getOne(7); echo $o['intro'];  ?></p>
+      <p class="gtMore"><a href="<?= $clsNews->getLink(7) ?>">Xem thêm</a></p>
+    </div>
+    <div class="col-sm-6 col-md-6 col-sm-6 gtL"> <img src="<?= PCMS_URL.'/'.$o['image']; ?>" alt="" /> </div>
+  </div>
+</section>
+<section class="bannerBtm"> <a href="<?= PCMS_URL ?>/datmua-pubokid.html"><img src="<?= URL_IMAGES ?>/banner2.jpg" alt="" /></a> </section>
+<section class="news">
+  <div class="container clearfix">
+    <h2>Tin tức</h2>
+    <div class="clearfix">
+      <?php foreach($list_hot as $id) { $one = $clsNews->getOne($id) ?>
+      <div class="col-sm-4 col-md-4 col-sm-4 newsItem">
+        <p class="nImg"><?= $clsNews->getHtmlImage($id,350,246) ?></p>
+        <h3><?= $clsNews->getLinkTitle($id) ?></h3>
+        <p class="nTxt"><?= $core->get_limit_content($one['intro'],230) ?></p>
+        <p class="nMore"><a href="<?= $clsNews->getLink($id) ?>">Xem thêm</a></p>
+      </div>
+      <?php } ?>
+    </div>
+    <p class="newsM"><a href="<?= $clsCategory->getLink(3) ?>">Xem tất cả</a></p>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+<?php if($_GET['parent_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsClassTable->getBreadcrumb($_GET['parent_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod='.$mod.'&parent_id='.$oneCat.'">'.$clsClassTable->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-10">
+                    <label>3 cấp</label>
+                    <div>
+                        <input type="hidden" name="is_3cap" value="0" />
+                        <input id="is_3cap" type="checkbox" class="iToggle" name="is_3cap" <?php if($is_3cap==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>3 chấm</label>
+                    <div>
+                        <input type="hidden" name="is_3cham" value="0" />
+                        <input id="is_3cham" type="checkbox" class="iToggle" name="is_3cham" <?php if($is_3cham==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Parent Category</label>
+                    <?php echo $clsClassTable->getSelectCat('parent_id', $_GET['parent_id']) ?>
+                </div>
+            </div>
+            <div class="OneField">
+                <div class="col-4">
+                    <label>Menu Display (Number)</label>
+                    <input class="text number" type="text" name="menu_display" value="<?php echo $menu_display ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Home Display  (Number)</label>
+                    <input class="text number" type="text" name="home_display" value="<?php echo $home_display ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Footer Display  (Number)</label>
+                    <input class="text number" type="text" name="footer_display" value="<?php echo $footer_display ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Video Display  (Number)</label>
+                    <input class="text number" type="text" name="video_display" value="<?php echo $video_display ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Title (SEO)</label>
+                <input class="text" type="text" name="title_seo" value="<?php echo $title_seo ?>" />
+            </div>
+            <div class="OneField">
+                <label>Description (SEO)</label>
+                <textarea name="description" style="width: 925px; height: 100px;"><?php echo $description ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Keywords (SEO)</label>
+                <input class="text required" type="text" name="keywords" value="<?php echo $keywords ?>" />
+            </div>
+        </form>
+    </div>
+</div>

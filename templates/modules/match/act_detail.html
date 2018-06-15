@@ -1,0 +1,315 @@
+<?php session_start(); ?>
+<div class="grid1060">
+    
+    <div class="block20"></div>
+    <div class="content_wrapper pkg">
+      <div class="col740 fl">
+        <div class="break_cump_detail pkg">
+            <?php $breadc = $clsCategory->getBreadcrumb($oneNews['category_id']);
+              if($breadc) foreach($breadc as $key=>$oneBread) { ?>
+              <a href="<?=$clsCategory->getLink($oneBread) ?>" class="first"><?=$clsCategory->getTitle($oneBread) ?></a>
+              <?php if($key!=2)  echo '<span class="arr_break"><img src="'.URL_IMAGES.'/arr_break.png"/> </span>';  ?>
+              <?php } ?>
+        </div>
+        <div class="pkg">
+    
+            <?php if($listRelated) { ?>
+                <div class="baicungsukien">
+                    <ul>
+                        <?php foreach($listRelated as $c) { $c = $clsNews->getOne($c) ?>
+                            <li><a href="<?= $clsNews->getLink($c['news_id']) ?>"><?= $c['title'] ?></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
+<style>
+.tt-mdum2 {
+    margin: 5px 10px 5px 10px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 8px 70px;
+}
+.tt-mdum {
+    background: #444;
+    padding: 2px 0;
+}
+.stadium {
+    margin-bottom: 5px !important;
+    display: block;
+    color: #555 !important;
+    font-size: 13px !important;
+}
+.tt-mdum2 li {
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px 0;
+}
+.tt-mdum2 li.tt-tiso {
+    background: #df2626;
+    color: #fff;
+    font-size: 26px !important;
+    padding: 2px 10px;
+    margin: 8px 0;
+}
+.as {
+    position: absolute;
+}
+img {
+    border: 0 none;
+}
+.tt-logo2 {
+    height: 75px;
+    left: 31px;
+    top: 13px;
+    width: 68px;
+}
+.tt-logo3 {
+    height: 75px;
+    right: 30px;
+    top: 13px;
+    width: 68px;
+}
+.re {
+    position: relative;
+}
+</style>
+            
+            <div id="">
+                <div class="tt-mdum re">
+                    <div class="pkg">
+                        <a href=""><img src="<?= $clsTeam->getImage($oneNews['home_team_id'],75,75) ?>" class="as tt-logo2">
+                        </a>
+                        <a href=""><img src="<?= $clsTeam->getImage($oneNews['away_team_id'],75,75) ?>" class="as tt-logo3">
+                        </a>
+                        <ul class="tt-mdum2 pkg">
+                            <p class="stadium" align="center"><?= $oneNews['league'] ?></p>
+                            <div style="display: inline-block;">
+                                <li style="width:213px;">
+                                    <a href=""><?= $clsTeam->getTitle($oneNews['home_team_id']) ?></a>
+                                </li>
+                                <li class="tt-tiso"><?= $oneNews['match_time'] ?></li>
+                                <li style="width:213px;">
+                                    <a href=""><?= $clsTeam->getTitle($oneNews['away_team_id']) ?></a>
+                                </li>
+                            </div>
+                            <p align="center"><?= $oneNews['match_date'] ?></p>
+                        </ul>
+                    </div>
+                </div>
+                <?php if($oneNews['embed_live']) { $embed_live=json_decode($oneNews['embed_live'],true); ?>
+                <div class="live_class" style="max-width: 100%; overflow: hidden;text-align: center;">
+                    <?= $embed_live[0] ?>
+                </div>
+                <div class="video_code_item" style="margin-top: 5px;" align="center">
+                <?php foreach($embed_live as $k=>$embed) { ?>
+                    <a href="#" data-content='<?= str_replace("'","\"",$embed) ?>'> <strong>LINK <?= $k+1 ?></strong></a>
+                <?php } ?>
+                </div>
+                <?php } ?>
+                <?php $core->getBlock("adsendmobileduoinoibat") ?> 
+                <?php $core->getBlock('adsend300x250_detail') ?>
+            </div>
+            
+            <script>
+                $(".video_code_item a").click(function(){
+                    $(".video_code_item a").css("color","");
+                    $(this).css("color","blue");
+                    
+                    var content = $(this).attr("data-content");
+                    $(".live_class").html(content);
+                    
+                    return false;
+                    
+                });
+            </script>
+            
+            <div class="share_detail pkg">
+              <div class="fl" style="width: 58px;float:left"><div class="fb-like" data-href="<?php echo $post_link ?>" data-send="false" data-layout="box_count" data-width="500" data-show-faces="true" data-font="tahoma"></div></div>
+              <div class="fl" style="width: 60px;float:left"><div class="fb-share-button" data-href="<?php echo $post_link ?>" data-layout="box_count"></div></div>    
+              <div class="fl" style="width: 60px;float:left"><div class="g-plusone" data-size="tall"></div></div>  
+              <!-- Place this tag after the last share tag. -->
+                <script type="text/javascript">
+                  (function() {
+                    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                    po.src = 'https://apis.google.com/js/platform.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                  })();
+                </script> 
+                <div class="fp_detail" style="float: left;">
+                    <p  style="font-size: 15px;margin-bottom: 12px;margin-top: 6px;">Fan page Thethaoso360</p>
+                    <div class="fb-like" data-href="https://www.facebook.com/thethaoso360/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                </div> 
+            </div>
+  
+        </div>
+        <div class="pkg">
+          <div class="tag_detail"> <strong>Tags:</strong>
+            <?php echo $clsNews->getLinkKeywords($oneNews['news_id']); ?>
+          </div>
+          
+        </div>
+        <div class="block20"></div>
+        <?php if(DEVICE == 'desktop') $core->getBlock("adnowduoivideo") ?>
+        <div class="block20"></div>
+        <div class="box_left box_slidevideo">
+            <div class="fb-comments" data-href="<?= $clsNews->getLink($oneNews['news_id']) ?>" data-numposts="5"></div>
+        </div>
+       
+    <div class="box_left box_slidevideo pkg">
+          <div class="head_left pkg"><a class="bg_head_left fl" href="">Tin cùng chuyên mục</a></div>
+          <ul class="content-sub pkg">
+            <?php foreach($list_other as $k=>$one) { if($k<4) {$one = $clsNews->getOne($one); unset($list_other[$k]) ?>
+                <li> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>"> <img src="<?= $clsNews->getImage($one['news_id'],160,120) ?>" alt="<?= str_replace("\"","'",$one['title']) ?>" class="thumb-modem"/></a>
+                  <h2 class="title-sub"> <a href="<?= $clsNews->getLink($one['news_id']) ?>" title="<?= str_replace("\"","'",$one['title']) ?>"><?= $one['title'] ?></a> </h2>
+                </li>
+            <?php } else break;} ?>
+          </ul>
+          <?php $core->getBlock("adsendmobileduoichuyenmuc") ?> 
+          <div class="col50per fl">
+            <ul class="list_news_right news50per">
+            <?php foreach($list_other as $k=>$one) { if($k>=4 && $k<8) {$one = $clsNews->getOne($one); unset($list_other[$k]) ?>
+              <li class="pkg"> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="thumb100x75 fl thumbblock">
+              <img alt="<?= str_replace("\"","'",$one['title']) ?>" src="<?= $clsNews->getImage($one['news_id'],115,86) ?>"></a> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="title_news_right "><?= $one['title'] ?></a> 
+                <span class="time_index"><?= date("d/m/Y H:i",$one['push_date']) ?></span> </li>
+            <?php }} ?>
+            </ul>
+          </div>
+          
+          <div class="col50per fr">
+            
+            <ul class="list_news_right news50per">
+              <?php foreach($list_other as $k=>$one) { $one = $clsNews->getOne($one); unset($list_other[$k]) ?>
+              <li class="pkg"> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="thumb100x75 fl thumbblock">
+                <img alt="<?= str_replace("\"","'",$one['title']) ?>" src="<?= $clsNews->getImage($one['news_id'],115,86) ?>"></a> <a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsNews->getLink($one['news_id']) ?>" class="title_news_right "><?= $one['title'] ?></a> 
+                <span class="time_index"><?= date("d/m/Y H:i",$one['push_date']) ?></span> 
+              </li>
+              <?php } ?>
+            </ul>
+          </div>
+          </div>
+        
+        
+      </div>
+      <div class="col300 fr">
+        <div class="box300 box_match pkg">
+        <?php $core->getBlock('ket_qua_thi_dau') ?>
+        </div>
+        <?php $core->getBlock("adsend300x250_v2") ?> 
+                <div class="box300 border_box">
+            <?php $core->getBlock('tin_doc_nhieu') ?>
+        </div>
+
+        <?php if(DEVICE != 'mobile') $core->getBlock("adnow_cot300") ?> 
+
+        
+      </div>
+    </div>
+    
+    <script>
+		$(document).ready(function(){
+			$('.slide_business').bxSlider({
+					  minSlides: 2,
+					  maxSlides: 6,
+					  moveSlides:1,
+					  slideWidth: 155,
+					  slideMargin: 20,
+					  pager:false,
+					  auto:true,
+					});
+		})
+    </script>
+    
+  </div>
+  <div class="block20"></div>
+  
+  <!--Start Popup Like Fanpage-->
+<style>
+#fbox-background{display:none;background:rgba(0,0,0,0.8);width:100%;height:100%;position:fixed;top:0;left:0;z-index:99999;}
+#fbox-close{width:100%;height:100%;}#fbox-display{background:#eaeaea;border:5px solid #828282;width:290px;height:81px;position:absolute;top:32%;left:37%;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
+#fbox-button{float:right;cursor:pointer;position:absolute;right:0px;top:0px;}#fbox-button:before{content:"Đóng";padding:5px 8px;background:#828282;color:#eaeaea;font-weight:bold;font-size:10px;font-family:Tahoma;}
+#fbox-link,#fbox-link a.visited,#fbox-link a,#fbox-link a:hover{color:#aaaaaa;font-size:9px;text-decoration:none;text-align:center;padding:5px;}
+#fbox-background-mobile{display:none;background:rgba(0,0,0,0.8);width:100%;height:100%;position:fixed;top:0;left:0;z-index:99999;}
+#fbox-close-mobile{width:100%;height:100%;}
+#fbox-display-mobile{background:#eaeaea;border:5px solid #828282;width:290px;height:81px;position:absolute;top:32%;left:10%;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
+#fbox-button-mobile{float:right;cursor:pointer;position:absolute;right:0px;top:0px;}
+#fbox-button-mobile:before{content:"Đóng";padding:5px 8px;background:#828282;color:#eaeaea;font-weight:bold;font-size:10px;font-family:Tahoma;}</style>
+<script type='text/javascript'>
+//<![CDATA[
+jQuery.cookie = function (key, value, options) {
+// key and at least value given, set cookie...
+if (arguments.length > 1 && String(value) !== "[object Object]") {
+options = jQuery.extend({}, options);
+if (value === null || value === undefined) {
+options.expires = -1;
+}
+if (typeof options.expires === 'number') {
+var days = options.expires, t = options.expires = new Date();
+t.setDate(t.getDate() + days);
+}
+value = String(value);
+return (document.cookie = [
+encodeURIComponent(key), '=',
+options.raw ? value : encodeURIComponent(value),
+options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+options.path ? '; path=' + options.path : '',
+options.domain ? '; domain=' + options.domain : '',
+options.secure ? '; secure' : ''
+].join(''));
+}
+// key and possibly options given, get cookie...
+options = value || {};
+var result, decode = options.raw ? function (s) { return s; } : decodeURIComponent;
+return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+};
+//]]>
+</script>
+<script type='text/javascript'>
+function smallscreen() {
+   if(window.innerWidth <= 800) {
+     return true;
+   } else {
+     return false;
+   }
+}
+jQuery(document).ready(function($){
+    if ($.cookie('fb_thethaoso360') != 'yes') {
+        if (smallscreen() === false) {
+            $('#fbox-background').delay(15000).fadeIn('medium');
+            $('#fbox-button, #fbox-close').click(function(){
+                $('#fbox-background').stop().fadeOut('medium');
+            });
+        }
+        else {
+            $('#fbox-background-mobile').delay(8000).fadeIn('medium');
+            $('#fbox-button-mobile, #fbox-close-mobile').click(function(){
+                $('#fbox-background-mobile').stop().fadeOut('medium');
+            });
+        }
+    }
+    $.cookie('fb_thethaoso360', 'yes', { path: '/', expires: 2 });
+});
+</script>
+<div id='fbox-background'>
+<div id='fbox-close'>
+</div>
+<div id='fbox-display'>
+<div class="fb-page" data-href="https://www.facebook.com/thethaoso360/" data-width="280" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"></div>
+<div id='fbox-button'>
+</div>
+</div>
+</div>
+<div id='fbox-background-mobile'>
+<div id='fbox-close-mobile'>
+</div>
+<div id='fbox-display-mobile'>
+<div class="fb-page" data-href="https://www.facebook.com/thethaoso360/" data-width="280" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"></div>
+<div id='fbox-button-mobile'>
+</div>
+</div>
+</div>
+<!--End Popup Like Fanpage-->
+
+  
+  

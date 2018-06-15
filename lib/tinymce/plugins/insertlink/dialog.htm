@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+	<title>Chèn link bài viết</title>
+	<script type="text/javascript" src="http://vietq.vn/ucp/themes/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../tiny_mce_popup.js?v=<?= time() ?>"></script>
+	
+</head>
+
+<body>
+<style>
+    #art-sugg-content a{
+        margin-bottom: 5px;
+        display: inline-block;
+        font-size: 11px;
+        text-decoration: none;
+    }
+</style>
+<form action="#" id="chenlink">
+    <p>Tìm kiếm</p>
+    <input type="text" placeholder="Tìm kiếm bài viết..." id="search_keyword" name="search_keyword" style="height: 20px;width: 150px;" onclick="$(this).val('');">    
+    <input type="button" value="Tìm kiếm" onclick="javascript:search();" />
+    <hr />
+    <div id="art-sugg">
+      
+    </div>
+</form>
+<script>
+    function search(){    
+        var keyword = $('input[name="search_keyword"]').val();
+        $.ajax({
+            url : "http://webthethao.vn/",
+            type : "GET",
+            data : {act:"loadNews",q : keyword},
+            success : function(html){
+                if(html != '0'){
+                    $("#art-sugg").html(html);      
+                }
+            }
+        });
+    }
+    
+    tinyMCEPopup.requireLangPack();
+    var inst = tinyMCEPopup.editor;
+    var exista = false;
+    var ExampleDialog = {
+    
+            
+    	init: function () {
+            var href = "";
+            var keyword = inst.selection.getContent({format : 'html'});  
+        },
+        
+    	chenlink: function(a) {
+
+            var keyword = inst.selection.getContent({format : 'html'});  
+
+                            
+            var href_ = a;
+            
+            if(href_) html_ = '<a href="'+href_+'">'+keyword+'</a>'; 
+            else html_ = keyword;
+            
+    		inst.execCommand('mceInsertContent', false, html_);
+    		tinyMCEPopup.close();
+    	}
+    };
+    
+    tinyMCEPopup.onInit.add(ExampleDialog.init, ExampleDialog);
+    
+</script>
+</body>
+</html>

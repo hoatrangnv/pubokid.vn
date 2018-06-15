@@ -1,0 +1,30 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <label>Danh mục liên quan</label>
+                <div class="stack_arr">
+                    <div class="input_data">
+                        <ul id="">
+                            <?php if($category_id && trim($category_id,'|')!='') $arr = explode("|", trim($category_id,'|')); if($arr) foreach($arr as $one) { $oneCategory=$clsCategory->getOne($one); ?>
+                            <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $oneCategory['title'] ?></span><span class="remove" rel="<?php echo $oneCategory['category_id'] ?>"></span></li>
+                            <?php } ?>
+                        </ul>
+                        <input class="text_input" rel="load_ajax" alt="category" type="text" />
+                    </div>
+                    <div class="show_data"></div>
+                    <input class="curent_input" type="hidden" name="category_id" value="<?php if($category_id) echo $category_id; else echo '|'; ?>" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

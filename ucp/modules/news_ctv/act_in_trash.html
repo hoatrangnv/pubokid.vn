@@ -1,0 +1,50 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+</style>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_default') ?>
+        </ul>
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu_ctv') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="4">Tiêu đề</td>
+                    <td>Danh mục</td>
+                    <td>Ngày viết</td>
+                    <td>Preview</td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td style="width: 25px; padding-left: 10px;"><a href="<?php echo $link ?>"><img style="border: 1px solid #bababa;" src="<?php echo $clsClassTable->getImage($oneItem[$pkeyTable], 25, 25, 'out') ?>" width="25" height="25" /></a></td>
+                    <td class="title"><a href="<?php echo '?mod='.$mod.'&act=edit&id='.$oneItem[$pkeyTable] ?>"><?php echo $oneItem['title'] ?></a></td>
+                    <td class="iField" style="width: 105px;"><?php echo $clsCategory->getTitle($oneItem['category_id']) ?></td>
+                    <td class="reg_date"><span title="<?php echo $core->time_str(strtotime($oneItem['reg_date'])) ?>"><?php echo $core->time_ago(strtotime($oneItem['reg_date'])) ?></span></td>
+                    <td class="iField">
+                        <a href="#" onclick="window.open('/admin.php?mod=preview&news_id=<?php echo $oneItem[$pkeyTable] ?>', '', 'scrollbars=1,width=510,height=600,top=50,left=200'); return false;"><img src="/ucp/themes/images/preview.png" height="20" /></a>
+                    </td>
+                    <td style="display: none;" class="value_id"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+        </div>
+    </div>
+</div>

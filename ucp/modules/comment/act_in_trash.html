@@ -1,0 +1,31 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr>
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td class="title"><a target="_blank" style="font-size: 11px;" href="<?php echo $clsNews->getLink($oneItem['news_id']) ?>"><?php echo $oneItem['name'].': '.$oneItem['content'].' ('.$oneItem['email'].')' ?></a></td>
+                    <td class="iField" style="width: 90px;"><a href="?mod=<?php echo $mod ?>&act=ajax&field=is_push&value=<?php if($oneItem['is_push']==1) echo '0'; else echo '1'; ?>&id=<?php echo $oneItem[$pkeyTable] ?>" class="act_ajax js_check_<?php if($oneItem['is_push']==1) echo 'on'; else echo 'off'; ?>">Xuất bản</a></td>
+                    <td class="reg_date"><span><?php echo $clsClassTable->getRegDate($oneItem[$pkeyTable]) ?></span></td>
+                    <td style="display: none;" class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+        </div>
+    </div>
+</div>

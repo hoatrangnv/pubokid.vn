@@ -1,0 +1,156 @@
+<?php if($_GET['id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php //$breadcrumb = $clsCategory->getBreadcrumb($category_id);
+        $i=0; if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            if($i==2) {
+                echo '<li><a href="?mod=news&category_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+            } else echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+            $i++;
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-7">
+                    <label>Cho phép hỏi</label>
+                    <div>
+                        <input name="is_question" type="hidden" value="0" />
+                        <input id="is_question" type="checkbox" class="iToggle" name="is_question" <?php if($is_question==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-7">
+                    <label>Thùng rác</label>
+                    <div>
+                        <input name="is_trash" type="hidden" value="0" />
+                        <input id="is_trash" type="checkbox" class="iToggle" name="is_trash" <?php if($is_trash==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField" style="position: relative;">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo htmlentities($title, ENT_QUOTES | ENT_IGNORE, "UTF-8") ?>" />
+            </div>
+            <div class="OneField">
+                <label>Hình ảnh</label>
+                <span class="col-3"><input disabled="disabled" class="text" type="text" name="image" /></span>
+                <img class="field_photo" width="30" height="30" src="<?php if($image) echo '/upload/'.$image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" type="file" name="image" />
+            </div>
+        <style>
+            .SEO {width: 900px;}
+            .SEO a {color: #0384C2;text-decoration: none;text-shadow: 0px 0px 0px transparent;}
+            .SEO label {display: inline;width: 160px;font-size: 12px;line-height: 1.5;color: #303030;padding-right: 15px;float: left;}
+            .SEO input[type = "text"] {width: 450px;float: left;display: inline-block;margin-right: 20px;}
+            .SEO div.cleaner {border-bottom: solid 1px #e8e7e3;height: 10px;margin-bottom: 10px;clear: both;}
+            .SEO textarea {line-height: 1.6;height: 130px;}
+            .SEO select {height: 29px;}
+            </style>            
+ 
+            <?php if($ngtraloi_khachmoi) $ngtraloi_khachmoi=json_decode($ngtraloi_khachmoi); if(is_object($ngtraloi_khachmoi)) $ngtraloi_khachmoi=get_object_vars($ngtraloi_khachmoi); ?>
+            <br />
+            <div class="SEO" style="background: none repeat scroll 0 0 #FFFFDD; border: 1px solid #DDDDDD; padding: 10px;">
+            <a class="seoDisplayConfig" href="#" class="text-seo">Người trả lời - Khách mời</a>
+                <div class="seoConfigText quick_table" style="display: none; margin-top: 20px;">
+                    
+                    <?php for($i=1; $i<10; $i++) { ?>
+                    <div class="cleaner">&nbsp;</div>
+                    <div style="float: left;width:25%"><?php echo $clsUser->getSelect('ngtraloi_khachmoi[ngtraloi'.$i.']',$ngtraloi_khachmoi['ngtraloi'.$i],'') ?></div>
+                    <div style="float: left;width:30%"><input style="width: 120px; text-align: center;" class="text" type="text" value="<?php echo $ngtraloi_khachmoi['khachmoi'.$i] ?>" name="ngtraloi_khachmoi[khachmoi<?php echo $i ?>]" placeholder="<?php echo 'Khách mời '.$i ?>" /></div>
+                    <?php } ?>
+                    
+                    <div style="clear: both;"></div>
+                    
+                </div>
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $('.seoDisplayConfig').click(function(){
+                    $(this).parents('.SEO').find('.seoConfigText').slideToggle();
+                    return false;
+                });
+            });
+            </script>
+           
+           <div class="OneField">
+                <div class="col-3">
+                    <label>Người tạo chủ đề</label>
+                    <input type="text" class="text" name="user_id" value="<?=$clsUser->getFullName($user_id).' - '.$clsUser->getChucVu($clsUser->getUserLevel($user_id)) ?>" disabled="disabled" />
+                </div>
+            </div>
+           
+        </form>
+    </div>
+</div>
+<style type="text/css">
+.keywords_fix .title {cursor: pointer;}
+#form_keywords {display: none;}
+#lbl_keywords {cursor: pointer;}
+#input_keywords {
+    float: left;
+    width: 200px;
+}
+#add_keywords {
+    border: 1px solid #BABABA;
+    margin-left: 3px;
+    height: 26px;
+    display: inline-block;
+    line-height: 26px;
+    font-size: 11px;
+    padding: 0 5px;
+    font-weight: bold;
+    background: #D8D8D8;
+    cursor: pointer;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#lbl_keywords').click(function(){
+        if($('#form_keywords').hasClass('form_keywords_open')) $('#form_keywords').hide().removeClass('form_keywords_open');
+        else $('#form_keywords').show().addClass('form_keywords_open');
+    });
+    $('.keywords_fix .title').click(function(){
+        if(!$('#form_keywords').hasClass('form_keywords_open')) {
+            $('#lbl_keywords').click();
+        }
+        $('#input_keywords').val($(this).text()).focus();
+        setTimeout(function(){
+            $('#add_keywords').click();
+        }, 200);
+    });
+    $('#add_keywords').live('click', function(){
+        var title = $('#input_keywords').val();
+        if(!title || title=='') return false;
+        $.ajax({
+            type: "POST",
+            url: 'admin.php?mod=channel&act=add_ajax&title='+title,
+            dataType: "html",
+            success: function(msg){
+                if(parseInt(msg)>0) {
+                    $('#input_data_ul_keywords').append('<li><span class="title">'+title+'</span><span class="remove" rel="'+msg+'"></span></li>');
+                    $('#input_keywords').val('');
+                    var txt_keywords = $('#txt_keywords').val();
+                    $('#txt_keywords').val(txt_keywords+msg+'|');
+                } else {
+                    $('#input_keywords').val('');
+                }
+            }
+        });
+    });
+    $('#input_keywords').keypress(function(e){
+        if(e.keyCode==13) {
+            $('#add_keywords').click();
+        }
+    });
+});
+</script>

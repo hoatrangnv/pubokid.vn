@@ -1,0 +1,31 @@
+<div class="content_main pkg">
+  <div class="head_cart pkg"> <span class="f24 fl">Đăng nhập</span>  </div>
+  <form method="post" action="">
+  <div class="detail_content pkg">
+      <div class="pkg">
+          <div class="col50per fl"> <table class="tbl_contact_buy" width="80%" cellpadding="0" cellspacing="0" align="center"> 
+          	<tr><td colspan="2" align="center">  <div class="head_rate">Đăng nhập để mua hàng</div></td></tr>
+            <!--<tr><td align="center"colspan="2" style="border-bottom:1px solid #ddd;padding-bottom:10px"><a href="javascript:void(0)" class="btn_loginfb"><img src="images/login_fb.jpg"/></a><a href="" style="margin-left:30px"><img src="images/login_gle.jpg"/></a> </td></tr>-->
+            <tr><td align="right">Email: *</td><td><input type="text" name="email" class="txt_email"/></td></tr>
+            <tr ><td align="right">Mật khẩu: *</td><td><input type="password" name="user_pass" class="txt_email"/></td></tr>
+            <tr><td colspan="2" style="border-top:1px solid #ddd;padding-top:10px"> <div align="center"><input type="submit" style="height: 37px;" class="btn_buy_detail" value="Đăng nhập"/></div></td></tr>
+            <tr><td colspan="2" align="center">Bạn quên mật khẩu? <a href="/quen-mat-khau.html" class="btn_pass">Lấy lại mật khẩu </a></td></tr>
+            <tr><td colspan="2" align="center">Bạn chưa có tài khoản? <a href="/dang-ky.html" class="btn_pass">Đăng ký ngay </a></td></tr>
+          </table>
+          </div>
+          <div class="col50per fr" >
+              <table class="tbl_contact_buy" width="80%" cellpadding="0" cellspacing="0" style="margin-left:30px"> 
+              	<tr><td colspan="2" align="center">  <div class="head_rate">Mua hàng không cần đăng nhập</div></td></tr>
+                <tr><td align="center">  Bạn có thể mua hàng mà không cần đăng nhập</td></tr>
+                <tr><td><div align="center"><a href="<?php echo PCMS_URL;?>dat-hang.html" class="btn_buy_detail ">mua hàng</a></div></td></tr>
+              </table>
+          </div>
+      </div>
+  </div>
+  </form>
+</div>
+<script>
+    <?php if($mess) { ?>
+        core._showAlertPopup('<?= $mess ?>');
+    <?php $mess = ''; } ?>
+</script>

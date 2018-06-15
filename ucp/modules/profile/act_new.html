@@ -1,0 +1,45 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-7">
+                    <label>Xác nhận</label>
+                    <div>
+                        <input type="hidden" name="is_confirm" value="0" />
+                        <input id="is_confirm" type="checkbox" class="iToggle" name="is_confirm" <?php if($is_confirm==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-7">
+                    <label>Unsubscribe</label>
+                    <div>
+                        <input type="hidden" name="is_unsubscribe" value="0" />
+                        <input id="is_unsubscribe" type="checkbox" class="iToggle" name="is_unsubscribe" <?php if($is_unsubscribe==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Name</label>
+                <input class="text required" type="text" name="name" value="<?php echo $name ?>" />
+            </div>
+
+            <div class="OneField">
+                <label>Email</label>
+                <input class="text" type="text" value="<?php echo $email ?>" name="email" />
+            </div>
+            
+            <div class="OneField">
+                <label>Giới tính</label>
+                <select name="gender">
+                    <option value="m">Nam</option>
+                    <option value="f">Nữ</option>
+                    <option value="n">Không xác định</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>

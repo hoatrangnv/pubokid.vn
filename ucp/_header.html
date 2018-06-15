@@ -1,0 +1,282 @@
+<style>
+.search-select {float: left; height: 28px; margin-right: 10px;}
+.header ul.top-menu li span {display: inline-block;background: #8e8e8e;width: 1px;height: 7px;}
+.nang_cao {display: inline-block; line-height: 30px; padding-left: 8px;}
+.nang_cao label {margin-right: 13px;}
+select.error {border: 1px solid red !important;}
+</style>
+<div class="header">
+    <ul class="top-menu">
+        <li><a href="?mod=post" title="" class="mnu_post <?php if($mod=='post') echo 'active' ?>">Bài của tôi</a></li>
+        <?php
+            $menu_count=0;
+            if($menu_top) foreach($menu_top as $oneItem) { $menu_count++; if($menu_count < 15) { ?>        
+        <li><a href="?<?php
+            $i=0;
+            foreach($oneItem as $key => $val) {
+                if($key!='title') {
+                    if($i==0) $i=1; else echo '&';
+                    echo $key.'='.$val;
+                }
+            }
+        ?>" title="" class="mnu_<?php echo $oneItem['mod'] ?>  <?php if($oneItem['mod']==$mod) echo 'active' ?>"><?php echo $oneItem['title'] ?></a>
+        <?php if($oneItem['end']) echo '<span></span>'; ?>
+        </li>
+        <?php }} ?>
+        
+                <style>
+            .header ul.top-menu li ul {
+                width: 137px;
+                display: none;
+            }
+            .header ul.top-menu li:hover ul {
+                display: block;
+            }
+            .header ul.top-menu li ul li{
+                width: 137px;
+                background: black;
+                display: inline-block;
+                height: 29px;
+                line-height: 30px;
+                padding: 0 5px;
+                color: #ccc;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            .header ul.top-menu li ul li a{
+                border-right: none;
+            }
+        </style>
+        <li><a href="javascript:void(0)">Thêm</a>
+            <ul class="submenu pkg">
+                <?php
+                    $menu_count=0;
+                    if($menu_top) foreach($menu_top as $oneItem) { $menu_count++; if($menu_count > 14) { ?>        
+                <li><a href="?<?php
+                    $i=0;
+                    foreach($oneItem as $key => $val) {
+                        if($key!='title') {
+                            if($i==0) $i=1; else echo '&';
+                            echo $key.'='.$val;
+                        }
+                    }
+                ?>" title="" class="mnu_<?php echo $oneItem['mod'] ?>  <?php if($oneItem['mod']==$mod) echo 'active' ?>"><?php echo $oneItem['title'] ?></a>
+                <?php if($oneItem['end']) echo '<span></span>'; ?>
+                </li>
+                <?php }} ?>
+                <li><a href="javascript:void(0)" id="editor_image_edit">Chỉnh sửa ảnh</a></li>
+                <li><a href="javascript:void(0)" id="editor_image_show">Chỉnh sửa nâng cao</a></li>
+            </ul>
+        </li>
+        <script>
+           $(".header ul.top-menu li").hover(function({
+                $(this).children(".submenu").show();
+            }));
+        </script>
+        
+    </ul>
+    <div class="head-right">
+        <a href="?mod=user&act=profile" style="color: white; line-height: 30px;"><?php echo $me['full_name'] ?></a><span> | </span>
+        <a href="?mod=user&act=logout" style="color: white; line-height: 30px;">Logout</a>
+    </div>
+</div>
+<div id="wrapper-header">
+    <div class="wrapper w-h" style="padding-top: 15px; padding-bottom: 15px;">
+        <div class="pLeft" style="top: -18px;">
+            <h1 class="logo" style="position: absolute;left: 30px;top: 28px;zoom: 0.8;"><a href="/" target="_blank" title="">
+                <img src="<?php echo URL_IMAGES ?>/logo.png" alt=""  style="width: 200px !important;" />
+            </a></h1>
+        </div>
+        <div class="pRight">
+            <?php if($mod=='news' || $mod=='news_btv') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="<?php echo $mod ?>" />
+                    <input type="hidden" name="act" value="<?php echo $act ?>" />
+                    <input type="hidden" name="is_trash" value="0" />
+                    <input type="hidden" name="status" value="3" />
+                    <input type="hidden" name="is_draft" value="0" />
+                    <input type="hidden" name="is_push" value="1" />
+                    <input type="hidden" name="is_unpush" value="0" />
+                    <input class="text" type="text" name="keyword" value="<?php echo $_GET['keyword'] ?>" style="width: 160px;" />
+                    <?php $cat=0; if($mod=='news_btv') $cat=$me['category_id']; $clsCategory = new Category(); echo $clsCategory->getSelectCat('category_id', $_GET['category_id'], 'search-select', $cat) ?>
+                    <select name="user_id" class="search-select">
+                        <option value="">-- Thành viên --</option>
+                        <?php $allUser=$clsUser->getAll("is_trash=0 order by user_name"); if($allUser) foreach($allUser as $one) { $one=$clsUser->getOne($one); ?>
+                        <option <?php if($one['user_id']==$_GET['user_id']) echo 'selected="selected"' ?> value="<?php echo $one['user_id'] ?>"><?php echo $one['user_name'] ?></option>
+                        <?php } ?>
+                    </select>
+                    <input class="text datepicker" type="text" name="date_from" value="<?php echo $_GET['date_from'] ?>" placeholder="Từ ngày ..." style="width: 72px;" />
+                    <input class="text datepicker" type="text" name="date_to" value="<?php echo $_GET['date_to'] ?>" placeholder="Đến ngày ..." style="width: 72px;" />
+
+                    <div class="submit"><span></span></div>
+                    <div class="nang_cao">
+                        <label><input <?php if($_GET['is_pick']) echo 'checked="checked"' ?> type="checkbox" name="is_pick" value="1" />Nội bật trang chủ</label>
+                        <label><input <?php if($_GET['is_hot']) echo 'checked="checked"' ?> type="checkbox" name="is_hot" value="1" />Tin mới</label>
+                        <label><input <?php if($_GET['is_featured']) echo 'checked="checked"' ?> type="checkbox" name="is_featured" value="1" />Nội bật chuyên mục</label>
+                        <label><input <?php if($_GET['is_picture']) echo 'checked="checked"' ?> type="checkbox" name="is_picture" value="1" />Tin slide</label>
+                        <label><input <?php if($_GET['is_picture']) echo 'checked="checked"' ?> type="checkbox" name="is_diendan" value="1" />Diễn đàn</label>
+                        <label><input <?php if($_GET['is_push']) echo 'checked="checked"' ?> type="checkbox" name="is_push" value="1" /> Xuất bản</label>
+                    </div>
+                </form>
+            <?php } elseif($mod=='royalty') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="royalty" />
+                    <input class="text" type="text" name="keyword" value="<?php echo $_GET['keyword'] ?>" style="width: 160px;" placeholder="Từ khóa ..." />
+                    <select name="user_id" class="search-select">
+                        <option value="">-- Thành viên --</option>
+                        <?php $allUser=$clsUser->getAll("is_trash=0"); if($allUser) foreach($allUser as $one) { $one=$clsUser->getOne($one); ?>
+                        <option <?php if($one['user_id']==$_GET['user_id']) echo 'selected="selected"' ?> value="<?php echo $one['user_id'] ?>"><?php echo $one['user_name'] ?></option>
+                        <?php } ?>
+                    </select>
+                    <input class="text datepicker" type="text" name="date_from" value="<?php echo $_GET['date_from'] ?>" placeholder="Từ ngày ..." style="width: 160px;" />
+                    <input class="text datepicker" type="text" name="date_to" value="<?php echo $_GET['date_to'] ?>" placeholder="Đến ngày ..." style="width: 160px;" />
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } elseif($mod=='history') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="history" />
+                    <input class="text" type="text" name="news_id" value="<?php echo $_GET['news_id'] ?>" placeholder="News ID" style="text-align: center; width: 70px;" />
+                    <select name="user_id" class="search-select">
+                        <option value="">-- Thành viên --</option>
+                        <?php $allUser=$clsUser->getAll("is_trash=0"); if($allUser) foreach($allUser as $one) { $one=$clsUser->getOne($one); ?>
+                        <option <?php if($one['user_id']==$_GET['user_id']) echo 'selected="selected"' ?> value="<?php echo $one['user_id'] ?>"><?php echo $one['user_name'] ?></option>
+                        <?php } ?>
+                    </select>
+                    <input class="text datepicker" type="text" name="date_from" value="<?php echo $_GET['date_from'] ?>" placeholder="Từ ngày ..." style="width: 160px;" />
+                    <input class="text datepicker" type="text" name="date_to" value="<?php echo $_GET['date_to'] ?>" placeholder="Đến ngày ..." style="width: 160px;" />
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } elseif($mod=='post') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="<?php echo $mod ?>" />
+                    <input type="hidden" name="act" value="<?php echo $act ?>" />
+                    <input type="hidden" name="is_trash" value="0" />
+                    <input type="hidden" name="status" value="3" />
+                    <input type="hidden" name="is_draft" value="0" />
+                    <input type="hidden" name="is_push" value="1" />
+                    <input type="hidden" name="is_unpush" value="0" />
+                    <input class="text" type="text" name="keyword" value="<?php echo $_GET['keyword'] ?>" style="width: 160px;" />
+                    <input class="text datepicker" type="text" name="date_from" value="<?php echo $_GET['date_from'] ?>" placeholder="Từ ngày ..." style="width: 72px;" />
+                    <input class="text datepicker" type="text" name="date_to" value="<?php echo $_GET['date_to'] ?>" placeholder="Đến ngày ..." style="width: 72px;" />
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } elseif($mod=='donhang') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="<?php echo $mod ?>" />
+                    <input type="hidden" name="act" value="default" />
+                    <select name="is_check" class="search-select">
+                        <option value="">-- Trạng thái Đơn hàng --</option>
+                        <option value="1">Đã check</option>
+                        <option value="0">Chưa check</option>
+                    </select>
+                    <input class="text" type="text" name="keyword" value="<?php echo $_GET['keyword'] ?>" style="width: 160px;" />
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } elseif($mod=='dudoan') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="<?php echo $mod ?>" />
+                    <input type="hidden" name="act" value="<?php echo $act ?>" />
+                    <input class="text" type="text" name="keyword" value="<?php echo $_GET['keyword'] ?>" style="width: 160px;" />
+                    
+                    <select name="vote_id" class="search-select">
+                        <option value="">-- Bài dự đoán --</option>
+                        <?php $clsVote = new Vote; $allVote=$clsVote->getAll("is_trash=0 and is_dudoan=1"); if($allVote) foreach($allVote as $one) { $one=$clsVote->getOne($one); ?>
+                        <option <?php if($one['vote_id']==$_GET['vote_id']) echo 'selected="selected"' ?> value="<?php echo $one['vote_id'] ?>"><?php echo $one['title'] ?></option>
+                        <?php } ?>
+                    </select>
+                    
+                    
+                    <select name="avote_id" class="search-select">
+                        <option value="">-- Lựa chọn --</option>
+                        <?php $clsAvote = new Avote;$clsDudoan = new Dudoan; $allAvote=$clsAvote->getAll("vote_id = ".$_GET['vote_id']); if($allAvote) foreach($allAvote as $one) { $one=$clsAvote->getOne($one); ?>
+                        <option <?php if($one['avote_id']==$_GET['avote_id']) echo 'selected="selected"' ?> value="<?php echo $one['avote_id'] ?>"><?php echo $one['title']."(".$clsDudoan->getCount("avote_id=".$one['avote_id']) ?>)</option>
+                        <?php } ?>
+                    </select>
+                    
+                    <script>
+                        $("select[name=vote_id]").change(function(){
+                            var id_ = $(this).val();
+                            var link = "admin.php?mod=dudoan&act=add_avote&id="+id_+'';
+                            $.ajax({
+                                type: "POST",
+                                url: link,
+                                dataType: "html",
+                                success: function(msg){
+                                    $("select[name=avote_id]").html(msg);
+                                }
+                            });    
+                        });
+                    </script>
+                    
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } else if($mod=='profile') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="<?php echo $mod ?>" />
+                    <input type="hidden" name="act" value="default" />
+                    <input class="text" type="text" name="keyword" value="<?php echo $_GET['keyword'] ?>" style="width: 160px;" />
+                    <select name="type" class="search-select">
+                        <option value="0" <?php if(!$_GET['type']) echo 'selected'; ?>>Select</option>
+                        <option value="1" <?php if($_GET['type']==1) echo 'selected'; ?>>Theo dõi</option>
+                        <option value="2" <?php if($_GET['type']==2) echo 'selected'; ?>>Bỏ theo dõi</option>
+                        <option value="3" <?php if($_GET['type']==3) echo 'selected'; ?>>Đã xác nhận</option>
+                        <option value="4" <?php if($_GET['type']==4) echo 'selected'; ?>>Chưa xác nhận</option></select>
+
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } 
+            elseif($mod=='tags') { ?>
+                <form class="frmSearch" action="admin.php" method="get">
+                    <input type="hidden" name="mod" value="<?php echo $mod ?>" />
+                    <input type="hidden" name="act" value="default" />
+                    <input class="text" type="text" name="keyword" value="<?php echo $_GET['keyword'] ?>" style="width: 160px;" />
+                    <?php $clsCategory = new Category(); echo $clsCategory->getSelectCat('category_id', $_GET['category_id'], 'search-select', $cat) ?>
+                    <select name="order" class="search-select"><option value="0">Sắp xếp</option>
+                        <option value="1">ID tăng dần</option>
+                        <option value="2">ID giảm dần</option>
+                        <option value="3">A to Z</option>
+                        <option value="4">Z to A</option>
+                        <option value="5">SL link giảm dần</option>
+                    </select>
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } else { ?>
+                <form class="frmSearch" action="admin.php?mod=<?php echo $mod ?>&act=default" method="post">
+                    <input class="text" type="text" name="keyword" value="<?php echo $_POST['keyword'] ?>" style="width: 376px;" />
+                    <div class="submit"><span></span></div>
+                </form>
+            <?php } ?>
+        </div>
+    </div>
+    <div>
+</div>
+    <div class="line"></div>
+    <div class="wrapper navigation w-h">
+        <div class="pLeft">
+            <h2 class="title"><?php echo $letter ?></h2>
+        </div>
+        <div class="pRight">
+            <?php $core->getBlock('button_nav') ?>
+        </div>
+    </div>
+    <div class="line"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.datepicker').datepicker();
+});
+</script>
+<style>
+    #close_pixlr {
+        position: fixed;
+        width: 30px;
+        height: 30px;
+        top: 13px;
+        right: 17px;
+        z-index: 99999999;
+        cursor: pointer;
+        display: none;
+        background: transparent url("<?= URL_IMAGES ?>/close-icon.png");
+    }
+</style>
+<div id="close_pixlr"></div>

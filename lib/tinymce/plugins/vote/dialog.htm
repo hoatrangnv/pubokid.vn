@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+	<title>Chèn link nhân vật</title>
+	<script type="text/javascript" src="../../../../ucp/themes/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../tiny_mce_popup.js?v=<?= time() ?>"></script>
+	<script type="text/javascript" src="js/dialog.js?v=<?= time() ?>"></script>
+</head>
+<body>
+<style>
+    #art-sugg-content a{
+        margin-bottom: 5px;
+        display: inline-block;
+        font-size: 11px;
+        text-decoration: none;
+    }
+</style>
+<form action="#">
+    <p>Tìm kiếm bình chọn</p>
+    <input type="text" placeholder="Tìm kiếm bình chọn..." id="search_keyword" name="search_keyword" style="height: 20px;width: 150px;" onclick="$(this).val('');">    
+    <input type="button" value="Tìm kiếm" onclick="javascript:search();" />
+    <p></p>
+    Hiển thị bên :
+    <select class="float">
+        <option value="left" selected="">Trái</option>
+        <option value="right">Phải</option>
+        <option value="center">Giữa</option>
+    </select>
+    <hr />
+    <div id="art-sugg">
+        <ul id="art-sugg-content">
+        
+        </ul>        
+    </div>
+    <hr />
+	<div class="mceActionPanel">
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+	</div>
+</form>
+
+</body>
+</html>

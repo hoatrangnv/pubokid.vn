@@ -1,0 +1,59 @@
+<section class="bannerBtm bannerBtm2"><a href="<?= PCMS_URL ?>/datmua-pubokid.html"><img src="<?= URL_IMAGES ?>/banner2.jpg" alt="" /></a> </section>
+<section class="contentD">
+  <div class="container">
+    <div class="col-sm-3 col-md-3 col-lg-3 visible-lg">
+      <div class="lBox">
+         <?php $core->getBlock("truycapnhanh") ?>
+      </div>
+      <div class="lBox">
+        <?php $core->getBlock("ykienkhachhang") ?>
+      </div>
+    </div>
+    <div class="col-sm-9 col-md-9 col-lg-9">
+      <div class="path clearfix">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <ul class="pathL clearfix">
+            <li><a href="<?= PCMS_URL ?>">Trang chủ</a></li>
+            <li><?= $oneCat['title'] ?></li>
+          </ul>
+        </div>
+      </div>
+      <div class="tailieuBox">
+        <?php if($list_featured[0]) { $one0 = $clsNews->getOne($list_featured[0]); ?>
+        <div class="tlTop">
+          <p class="tlTopimg"><?= $clsNews->getHtmlImage($list_featured[0],849,423) ?></p>
+          <div class="tlTopInner clearfix">
+            <h3><?= $clsNews->getLinkTitle($list_featured[0]) ?></h3>
+            <p class="tlTopTxt"><span><?= date("H:i d/m/Y",$one0['push_date']) ?></span>
+                <span class="tx"><?= $one0['intro'] ?></span>
+            </p>
+            <p class="tlTopMore"><a href="<?= $clsNews->getLink($one0['news_id']) ?>">Xem thêm</a></p>
+          </div>
+        </div>
+        <?php } ?>
+        <div class="tl_list">
+          <ul class="tl_listInner">
+            <?php foreach($listNews as $id) { $one = $clsNews->getOne($id); ?>
+            <li class="clearfix">
+              <h3><a href="<?= $clsNews->getLink($id) ?>"><?= $one['title'] ?></a></h3>
+              <p class="tl_listdate"><?= date("H:i d/m/Y",$one['push_date']) ?></p>
+              <div class="clearfix">
+                <p class="tl_listInnerImg"><?= $clsNews->getHtmlImage($id,207,110) ?></p>
+                <div class="tl_listInnerTxt">
+                  <p><?= $one['intro'] ?></p>
+                  <p class="tlTopMore"><a href="<?= $clsNews->getLink($id) ?>">Xem thêm</a></p>
+                </div>
+              </div>
+            </li>
+            <?php } ?>
+          </ul>
+          <ul class="pageList">
+                <?php foreach($paging as $p) { ?>
+                    <li><a href="p<?= $p[0] ?>"><?= $p[1] ?></a></li>
+                <?php } ?>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

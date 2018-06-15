@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="<?= URL_CSS ?>/register.css" />
+<script src="<?= URL_JS ?>/verify/verify.notify.js"></script>
+
+<div class="content_main pkg">
+  <div class="head_cart pkg"> <span class="f24 fl">Thông tin đặt hàng</span> <a href="<?php echo PCMS_URL;?>" class="next_buy fr">Tiếp tục mua hàng</a> </div>
+  <form method="post" action="" id="myformbuy">  
+  <div class="detail_content pkg">
+      <div class="col670 fl">
+          <table class="tbl_contact_buy" width="80%" cellpadding="0" cellspacing="0"> 
+          	<tr><td colspan="2">  <div class="head_rate">Địa chỉ nhận hàng</div></td></tr>
+            <tr><td align="right">Họ tên *</td><td><input type="text" name="client_name" class="txt_email"  data-validate="required" value="<?php echo  $_SESSION['ttdh']['client_name'] ?>" /></td></tr>
+            <tr><td align="right">Địa chỉ *</td><td><input type="text" name="client_address" class="txt_email" data-validate="required" value="<?php echo $_SESSION['ttdh']['client_address']?>" /></td></tr>
+            <tr><td align="right">Tỉnh/thành phố</td><td>
+            <select name="client_city" class="txt_email" style="width: 100%;">
+                <option>Lựa chọn thành phố</option>
+                    <?php $clsProvince = new Province;
+                        $listCity = $clsProvince->getAll('1=1');
+                        foreach($listCity as $t) { $t = $clsProvince->getOne($t) ?>
+                            <option value="<?= $t['name'] ?>" <?php if($t['name'] == $_SESSION['ttdh']['client_city']) echo 'selected'; ?>><?= $t['name'] ?></option>            
+                    <?php } ?>    
+            </select></td></tr>
+            <tr><td align="right">Quận/huyện</td>
+                <td><select name="client_township" class="txt_email" style="width: 100%;">
+                    <option>Lựa chọn quận huyện</option>
+                        <?php $clsDistrict = new District;
+                            $listTownship = $clsDistrict->getAll('1=1');
+                            foreach($listTownship as $t) { $t = $clsDistrict->getOne($t) ?>
+                                <option value="<?= $t['name'] ?>" <?php if($t['name'] == $_SESSION['ttdh']['client_township']) echo 'selected'; ?>><?= $t['name'] ?></option>            
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>            
+            <tr><td align="right">Số điện thoại *</td><td><input type="text" name="client_mobile" class="txt_email" data-validate="required,number" value="<?php echo $_SESSION['ttdh']['client_mobile'] ?>" /></td></tr>   
+          </table>
+          <div align="center"><input type="submit" style="height: 37px;" class="btn_buy_detail" value="Gửi thông tin"/></div>
+      </div>
+      <div class="col300 fr">
+      	<div class="head_rate">Thông tin đơn hàng</div>
+                <div class="font16">Bạn có <strong><?php echo count($listProduct)?></strong> sản phẩm trong giỏ hàng.</div>
+        <table width="100%" cellpadding="0" cellspacing="0" class="tbl_info_order">
+            <tr>
+                <td width="40%" ><strong>Sản phẩm</strong></td>
+                <td width="30%" align="center"><strong>Số lượng</strong></td>
+                <td width="30%" align="right"><strong>Giá</strong></td>
+            </tr>
+        <?php
+            $totalPrice=0; if(!empty($listProduct)) foreach($listProduct as $key=>$val) { $one = $clsProduct->getOne($key); $totalPrice += $one['price_new']*$val; 
+        ?>
+        <tr>
+            <td><a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>"><?php echo $one['title']?></a></td>
+            <td align="center"><strong><?php echo $val?></strong></td><td align="right"><strong><?php echo number_format($one['price_new']*$val ,0 , '', '.')?></strong></td>
+        </tr>
+        <?php } ?>
+        <tr><td><strong class="clblack">Tổng cộng</strong></td><td colspan="2" align="right"><strong class="clblack"><?php echo number_format($totalPrice ,0 , '', '.')?> VND</strong></td></tr>
+        <tr><td><strong class="clblack">Thành tiền <br/>(Đã bao gồm VAT)</strong></td><td colspan="2" align="right"><strong class="clred"><?php echo number_format($totalPrice ,0 , '', '.')?> VND</strong></td></tr>
+        </table>
+      </div>
+  </div>
+  </form>
+</div>
+
+<script>
+    <?php if($mess) { ?>
+        core._showAlertPopup('<?= $mess ?>');
+    <?php $mess = ''; } ?>
+    $(".btn_buy_detail").click(function() {
+        $("#myformbuy").submit();
+    });
+</script>

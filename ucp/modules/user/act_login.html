@@ -1,0 +1,26 @@
+<div style="text-align: center; padding: 40px 0 0;">
+<img src="<?php echo URL_IMAGES ?>/logo.png" width="" />
+</div>
+<div id="wrap-login" style="width: 300px; overflow: hidden; padding: 30px; border: 1px solid #999; border-radius: 5px; margin: 80px auto 230px; background: #f3f3f3; box-shadow: 0 0 15px #666;">
+    <form name="frm_login" class="frmSearch" action="" method="POST" style="">
+        <div class="OneField">
+            <label style="float: left;">User</label>
+            <input class="text" name="user_name" value="<?php echo $user_name ?>" type="text" />
+        </div>
+        <div class="OneField">
+            <label style="float: left;">Pass</label>
+            <input class="text" name="user_pass" value="<?php echo $user_pass ?>" type="password" />
+        </div>
+        <div class="OneField">
+            <label style="float: left; height: 1px;"></label>
+            <input class="submit" type="submit" value="Login" />
+        </div>
+    </form>
+</div>
+<style>
+    .header {display: none !important;}
+    #wrapper-header {display: none !important;}
+    label {width: 50px !important;}
+    .text {width: 200px !important;}
+    .submit {color: white; height: 29px !important; padding: 0 36px 29px !important; text-shadow: 1px 1px #666;}
+</style>

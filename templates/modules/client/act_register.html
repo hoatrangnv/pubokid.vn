@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="<?= URL_CSS ?>/register.css?v=2" />
+<script src="<?= URL_JS ?>/verify/verify.notify.js"></script>
+<div class="content_main pkg">
+  <div class="head_cart pkg"> <span class="f24 fl">Đăng ký</span>  </div>
+        <?php if($err) { ?>
+        <div class="errorPanel">
+			<h3 class="errorHeading">Có lỗi xảy ra như sau:</h3>
+			<div class="baseHtml errors">
+				<ol>
+				<?php foreach($err as $oneE) {  ?>
+					<li><?= $oneE ?></li>
+                <?php } ?>
+				</ol>
+			</div>
+		</div>
+        <?php } ?>
+  
+  <form method="post" action="" id="myformregister">
+  <div class="detail_content pkg">
+      <div class="pkg">
+          <div class="col50per fl"> 
+              <table class="tbl_contact_buy" width="80%" cellpadding="0" cellspacing="0"> 
+              	<tr><td colspan="2"><div class="head_rate">Thông tin tài khoản</div></td></tr>
+                <tr><td align="right">Email: *</td><td><input type="text" name="email" class="txt_email email" data-validate="required,email" placeholder="nguyenvana@gmail.com" /></td></tr>
+                <tr><td align="right">Mật khẩu: *</td><td><input type="password" name="user_pass" class="txt_email user_pass" data-validate="required,size(6,29)" placeholder="Mật khẩu từ 6-29 ký tự" /></td></tr>
+                <tr><td align="right">Nhập lại mật khẩu: *</td><td><input type="password" class="txt_email user_pass_mask" name="user_pass_mask"  data-validate="required,size(6,29)" /></td></tr>
+                <tr><td align="right">Ngày sinh</td>
+                    <td>
+                        <select name="day" class="col-3-select">
+                        <?php for($i=1; $i<32; $i++) { ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                        <?php } ?>
+                        </select>
+                        <select name="month" class="col-3-select">
+                            <?php for($i=1; $i<13; $i++) { ?>
+                                <option value="<?= $i ?>"><?= $i ?></option>
+                            <?php } ?>
+                        </select>
+                        <select name="year" class="col-3-select-end">
+                            <?php for($i=1960; $i<date('Y')-10; $i++) { ?>
+                                <option value="<?= $i ?>"><?= $i ?></option>
+                            <?php } ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td align="right">Giới tính</td><td>
+                    <select name="gender" class="txt_email">
+                        <option value="1">Nam</option>
+                        <option value="2">Nữ</option>
+                    </select></td>
+                </tr>
+              </table>
+          </div>
+          <div class="col50per fr" >
+          <table class="tbl_contact_buy" width="80%" cellpadding="0" cellspacing="0" style="margin-left:30px"> 
+          	<tr><td colspan="2">  <div class="head_rate">Thông tin giao hàng</div></td></tr>
+            <tr><td align="right">Họ tên: *</td><td><input type="text" name="full_name" placeholder="Tên đầy đủ bằng tiếng Việt có dấu" data-validate="required" class="txt_email"/></td></tr>
+            <tr><td align="right">Địa chỉ</td><td><input type="text" name="address" class="txt_email"/></td></tr>
+            <tr><td align="right">Tỉnh/thành phố</td><td><select name="city" class="txt_email">
+                <option>Lựa chọn thành phố</option>
+                    <?php $clsProvince = new Province;
+                        $listCity = $clsProvince->getAll('1=1');
+                        foreach($listCity as $t) { $t = $clsProvince->getOne($t) ?>
+                            <option value="<?= $t['name'] ?>"><?= $t['name'] ?></option>            
+                    <?php } ?>    
+            </select></td></tr>
+            <tr><td align="right">Quận/huyện</td>
+                <td><select name="township" class="txt_email">
+                    <option>Lựa chọn quận huyện</option>
+                        <?php $clsDistrict = new District;
+                            $listTownship = $clsDistrict->getAll('1=1');
+                            foreach($listTownship as $t) { $t = $clsDistrict->getOne($t) ?>
+                                <option value="<?= $t['name'] ?>"><?= $t['name'] ?></option>            
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+            <tr><td align="right">Số điện thoại: *</td><td><input type="text" name="mobile" data-validate="required,number" class="txt_email mobile"/></td></tr>
+          </table>
+          </div>
+      </div>
+      <div align="center" style="margin-top:30px"><input type="button" style="height: 37px;" class="btn_buy_detail btn_success" value="Đăng ký tài khoản"/></div>
+   </div>
+   </form>
+</div>
+
+<script>
+    <?php if($mess) { ?>
+        core._showAlertPopup('<?= $mess ?>');
+    <?php $mess = ''; } ?>
+    $(".btn_success").click(function() {
+        $("#myformregister").submit();
+    });
+    $('#myformregister').submit(function(){
+        if($('.user_pass').val()!=$('.user_pass_mask').val() && $('.user_pass').val()!='') {
+            core._showAlertPopup('Password nhập lại chưa đúng!');
+            $('.user_pass').val('');
+            $('.user_pass_mask').val('');
+            return false;
+        }
+    });
+</script>

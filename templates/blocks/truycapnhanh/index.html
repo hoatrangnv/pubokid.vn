@@ -1,0 +1,6 @@
+<h3>Truy cập nhanh</h3>
+<ul class="nav nav-pills nav-stacked left-menu">
+    <?php foreach($menu as $id) { ?>
+        <li><a href="<?= $clsCategory->getLink($id) ?>"><?= $clsCategory->getTitle($id) ?></a></li>
+    <?php } ?>
+</ul>

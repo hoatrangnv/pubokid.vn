@@ -1,0 +1,152 @@
+<style type="text/css">
+#main {
+background: #fff;
+margin: auto;
+overflow: hidden !important;
+padding: 0px;
+position: relative;
+width: 948px;
+}
+.colum1 {
+float: left;
+margin: 10px;
+width:209px;
+padding: 10px;
+background: #f7f7f7;
+border-top: 3px solid #eee;
+}
+.colum2 {
+float: left;
+width:500px;
+margin: 10px;
+padding: 10px;
+background: #f7f7f7;
+border-top: 3px solid #eee;
+}
+
+.colum1 .mailto a {
+font: 500 15px/25px Arial;
+color: #c00;
+}
+.colum1 li {
+padding: 3px 0;
+list-style: square outside;
+margin: 0 20px;
+}
+a {
+color: #063874;
+text-decoration: none;
+cursor: pointer;
+}
+.colum1 a strong {
+color: #555;
+}
+.colum2 {
+width: 690px !important;
+border: 0;
+}
+.colum1, .colum2 {
+float: left;
+width: 170px;
+margin: 10px;
+padding: 10px;
+background: #f7f7f7;
+border-top: 3px solid #eee;
+}
+.colum2 p {
+text-align: center;
+padding: 15px;
+background: #fec;
+}
+form {
+display: inline;
+}
+.colum2 td {
+padding: 3px 5px;
+font-weight: 700;
+}
+.colum2 h1 {
+font: 500 18px/40px Arial;
+color: #c00;
+}
+input, textarea {
+    width: 200px;
+    border-radius: 3px;
+    padding: 5px;
+    background: #FFF;
+    border: 1px solid #ccc;    
+}
+</style>
+<div id="main">             
+    <div class="colum1">
+        <p>Liên hệ với chúng tôi, xin gửi về email:</p>
+        <p class="mailto"><a href="baothethao24h@gmail.com">baothethao24h@gmail.com</a></p>
+        <ul>                        
+            <li><a href="/gop-y/"><strong>Góp ý với thethao24.vn</strong></a></li>
+            <li><a href="/lien-he/"><strong>Thông tin thethao24.vn</strong></a></li>
+        </ul>
+    </div>
+	
+    <div class="colum2">
+		<p>Bài viết của bạn sẽ được kiểm duyệt về nội dung trước khi đăng lên website</p>
+    	
+        <form action="/lienhe.php" method="post" id="contact">                                        
+	        <table class="form-tb" width="100%">
+	            <tr>
+	            	<td colspan="2"><h1>Liên hệ với thethao24.tv</h1></td></tr>
+	            <tr>
+	                <td width="25%;" align="right">Họ và tên</td>
+	                <td><input type="text" class="name" id="name" name="txtname" style="    border: 1px solid #ccc;" ></td>
+	            </tr>
+	            <tr>
+	                <td align="right">Email</td>
+	                <td><input type="text" class="email" id="email" name="txtemail" style="    border: 1px solid #ccc;"  ></td>
+	            </tr>                                                                                
+	            <tr>
+	                <td align="right">Nội dung</td>
+	                <td>
+	                    <textarea class="content" id="content" style="width:500px; height:200px;" name="txtcontent" ></textarea>
+	                </td>
+	            </tr>
+	            <tr>
+	                <td></td>
+	                <td>
+	                    <input type="submit" class="btn btn_all" name="btnSearch" value="Gửi">
+	                </td>
+	            </tr>
+	      	</table>
+        </form>    
+    </div>                               
+</div>
+
+
+<script>
+    $("#contact").submit(function (event) {
+        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        var name = $("#contact").find('input[name="txtname"]').val();
+        var content = $("#contact").find('textarea[name="txtcontent"]').val();
+        var email = $("#contact").find('input[name="txtemail"]').val();
+        var error = "";
+        $("#contact").find('input').css("border", "1px solid #ccc");
+        $("#contact").find('textarea').css("border", "1px solid #ccc");
+        if (!name) {
+            $("#contact").find('input[name="txtname"]').css("border", "1px solid #F00");
+            error += "- Họ tên không được để trống\n";
+        }
+        if (!email) {
+            $("#contact").find('input[name="txtemail"]').css("border", "1px solid #F00");            
+            error += "- Email không được để trống\n";
+        } else if (!pattern.test(email)) {
+            $("#contact").find('input[name="txtemail"]').css("border", "1px solid #F00");            
+            error += "- Email không đúng định dạng\n";
+        }
+        if (!content) {
+            $("#contact").find('textarea[name="txtcontent"]').css("border", "1px solid #F00");            
+            error += "- Nội dung không được để trống\n";
+        }
+        if(error) {
+            alert(error);
+            return false;
+        }                
+    });
+</script>

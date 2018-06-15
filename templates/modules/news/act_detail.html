@@ -1,0 +1,310 @@
+<link rel="stylesheet" href="<?= URL_CSS ?>/article.css?v3" type="text/css">
+<style type="text/css">
+  #detail_content .datmuaOut{
+  margin: 20px auto !important;
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+  background: #f5f5f5;
+  border: 5px solid #ed2c31;
+  border-radius: 20px;
+  padding: 20px;
+}
+#detail_content .datmuaOut img {
+  border: 0px !important;
+}
+#detail_content .datmuaOut h2{
+  text-align: center;
+    font-size: 30px !important;
+    color: #da251d !important;
+    font-family: 'Oswald', sans-serif !important;
+  text-transform: uppercase !important;
+}
+.datmuaOut ul{
+}
+.datmuaOut  ul li{
+  margin-top: 15px;
+}
+.datmuaOut  ul li input{
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  margin: 0;
+  outline: none;
+    font-size: 16px;
+    color: #767676;
+    font-family: 'Oswald', sans-serif;
+  height: 35px;
+  line-height: 50px;
+}
+.dlBox{
+  padding-top: 20px;
+}
+.dmImg{
+  float: left;
+  text-align: center;
+  margin-left: 17px;
+}
+#detail_content .dmImg img{
+  width: 100% !important;
+}
+.dmPrice{
+  float: left;
+  width: 50%;
+  padding-left: 8%;
+  margin-top: 25px;
+}
+#detail_content .dmPrice span{
+    font-size: 26px !important;
+    color: #da251d !important;
+    font-family: 'Oswald', sans-serif !important;
+  font-weight: bold !important;
+  border: 3px solid #ed2c31;
+  display: inline-block;
+  padding: 5px 20px;
+  border-radius: 20px;
+}
+#detail_content .dmPrice span em{
+  font-style: normal !important;
+  font-size: 18px !important;
+  vertical-align: top !important;
+  margin-top: -20px !important;
+}
+#detail_content .dmTxt{
+    color: #da251d !important;
+    font-family: 'Oswald', sans-serif !important;
+  text-transform: uppercase !important;
+  font-size: 20px !important;
+  text-align: justify !important;
+  line-height: 25px !important;
+}
+#detail_content .dnBtn .button{
+  width: 100%;
+  text-align: center;
+  background: #da251d !important;
+  color: #fff !important;
+    font-family: 'Oswald', sans-serif !important;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: bold !important;
+  height: 40px;
+  line-height: 50px;
+  border: none;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+</style>
+<section class="bannerBtm bannerBtm2"> <a href="<?= PCMS_URL ?>/datmua-pubokid.html"><img src="<?= URL_IMAGES ?>/banner2.jpg" alt="" /></a> </section>
+<section class="contentD">
+  <div class="container">
+    <div class="col-sm-3 col-md-3 col-lg-3 visible-lg">
+      <div class="lBox">
+        <?php
+        if(empty($menu)){
+            $core->getBlock("truycapnhanh");
+        } else {
+        ?>
+        <h3>Truy cập nhanh</h3>
+        <ul class="nav nav-pills nav-stacked left-menu">
+            <?php foreach($menu as $id) { ?>
+                <li><a href="<?= $clsCategory->getLink($id) ?>"><?= $clsCategory->getTitle($id) ?></a></li>
+            <?php } ?>
+        </ul>
+        <?php } ?>
+      </div>
+      <div class="lBox">
+        <?php $core->getBlock("ykienkhachhang") ?>
+      </div>
+    </div>
+    <div class="col-sm-9 col-md-9 col-lg-9">
+      <div class="path clearfix">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <ul class="pathL clearfix">
+            <li><a href="<?= PCMS_URL ?>">Trang chủ</a></li>
+            <li><a href="<?= $clsCategory->getLink($oneNews['category_id']) ?>"><?= $clsCategory->getTitle($oneNews['category_id']) ?></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="boxDetail">
+        <h2 class="d_mh" style="text-transform: uppercase;    margin-bottom: 20px;"><?= $oneNews['title'] ?></h2>
+
+        <i class="d_txt"><?= $oneNews['intro'] ?></i>
+        <div class="d_content" id="detail_content" style="color: #666666;">
+            <?= $oneNews['content'] ?>
+            <div class="news-footer">
+                <div class="row buttons">
+                    <div class="col-sm-4">
+                        <a href="https://pubokid.vn/diem-ban/" class="xem-nha-thuoc" onclick="ga('send', 'event', 'Mua hàng', 'Clickxemnhathuoc', 'Xem nhà thuốc');">
+                            <img src="<?= URL_IMAGES ?>/xem-nha-thuoc.png" alt="Xem nhà thuốc" /></a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="https://pubokid.vn/dangkytuvan.html" class="dang-ky-tu-van" onclick="ga('send', 'event', 'Mua hàng', 'Clickdangkytuvan', 'Đăng ký tư vấn');">
+                            <img src="<?= URL_IMAGES ?>/dang-ky-tu-van.png" alt="Đăng ký tư vấn" /></a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="https://pubokid.vn/datmua-pubokid.html" class="mua-hang-online" onclick="ga('send', 'event', 'Mua hàng', 'Clickmuahangonline', 'Mua hàng online');">
+                            <img src="<?= URL_IMAGES ?>/mua-hang-online.png" alt="Mua hàng online" /></a>
+                    </div>
+                </div>
+                <div class="img">
+                    <img src="<?= URL_IMAGES ?>/pubokidgold.png" alt="Pubokid Gold" />
+                </div>
+                <h3>3 lý do bạn nên chọn sản phẩm Pubokid Gold cho con</h3>
+                <ol class="reseaon">
+                    <li><span class="badge">1</span>Pubokid Gold có chứa thành phần Immune Gamma - được chuyển giao độc quyền từ Viện khoa học công nghệ sinh học Hoa Kỳ.</li>
+                    <li><span class="badge">2</span>Hỗ trợ điều trị dứt điểm tình trạng táo bón lâu ngày, hoàn toàn không bị tái lại sau khi ngưng sử dụng sản phẩm.</li>
+                    <li><span class="badge">3</span>Tái tạo niêm mạc ruột, hoàn thiện hệ tiêu hóa, giúp trẻ hấp thu dinh dưỡng tốt hơn, tăng cường sức đề kháng.</li>
+                </ol>
+                <div class="testimonial">
+                    <h3 class="title">PHẢN HỒI CỦA CÁC MẸ ĐÃ CHO CON DÙNG</h3>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a href="https://pubokid.vn/bo-tui-kinh-nghiem-giup-con-thoat-khoi-tao-bon-bieng-an-d173.html">
+                                    <img alt="Chị Mai và bé Bống" src="https://pubokid.vn/files/2017/10/12/bo-tui-kinh-nghiem-giup-con-thoat-khoi-tao-bon-bieng-an5.jpg" />
+                                </a>
+                                <h3>Chị Mai và bé Bống</h3>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="https://pubokid.vn/me-hoang-yen-da-nang-chia-se-bi-quyet-giup-con-het-han-tao-bon-an-ngon-hon-tang-can-nhanh-d196.html">
+                                    <img alt="Chị Hoàng Yến và bé Tùng Toản" src="https://pubokid.vn/files/2017/10/21/me-hoang-yen-da-nang-chia-se-bi-quyet-giup-con-het-han-tao-bon-an-ngon-hon-tang-can-nhanh8.jpg" />
+                                </a>
+                                <h3>Chị Hoàng Yến và bé Tùng Toản</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row buttons">
+                    <div class="col-sm-4">
+                        <a href="https://pubokid.vn/diem-ban/" class="xem-nha-thuoc" onclick="ga('send', 'event', 'Mua hàng', 'Clickxemnhathuoc', 'Xem nhà thuốc');">
+                            <img src="<?= URL_IMAGES ?>/xem-nha-thuoc.png" alt="Xem nhà thuốc" /></a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="https://pubokid.vn/dangkytuvan.html" class="dang-ky-tu-van" onclick="ga('send', 'event', 'Mua hàng', 'Clickdangkytuvan', 'Đăng ký tư vấn');">
+                            <img src="<?= URL_IMAGES ?>/dang-ky-tu-van.png" alt="Đăng ký tư vấn" /></a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="https://pubokid.vn/datmua-pubokid.html" class="mua-hang-online" onclick="ga('send', 'event', 'Mua hàng', 'Clickmuahangonline', 'Mua hàng online');">
+                            <img src="<?= URL_IMAGES ?>/mua-hang-online.png" alt="Mua hàng online" /></a>
+                    </div>
+                </div>
+                <div class="small">
+                    * Tác dụng của sản phẩm phụ thuộc vào cơ địa của từng người.<br/>
+                    * Sản phẩm này không phải là thuốc, không có tác dụng thay thế thuốc chữa bệnh.
+                </div>
+            </div>
+<!--            <div class="datmuaOut">
+                <h2>Đăng ký tư vấn</h2>
+                <form action="">
+                    <div class="dlBox clearfix" style="float: left;">
+                      <p class="dmImg"><img src="<?= URL_IMAGES ?>/pubokidgold.jpg?v1" alt=""> </p>
+
+                      <ul style="width: 60%; padding-left: 10px;float: left;">
+                        <li><input type="" class="required hoten" placeholder="Họ và tên"></li>
+                        <li><input type="" class="required sdt" placeholder="Nhập Số điện thoại"></li>
+                        <li><input type="" class="required ttc" placeholder="Tình trạng của con"></li>
+                      </ul>
+                      </div>
+                        <p class="dmPrice"><span>300.000<em style="color: #da251d !important;">đ</em></span></p>
+
+                    <p class="dmTxt"><img src="<?= URL_IMAGES ?>/camket.png" alt=""> </p>
+                    <p class="dnBtn" style="text-align: center;"><a class="button guithongtin">Gửi thông tin</a></p>
+                </form>
+            </div>-->
+            <div class="fb-comments" data-width="100%" data-href="<?= $clsNews->getLink($oneNews['news_id']) ?>" data-numposts="5"></div>
+
+            <div class="other_news">
+            <h3>Các tin liên quan</h3>
+            <div class="clearfix">
+            <?php foreach($list_other as $id) { $one = $clsNews->getOne($id) ?>
+              <div class="col-sm-4 col-md-4 col-lg-4 other_newsItem">
+                    <div><img src="<?= $clsNews->getImage($id,207,110) ?>" style="height: 100px !important"></div>
+                    <h4><a href="<?= $clsNews->getLink($id) ?>"><?= $one['title'] ?></a></h4>
+                    <p class="other_newsItemdate"><?= date("H:i d/m/Y",$one['push_date']) ?></p>
+              </div>
+            <?php } ?>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+    $(".guithongtin").click(function(){
+          var hoten = $('.hoten').val();
+          var sdt = $('.sdt').val();
+          var ttc = $('.ttc').val();
+          var add_start = '<?= $core->getAddress() ?>';
+          link = "/index.php?mod=news&act=guithongtin";
+          $.ajax({
+              type: "POST",
+              url: link,
+              dataType: "html",
+              data: {full_name:hoten,mobile:sdt,add_start:add_start,tinhtrangcon:ttc},
+              success: function(msg){
+                  if(parseInt(msg) > 0) {
+                      window.location = '<?= PCMS_URL ?>/success.html';
+                      return false;
+                      $(".guithongtin").unbind();
+                  } else {
+                      alert("Bạn vui lòng nhập đầy đủ thông tin");
+                      return false;
+                  }
+              }
+          });
+
+    });
+    $(".close").click(function(){
+        $(".phu").hide();
+        $("#myModal").hide();
+    });
+</script>
+<style>
+    .scroll {
+        position: fixed;
+        top: 0;
+        z-index: 999;
+        width: 100%;
+        background-color: #ffffff;
+        margin-top: 0px !important;
+        float: right;
+        display: inline-block;
+    }
+    .scroll .navbar-brand,
+.scroll .social,
+.scroll .holine,
+.scroll .mail{
+ display: none!important;
+}
+.scroll .BB-nav{
+ margin: 0!important;
+}
+@media (max-width: 768px){
+.scroll .navbar-brand {
+ display: block!important;
+}
+}
+</style>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+$(window).scroll(function() {
+    if ($(this).scrollTop() > 0){
+        $('.affix-top').addClass("scroll");
+    }else{
+        $('.affix-top').removeClass("scroll");
+    }
+});
+</script>

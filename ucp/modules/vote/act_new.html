@@ -1,0 +1,66 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-10">
+                    <label>Trang chủ</label>
+                    <div>
+                        <input id="is_trangchu" type="checkbox" class="iToggle" name="is_trangchu" <?php if($is_trangchu==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>GD dự đoán</label>
+                    <div>
+                        <input id="is_dudoan" type="checkbox" class="iToggle" name="is_dudoan" <?php if($is_dudoan==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Xuất bản</label>
+                    <div>
+                        <input type="hidden" name="is_push" value="0" />
+                        <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <label>Mô tả</label>
+                <textarea name="intro" style="width: 917px; height: 100px;"><?php echo $intro ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Câu hỏi phụ</label>
+                <input class="text" type="text" name="cauhoiphu" value="<?php echo $cauhoiphu ?>" />
+            </div>
+            <div class="OneField">
+
+                    <label>Trả lời</label>
+                    <ol>
+                        <li><input class="text answer" type="text" name="answer[0]" placeholder="câu hỏi" value="" style="width: 40% !important;" />
+                        <input class="text" type="text" name="info[0]" placeholder="thông tin thêm" value="" style="width: 40% !important;" />
+                        <input class="" type="file" name="image_0" style="width: 10% !important;" /></li>
+                    </ol>
+
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    $('.OneField ol li:last input').live('focus',function(){
+        var count = $('.OneField ol').children('li').length;
+        $(this).parents('.OneField ol').append('<li class="one"><input class="text answer" type="text" name="answer['+count+']" value="" style="width: 40% !important;" /><input class="text" type="text" name="info['+count+']" value="" style="width: 40% !important;" /><input class="" type="file" name="image_'+count+'" style="width: 10% !important;" /></li>');
+    });
+    $('.OneField ol li .answer').live('blur',function(){
+        if($(this).val()=='') $(this).parents('.OneField li').remove();
+    });
+});
+</script>

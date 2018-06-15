@@ -1,0 +1,91 @@
+<style>
+.log_action {
+    background-color: white;
+    box-shadow: 0px 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 99999999;
+}
+.slimScrollDiv {
+    position: fixed !important;
+    right: 0px;
+    top: 31px;
+    display: none;
+}
+.log_action li {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 20px;
+}
+.log_action_open {
+    position: fixed;
+    bottom: 0px;
+    right: 0;
+    padding: 0 30px;
+    line-height: 36px;
+    height: 30px;
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+</style>
+
+<?php $me = $clsUser->getMe();if($me['user_level_id'] >= 3) { ?>
+<div class="log_action_open">Log Action Open</div>
+
+<div class="log_action">
+    <center style="font-size:23px;font-weight:bold;display: block;margin-top: 28px;margin-bottom: 25px;border-bottom: 2px solid #ddd;display: block;padding-bottom: 26px;/* margin-left: -25px; */padding-left: 25px;">Log Action</center>
+    <span class="log_action_close" style="position: absolute;right: 10px;top: 10px;font-size: 29px;cursor: pointer;">x</span>
+    <ul>
+    <?php foreach($listHistory as $k=>$history) { $history = $clsHistory->getOne($history); ?>
+        <li style="<?php if($k%2) echo 'background-color: #f4f4f4' ?>"><span style="color: #CC0E0E;"><?= $clsUser->getUserName($history['user_id']) ?></span> đã <span style="font-weight: bold;"><?= $history['note'] ?></span> bài <a href="<?= $clsNews->getLink($history['news_id']) ?>" style="color: #888;"><?= $clsNews->getTitle($history['news_id']) ?></a> vào lúc <span  style="color: #888;"><?= $history['reg_date'] ?></span></li>
+    <?php } ?>
+    </ul>
+</div>
+
+<script type="text/javascript"> 
+
+function stopRKey(evt) { 
+  var evt = (evt) ? evt : ((event) ? event : null); 
+  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+  if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+} 
+
+document.onkeypress = stopRKey; 
+
+</script>
+<script>
+    $(function(){
+        $('.log_action').slimScroll({
+            height: '670px',
+            width: '300px',
+        });
+    });
+    $(".log_action_close").live('click',function() {
+        $(".slimScrollDiv").hide(300);
+        $(".log_action_open").show();
+    });
+    $(".log_action_open").click(function() {
+        $(".slimScrollDiv").show(300);
+        $(".log_action_open").hide();
+    });
+</script>
+<?php } ?>
+
+
+<div class="line"></div>
+<div style="text-align: center; padding: 9px 0 0; color: #999; font-size: 10px; margin-bottom: 9px;">
+<p>Powered by EXCMS © 2006-<?php echo date('Y') ?> <a href="http://www.explus.vn" style="display: none;"><b><span style="color: #FA2E2D;">Ex</span>plus</b></a> | Developed by EXCMS Technical Team. Email: info@itmedia.vn</p>
+</div>
+
+<div id="wrap-message"><?php if($msg!='') echo $msg; ?></div>
+<?php
+    if($_GET['back_id']) {
+    ?>
+    <script type="text/javascript">
+        $('#value_id_<?php echo $_GET['back_id'] ?>').parents('tr').addClass('trans').css('background', '#4D90FE');
+        setTimeout(function(){
+            $('#value_id_<?php echo $_GET['back_id'] ?>').parents('tr').css('background', '#FFF');
+        }, 500);
+    </script>
+    <?php
+    }
+?>

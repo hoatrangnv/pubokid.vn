@@ -1,0 +1,17 @@
+<link rel='stylesheet' id='mediaelementjs-styles-css'  href='<?= URL_CSS ?>/mediaelementplayer.css?ver=4.2.5' type='text/css' media='all' />
+<link rel='stylesheet' id='mediaelementjs-skins-css'  href='<?= URL_CSS ?>/mediaelement/mejs-skins.css?ver=4.2.5' type='text/css' media='all' />
+<script type='text/javascript' src='<?= URL_JS ?>/mediaelement-and-player.min.js?ver=3'></script>
+
+<?php
+    $n = time();
+    $url = PCMS_URL.'/'.$_GET['url'];
+    $ihtml = '<video id="wp_mep_'.$n.'"   width="100%" height="400" poster="" controls="controls" preload="none"  class="mejs-ted">';
+    $ihtml .= '<source src="'.$url.'" type="video/mp4" />';
+    $ihtml .= '<object width="100%" height="400" type="application/x-shockwave-flash" data="http://thethao24.tv/wp-content/plugins/media-element-html5-video-and-audio-player/mediaelement/flashmediaelement.swf">';
+    $ihtml .= '<param name="movie" value="http://thethao24.tv/wp-content/plugins/media-element-html5-video-and-audio-player/mediaelement/flashmediaelement.swf" />';
+    $ihtml .= '<param name="flashvars" value="controls=true&amp;file='.$url.'" />';			
+    $ihtml .= '</object>';
+    $ihtml .= "</video><script type=\"text/javascript\">jQuery(document).ready(function($) {\$('#wp_mep_".$n."').mediaelementplayer({m:1,features: ['playpause','current','progress','duration','volume','tracks','fullscreen']});});</script>";
+ 
+    echo $ihtml;
+?>

@@ -1,0 +1,99 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+.frm_submit {padding-left: 0 !important; border-left: none !important;}
+</style>
+<?php if($_GET['parent_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsClassTable->getBreadcrumb($_GET['parent_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod='.$mod.'&parent_id='.$oneCat.'">'.$clsClassTable->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <tr class="top">
+                    <td colspan="4"><a style="<?php if($_GET['order']=='title') echo 'color:#c32c2c' ?>" href="<?php $core->setLinkInAdmin(array('order'=>'title')) ?>">Tiêu đề</a></td>
+                    <td>Views ngày</td>
+                    <td>Views tuần</td>
+                    <td>Views tháng</td>
+                    <td><a style="<?php if($_GET['order']=='menu_display') echo 'color:#c32c2c' ?>" href="<?php $core->setLinkInAdmin(array('order'=>'menu_display')) ?>">Menu</a></td>
+                    <td><a style="<?php if($_GET['order']=='home_display') echo 'color:#c32c2c' ?>" href="<?php $core->setLinkInAdmin(array('order'=>'home_display')) ?>">Home</a></td>
+                    <td><a style="<?php if($_GET['order']=='footer_display') echo 'color:#c32c2c' ?>" href="<?php $core->setLinkInAdmin(array('order'=>'footer_display')) ?>">Footer</a></td>
+                    <td><a style="<?php if($_GET['order']=='video_display') echo 'color:#c32c2c' ?>" href="<?php $core->setLinkInAdmin(array('order'=>'video_display')) ?>">Video</a></td>
+                    <td>Chỉnh sửa</td>
+                    <td>Xem</td>
+                    <td>Danh mục con</td>
+                    <td colspan="2"><a style="<?php if($_GET['order']=='news_id' || $_GET['order']=='') echo 'color:#c32c2c' ?>" href="<?php $core->setLinkInAdmin(array('order'=>'news_id')) ?>">ID</a></td>
+                </tr>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td style="width: 25px; padding-left: 10px;"><a href="<?php
+                        if($clsClassTable->countChild($oneItem[$pkeyTable])==0 && $clsClassTable->countNews($oneItem[$pkeyTable])>0) echo '?mod=news&category_id='.$oneItem[$pkeyTable]; 
+                        else echo '?mod='.$mod.'&parent_id='.$oneItem[$pkeyTable];
+                    ?>"><img src="<?php echo $clsClassTable->getImage(25, 25) ?>" width="25" height="25" /></a></td>
+                    <td class="title"><a href="<?php
+                        if($clsClassTable->countChild($oneItem[$pkeyTable])==0 && $clsClassTable->countNews($oneItem[$pkeyTable])>0) echo '?mod=news&category_id='.$oneItem[$pkeyTable]; 
+                        else echo '?mod='.$mod.'&parent_id='.$oneItem[$pkeyTable];
+                    ?>"><?php echo $oneItem['title'] ?></a></td>
+                    <td class="iField" style="width: 80px; text-align: right; padding-right: 8px;"><?php echo $core->toString($clsClassTable->getViews($oneItem[$pkeyTable], 'views_day')) ?></td>
+                    <td class="iField" style="width: 80px; text-align: right; padding-right: 8px;"><?php echo $core->toString($clsClassTable->getViews($oneItem[$pkeyTable], 'views_week')) ?></td>
+                    <td class="iField" style="width: 80px; text-align: right; padding-right: 8px;"><?php echo $core->toString($clsClassTable->getViews($oneItem[$pkeyTable], 'views_month')) ?></td>
+                    <td class="iField" style="width: 50px;">
+                        <input name="menu_display[<?php echo $oneItem[$pkeyTable] ?>]" type="text" class="text number" value="<?php echo $oneItem['menu_display'] ?>" maxlength="2" style="width: 25px; text-align: center;" autocomplete="OFF" />
+                    </td>
+                    <td class="iField" style="width: 50px;">
+                        <input name="home_display[<?php echo $oneItem[$pkeyTable] ?>]" type="text" class="text number" value="<?php echo $oneItem['home_display'] ?>" maxlength="2" style="width: 25px; text-align: center;" autocomplete="OFF" />
+                    </td>
+                    <td class="iField" style="width: 50px;">
+                        <input name="footer_display[<?php echo $oneItem[$pkeyTable] ?>]" type="text" class="text number" value="<?php echo $oneItem['footer_display'] ?>" maxlength="2" style="width: 25px; text-align: center;" autocomplete="OFF" />
+                    </td>
+                    <td class="iField" style="width: 50px;">
+                        <input name="video_display[<?php echo $oneItem[$pkeyTable] ?>]" type="text" class="text number" value="<?php echo $oneItem['video_display'] ?>" maxlength="2" style="width: 25px; text-align: center;" autocomplete="OFF" />
+                    </td>
+                    <td class="iField" style="width: 9%;"><a href="?mod=<?php echo $mod ?>&act=edit&parent_id=<?php echo $_GET['parent_id'] ?>&id=<?php echo $oneItem[$pkeyTable] ?>">Chỉnh sửa</a></td>
+                    <td class="iField"><a href="<?php echo $clsClassTable->getLink($oneItem[$pkeyTable]) ?>" target="_blank">Xem »</a></td>
+                    <td class="iField" style="width: 15%;"><a href="?mod=<?php echo $mod ?>&parent_id=<?php echo $oneItem[$pkeyTable] ?>"><?php echo $clsClassTable->countChild($oneItem[$pkeyTable]) ?> danh mục con</a> | <a href="?mod=category&act=new&parent_id=<?php echo $oneItem[$pkeyTable] ?>">Tạo mới</a></td>
+                    <td class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                    <td class="move_up_down">
+                        <a href="<?php $core->setLinkInAdmin(array('act' => 'movedown', 'id' => $oneItem[$pkeyTable])) ?>" class="move_up"></a>
+                        <a href="<?php $core->setLinkInAdmin(array('act' => 'moveup', 'id' => $oneItem[$pkeyTable])) ?>" class="move_down"></a>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+                <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="<?php $core->setLinkInAdmin(array('page' => $oneItem[0])) ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            <a href="#" onclick="" class="btn2 btncapnhat" style="float: right; margin-right: 10px;">Cập nhật</a>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+    $('.btncapnhat').click(function(){
+        frm_submit.submit(); 
+        return false;
+    });
+</script>

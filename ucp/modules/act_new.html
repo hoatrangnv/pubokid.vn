@@ -1,0 +1,191 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="box-note">
+                <span>Thông tin chung</span>
+                <hr/>
+            </div> 
+            
+            
+            <div class="OneField">
+                <div class="col-10">
+                    <label>Nổi bật trang chủ</label>
+                    <div>
+                        <input type="hidden" name="is_pick" value="0" />
+                        <input id="is_pick" type="checkbox" class="iToggle" name="is_pick" <?php if($is_pick==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Tiêu điểm</label>
+                    <div>
+                        <input type="hidden" name="is_top" value="0" />
+                        <input id="is_top" type="checkbox" class="iToggle" name="is_top" <?php if($is_top==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Tin mới</label>
+                    <div>
+                        <input type="hidden" name="is_hot" value="0" />
+                        <input id="is_hot" type="checkbox" class="iToggle" name="is_hot" <?php if($is_hot==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>NB chuyên mục</label>
+                    <div>
+                        <input type="hidden" name="is_featured" value="0" />
+                        <input id="is_featured" type="checkbox" class="iToggle" name="is_featured" <?php if($is_featured==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Lưu nháp</label>
+                    <div>
+                        <input type="hidden" name="is_draft" value="0" />
+                        <input id="is_draft" type="checkbox" class="iToggle" name="is_draft" <?php if($is_draft==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Tin slide</label>
+                    <div>
+                        <input type="hidden" name="is_picture" value="0" />
+                        <input id="is_picture" type="checkbox" class="iToggle" name="is_picture" <?php if($is_picture==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Diễn đàn</label>
+                    <div>
+                        <input type="hidden" name="is_diendan" value="0" />
+                        <input id="is_diendan" type="checkbox" class="iToggle" name="is_diendan" <?php if($is_diendan==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Ghim bài</label>
+                    <div>
+                        <input type="hidden" name="order_hot" value="9" />
+                        <input id="order_hot" type="checkbox" class="iToggle" name="order_hot" <?php if($order_hot==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Xuất bản</label>
+                    <div>
+                        <input name="is_push" type="hidden" value="0" />
+                        <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo htmlentities($title, ENT_QUOTES | ENT_IGNORE, "UTF-8") ?>" />
+            </div>
+            <div class="OneField">
+                <label>Mô tả</label>
+                <textarea name="intro" style="width: 917px; height: 100px;"><?php echo $intro ?></textarea>
+            </div>
+            <div class="OneField">
+                <div class="col-2">
+                    <label>Ảnh thumb</label>
+                    <img class="field_photo" width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                    <input class="" type="file" name="image" />
+                </div>
+            </div>
+            <div class="OneField">
+            <div class="col-4">
+                <label>Category</label>
+                <?php echo $clsCategory->getSelectCat('category_id', $_GET['category_id'], 'required') ?>
+            </div>
+            </div>
+            
+            <div class="box-note">
+                <span>Thông tin trận đấu</span>
+                <hr/>
+            </div> 
+            
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Sân nhà</label>
+                    <div class="stack_arr">
+                        <div class="input_data">
+                            <ul id="input_data_ul_keywords">
+                            <?php if($home_team_id) { ?>
+                                <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $clsTeam->getTitle($home_team_id) ?></span><span class="remove" rel="<?= $home_team_id ?>"></span></li>
+                            <?php } ?>
+                            </ul>
+                            <input class="text_input" rel="load_ajax" alt="team" type="text" style="width: 100px;"  />
+                        </div>
+                        <div class="show_data" type="1"></div>
+                        <input id="txt_keywords" class="curent_input" type="hidden" name="home_team_id" value="<?php if($home_team_id) echo $home_team_id; ?>" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label>Sân khách</label>
+                    <div class="stack_arr">
+                        <div class="input_data">
+                            <ul id="input_data_ul_keywords">
+                            <?php if($away_team_id) { ?>
+                                <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $clsTeam->getTitle($away_team_id) ?></span><span class="remove" rel="<?= $away_team_id ?>"></span></li>
+                            <?php } ?>
+                            </ul>
+                            <input class="text_input" rel="load_ajax" alt="team" type="text"  style="width: 100px;" />
+                        </div>
+                        <div class="show_data" type="1"></div>
+                        <input id="txt_keywords" class="curent_input" type="hidden" name="away_team_id" value="<?php if($away_team_id) echo $away_team_id; ?>" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label>Giải đấu</label>
+                    <div class="stack_arr">
+                        <div class="input_data">
+                            <ul id="input_data_ul_keywords">
+                            <?php if($league_id) { ?>
+                                <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $clsLeague->getTitle($league_id) ?></span><span class="remove" rel="<?= $league_id ?>"></span></li>
+                            <?php } ?>
+                            </ul>
+                            <input class="text_input" rel="load_ajax" alt="league" type="text" style="width: 100px;"  />
+                        </div>
+                        <div class="show_data" type="1"></div>
+                        <input id="txt_keywords" class="curent_input" type="hidden" name="league_id" value="<?php if($league_id) echo $league_id; ?>" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="OneField">
+                <div class="col-4">
+                    <label>Kết quả</label>
+                    <input class="text" type="text" name="result" placeholder="0 - 0" value="" />
+                </div>
+                <div class="col-4">
+                    <label>Thời gian</label>
+                    <input class="text" type="text" name="match_time" placeholder="00:00" value="<?php echo $match_time ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Ngày tháng</label>
+                    <input class="text datepicker" type="text" name="match_date" value="<?php echo $match_date ?>" />
+                </div>
+            </div>
+            
+            <div class="OneField">
+                <label>Đội hình</label>
+                <textarea class="tinymcemini2" name="doihinh" style="width: 917px; height: 100px;"><?php $doihinh ?></textarea>
+            </div>
+            
+            <div class="OneField">
+                <label>Tình hình trước trận đấu</label>
+                <textarea class="tinymcemini2" name="tinhhinh" style="width: 917px; height: 100px;"><?php $tinhhinh ?></textarea>
+            </div>
+            
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+
+$('.datepicker').datepicker({
+    dateFormat: 'dd-mm-yy',
+});
+</script>

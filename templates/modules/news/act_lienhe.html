@@ -1,0 +1,62 @@
+<section class="contentD">
+  <div class="container">
+          <iframe width="100%" height="450" frameborder="0" style="border:0;margin-bottom: 10px"
+src="https://www.google.com/maps/embed/v1/place?q=Ngõ+73+Nguyễn+Trãi,+phường+Khương+Trung,Quận+Thanh+Xuân,+TP+Hà+Nội&key=AIzaSyCgtvK8qNVb79FyT7CYdx08fpWMcPmkG8o" allowfullscreen></iframe>
+        <div class="col-sm-7 col-md-7 col-lg-7">
+            <div class="fItem">
+            <h3 style="color: #5a824d; border-right: none;">Gửi yêu cầu</h3></div>
+            <div class="orderForm clearfix" style=" padding: 0 0px 0px; ">
+                <form class="" name="form">
+                <div class="">
+                    <label for="">HỌ TÊN</label>
+                      <input type="text" id="" name="" value="" class="in_text _full_name txtname">
+                    <label for="">Email</label>
+                      <input type="text" id="" name="" value="" class="in_text _email txtemail">
+                      <label for="">Số điện thoại</label>
+                      <input type="text" id="" name="" value="" class="in_text _mobile txtsdt">
+                      <label for="">NỘI DUNG</label>
+                      <textarea id="" name="" cols="10" rows="10" class="area_text _note txtcontent"></textarea>
+                      <input type="submit" id="" name="" value="GỬI" class="in_submit">
+                </div> 
+                </form> 
+            </div>  
+
+        </div>
+        <div class="col-sm-5 col-md-5 col-sm-5 fItem">
+          <h3 style="color: #5a824d">CÔNG TY CỔ PHẦN DƯỢC PHẨM QUỐC TẾ THIÊN PHÚ</h3>
+          <p class="fL" style="color: #5a824d">Trụ sở: Số nhà 10A1,Ngõ 73 Nguyễn Trãi, phường Khương Trung,Quận Thanh Xuân, TP Hà Nội</p>
+          <p class="fP" style="color: #5a824d">04 3854 0999</p>
+        </div>
+  </div>
+</section>
+<script>
+    $(".in_submit").click(function(){
+        var obj = $(this).parents('form');
+        var full_name = obj.find("._full_name").val();
+        var address = obj.find("._address").val();
+        var mobile = obj.find("._mobile").val();
+        var email = obj.find("._email").val();
+        var note = obj.find("._note").val();
+        
+        if(full_name == '' || mobile == '' || email == '' || note == '') {
+            alert("Bạn phải điền đầy đủ thông tin. Cảm ơn bạn đã đặt hàng");
+            return false;
+        } else {
+            var id = $(this).find('.value_id:last').text();
+            var link = "index.php?mod=product&act=adddonhang";
+            $.ajax({
+                type: "POST",
+                url: link,
+                dataType: "html",
+                data: {full_name:full_name,address:address,mobile:mobile,email:email,note:note},
+                success: function(msg){
+                    if(parseInt(msg)==1) {
+                        alert("Bạn đã gửi ý kiến thành công. Chúng tôi sẽ liên hệ đến bạn sớm nhất");
+                        $('.in_text').val('');
+                        $('.area_text').val('');
+                    }
+                }
+            });
+        }
+    });
+</script>

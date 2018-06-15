@@ -1,0 +1,81 @@
+<?php if($_GET['category_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsCategory->getBreadcrumb($_GET['category_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_gltt') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <?php if($me['is_push']) { ?>
+                <div class="col-7">
+                    <label>Cho hiển thị</label>
+                    <div>
+                        <input name="is_show" type="hidden" value="0" />
+                        <input id="is_show" type="checkbox" class="iToggle" name="is_show" <?php if($is_show==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <?php } ?>
+                <div class="col-7">
+                    <label>Thùng rác</label>
+                    <div>
+                        <input name="is_trash" type="hidden" value="0" />
+                        <input id="is_trash" type="checkbox" class="iToggle" name="is_trash" <?php if($is_trash==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Bài giao lưu trực tuyến</label> 
+                <input type="text" class="text" name="" value="<?php $clsGltt=new Gltt(); echo $clsGltt->getTitle($_GET['gltt_id'])?>"  disabled="disabled"  />
+            </div>
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Tên người hỏi</label>
+                    <input class="text" type="text" name="ask_name" value="<?php echo $ask_name ?>" />
+                </div>
+                <div class="col-3">
+                    <label>Email người hỏi</label>
+                    <input class="text" type="text" name="ask_email" value="<?php echo $ask_email ?>" />
+                </div>
+                <div class="col-3">
+                    <label>Địa chỉ người hỏi</label>
+                    <input class="text" type="text" name="ask_address" value="<?php echo $ask_address ?>" />
+                </div>
+                <div class="col-3">
+                    <label>Số đt người hỏi</label>
+                    <input class="text" type="text" name="ask_sdt" value="<?php echo $ask_sdt ?>" />
+                </div>
+                <div class="col-3">
+                    <label>Khách mời</label>
+                    <input class="text" type="text" name="khachmoi" value="<?php echo $khachmoi ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Nội dung câu hỏi</label>
+                <textarea class="required" name="ask_content" style="width: 917px; height: 100px;"><?php echo $ask_content ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Thành viên trả lời</label>
+                <?php echo $clsClassTable->getSelectUser('user_id',$_GET['gltt_id']) ?>
+            </div>
+            
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.mnu_gltt').addClass('active');
+});
+</script>

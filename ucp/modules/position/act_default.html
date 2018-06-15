@@ -1,0 +1,121 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+.iField input[type=text] {width: 40px !important; text-align: center;}
+.iField .btn2 {height: 20px;line-height: 20px;padding: 0 3px;font-size: 10px;}
+tr.bg_blue {background: #c8f099 !important;}
+</style>
+
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <li class="<?php if($_GET['is_hot']==1) echo 'active' ?>"><a href="?mod=position&is_hot=1">Tin Nóng</a></li>
+            <li class="<?php if($_GET['is_new']==1) echo 'active' ?>"><a href="?mod=position&is_new=1">Tin mới</a></li>
+            <li class="<?php if($_GET['is_pick']==1) echo 'active' ?>"><a href="?mod=position&is_pick=1">NB Home</a></li>
+            <?php if($listCategory) foreach($listCategory as $oneCat) { ?>
+            <li class="<?php if($_GET['is_featured']=='1' && $_GET['category_id']==$oneCat) echo 'active' ?>"><a href="?mod=position&is_featured=1&category_id=<?php echo $oneCat ?>">NB <?php echo $clsCategory->getTitle($oneCat) ?></a></li>
+            <?php } ?>
+            <li class="<?php if($_GET['is_top']==1) echo 'active' ?>"><a href="?mod=position&is_top=1">Xem nhiều</a></li>
+        </ul>
+    </div>
+    <div class="pRight">
+        <div style="position: relative;">
+            <a id="btn_reset_allz" href="<?php $core->setLinkInAdmin(array('reset_all'=>1)) ?>" class="btn2" style="position: absolute; top: -60px; right: 0;z-index: 9999;">Reset All</a>
+        </div>
+        <?php if(isset($_GET['reset_all']) && $_GET['reset_all']==2) { ?>
+        <p>Reset All Success !</p>
+        <?php } ?>
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="4">Tiêu đề</td>
+                    <td colspan="2">Vị trí</td>
+                    <td>Xem</td>
+                    <td>Danh mục</td>
+                    <td>Ngày xuất bản</td>
+                    <td>Preview</td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr>
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <?php
+                        $link = '?mod=news&act=edit&id='.$oneItem[$pkeyTable];
+                        if($_GET['category_id']) $link.='&category_id='.$_GET['category_id'];
+                        if($_GET['is_hot']) $link.='&is_hot='.$_GET['is_hot'];
+                        if($_GET['is_picker']) $link.='&is_picker='.$_GET['is_picker'];
+                        if($_GET['is_draft']) $link.='&is_draft='.$_GET['is_draft'];
+                    ?>
+                    <td style="width: 25px; padding-left: 10px;"><a href="<?php echo $link ?>"><img style="border: 1px solid #bababa;" src="<?php echo $clsClassTable->getImage($oneItem[$pkeyTable], 25, 25, 'out') ?>" width="25" height="25" /></a></td>
+                    <td class="title"><a href="<?php echo $link ?>"><?php echo $oneItem['title'] ?></a></td>
+                    
+                    <td class="iField"><input class="field_name" type="text" name="<?php echo $order ?>" value="<?php if(!$oneItem[$order] || $oneItem[$order]==9) echo '0'; else echo $oneItem[$order] ?>" maxlength="1" autocomplete="off" /></td>
+                    <td class="iField"><a href="#" class="btn2 btn_submit" data-id="<?php echo $oneItem[$pkeyTable] ?>">Update</a></td>
+                    
+                    <td class="iField"><a href="<?php echo $clsClassTable->getLink($oneItem[$pkeyTable]) ?>" target="_blank" title=""><?php echo $oneItem['views'] ?> view</a></td>
+                    <td class="iField" style="width: 127px;"><a href="?mod=<?php echo $mod?>&category_id=1<?php echo $oneItem['category_id'] ?>" title="View list news in category: <?php echo $clsCategory->getTitle($oneItem['category_id']) ?>"><?php echo $clsCategory->getTitle($oneItem['category_id']) ?></a></td>
+                    <td class="reg_date"><span><?php echo date('H:i - d.m.Y', strtotime($oneItem['push_date'])) ?></span></td>
+                    <td class="iField">
+                        <a href="#" onclick="window.open('/admin.php?mod=preview&news_id=<?php echo $oneItem[$pkeyTable] ?>', '', 'scrollbars=1,width=510,height=600,top=50,left=200'); return false;"><img src="/ucp/themes/images/preview.png" height="20" /></a>
+                    </td>
+                    <td style="display: none;" class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                    <?php $first=true; $url='?'; if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else $url.='&'; $url.=$key.'='.$val; } ?>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            <a id="btn_updateall" href="#" class="btn2" style="float: right; margin-right: 8px;">Update All</a>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.btn_submit').click(function(){
+        var obj = $(this).parents('tr');
+        var name = obj.find('.field_name').attr('name');
+        var value = obj.find('.field_name').val();
+        var id = $(this).attr('data-id');
+        $.ajax({
+    		type: "GET",
+    		url: "/admin.php?mod=position&act=ajax&name="+name+"&value="+value+"&id="+id,
+    		dataType: "html",
+    		success: function(msg){
+    		  if(msg==1) {
+                obj.addClass('bg_blue');
+                setTimeout(function(){
+                    obj.removeClass('bg_blue');
+                }, 2000);
+              } else alert('Error');
+    		}
+    	});
+        return false;
+    });
+    $('#btn_updateall').click(function(){
+        $('.btn_submit').each(function(){
+            $(this).click();
+        });
+        return false;
+    });
+    $('#btn_reset_all').click(function(){
+        $('.tbl-list tr').each(function(){
+            var e_input = $(this).find('input.field_name');
+            var value = e_input.val();
+            if(value>0) {
+                e_input.val('0');
+                $(this).find('.btn_submit').click();
+            }
+        });
+        return false;
+    });
+});
+</script>

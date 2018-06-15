@@ -1,0 +1,24 @@
+<style>
+.error404 { width: 640px; margin: 50px auto;}
+.bar-err { width: 638px; height: 58px; border: 1px solid #780b32; background: #b00000; float: left;}
+.p-err { padding: 0px 0px 0px 48px; margin: 14px 0px 0px 116px; float: left; font: bold 24px arial; color: #fff; display: inline; background: url(../images/bg/update/err.gif) no-repeat 0px 0px;}
+.ct-err { width: 563px; border: 1px solid #dcdcdc; float: left; overflow: hidden; padding: 38px 0px 0px 75px;}
+.p-mess { font: bold 14px arial; color: #666; margin: 0px 0px 10px;}
+</style>
+<div class="grid1060">
+<div class="error404">
+    <div class="bar-err"><p class="p-err"> Không tìm thấy đường dẫn này</p></div>
+    <div class="ct-err">
+        <p class="p-mess">Bạn có thể truy cập vào <a href="<?= PCMS_URL ?>">trang chủ</a></p>
+        <div class="div-search" style="margin: 30px 0 80px;">
+            <ul id="list-news-tab">
+                <?php if($list_new) foreach($list_new as $one) { $one=$clsNews->getOne($one); ?>
+                <li><h2><a href="<?php echo $clsNews->getLink($one['news_id']) ?>" title="<?php echo str_replace("\"","",$one['title']) ?>"><?php echo $one['title'] ?></a></h2></li>
+                <?php } ?>
+            </ul>
+        
+        </div>
+    </div>
+</div>
+<div style="clear: both;"></div>
+</div>

@@ -1,0 +1,123 @@
+<style>
+fieldset {padding: 27px;margin: 10px 10px 10px 0;}
+fieldset legend {font-size: 11px;padding: 0 8px}
+fieldset legend b {cursor: pointer; font-weight: normal; margin-left: 8px;}
+fieldset input {}
+fieldset label {font-size: 11px;font-weight: bold;margin-right: 34px;}
+</style>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post">
+            <div class="OneField">
+                <div class="col-5">
+                    <label>Họ tên</label>
+                    <input class="text required" type="text" name="full_name" value="<?php echo $full_name ?>" />
+                </div>
+                <div class="col-5">
+                    <label>Tên đăng nhập</label>
+                    <input class="text required" type="text" name="user_name" value="<?php echo $user_name ?>" />
+                </div>
+                <div class="col-5">
+                    <label>Chức vụ</label>
+                    <?php echo $clsClassTable->getSelectLevel('user_level_id', $user_level_id) ?>
+                </div>
+                <div class="col-5 field_push">
+                    <label>Đăng bài</label>
+                    <select name="is_push">
+                        <option value="0">Không có quyền</option>
+                        <option <?php if($is_push==1) echo 'selected="selected"' ?> value="1">Được phép</option>
+                    </select>
+                </div>
+                <div class="col-5 field_push">
+                    <label>NB Trang chủ</label>
+                    <select name="is_pick">
+                        <option value="0">Không có quyền</option>
+                        <option <?php if($is_pick==1) echo 'selected="selected"' ?> value="1">Được phép</option>
+                    </select>
+                </div>
+                <div class="col-5 field_push">
+                    <label>Tin mới</label>
+                    <select name="is_top">
+                        <option value="0">Không có quyền</option>
+                        <option <?php if($is_top==1) echo 'selected="selected"' ?> value="1">Được phép</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field_category_id">
+                <fieldset>
+                <legend>Danh mục <b>[Tất cả]</b></legend>
+                <?php $all=$clsCategory->getChild(0);if($all) foreach($all as $one) { $one=$clsCategory->getOne($one) ?>
+                <label><input checked="checked" type="checkbox" name="category_path[]" value="<?php echo $one['category_id'] ?>" /> <?php echo $one['title'] ?></label>
+                <?php } ?>
+                </fieldset>
+            </div>
+            
+            <?php
+                $listModeul = $clsClassTable->getModule();
+                $listAction = $clsClassTable->getAction();
+                if($listModeul) foreach($listModeul as $key=>$val) { ?>
+                    <fieldset id="field_<?php echo $key ?>">
+                        <legend>Module <?php echo $val ?> <b>[Tất cả]</b></legend>
+                        <?php if($listAction) foreach($listAction as $k=>$v) { ?>
+                        <input id="permission<?php echo $key.$k ?>" type="checkbox" name="permission[<?php echo $key ?>][<?php echo $k ?>]" value="1" />
+                        <label for="permission<?php echo $key.$k ?>"><?php echo $v ?></label>
+                        <?php } ?>
+                    </fieldset>
+            <?php } ?>
+            
+            <div class="OneField">
+                <div class="col-2">
+                    <label>User pass</label>
+                    <input class="text required user_pass" type="text" name="user_pass" value="" />
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('fieldset legend b').each(function(){
+        var is_check=0;
+        $(this).click(function(){
+            if(is_check==0) {
+                is_check=1;
+                $(this).parents('fieldset').find('input').attr('checked', 'checked');
+            }
+            else {
+                is_check=0;
+                $(this).parents('fieldset').find('input').removeAttr('checked');
+            }
+        });
+    });
+    function removeAll() {
+        $('#field_news_ctv input').attr('disabled', 'disabled').removeAttr('checked');
+        $('#field_news_btv input').attr('disabled', 'disabled').removeAttr('checked');
+        $('#field_news input').attr('disabled', 'disabled').removeAttr('checked');
+    }
+    function checkOne(id) {
+        $('#'+id+' input').removeAttr('disabled').attr('checked', 'checked');
+    }
+    $('select[name=user_level_id]').change(function(){
+        var val = $(this).val();
+        if(val>0) removeAll();
+        if(val==1 || val==2) {
+            if(val==1) checkOne('field_news_ctv');
+            else checkOne('field_news_btv');
+            $('.field_category_id').show();
+        }
+        else {
+            $('.field_category_id').hide();
+            checkOne('field_news');
+        }
+        if(val==2) $('.field_push').show();
+        else $('.field_push').hide();
+    });
+    $('select[name=user_level_id]').change();
+});
+</script>

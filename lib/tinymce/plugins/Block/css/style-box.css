@@ -1,0 +1,19 @@
+.notice-para {
+    border-top: 5px solid #e07219;
+    box-sizing: border-box;
+    color: #e07219;
+    font-family:Arial, Helvetica, sans-serif !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+    padding: 8px 5px;
+	margin: 30px 0 0 !important;
+}
+.notice-para * { color: #e07219 !important; font-family: Arial,Helvetica,sans-serif !important; font-size: 14px !important; line-height: 22px !important;}
+.content-para { float: right; width: 180px; text-align: justify; margin: 0 10px 0 20px !important;}
+.notice-title { font-size: 18px !important; margin: 5px 0 12px; text-transform: uppercase;}
+.fl-left {
+    float: left;
+}
+.fl-right{
+    float: right;
+}

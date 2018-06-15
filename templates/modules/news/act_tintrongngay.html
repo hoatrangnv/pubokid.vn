@@ -1,0 +1,165 @@
+<div class="grid1060">
+    <div class="block20"></div>
+    <div class="content_wrapper pkg">
+      <div class="col740 fl">  
+      <div class="break_cump pkg"> 
+        <h1><a href="" class="first fl">Tin bóng đá ngày: <?= $date ?></a></h1>
+      </div>
+      
+      <?php unset($listNews[0]) ?>
+      
+        <div class="top_cate pkg">
+        	<a href="<?= $clsNews->getLink($one0['news_id']) ?>" class="thumbblock thumb390x270 fl" ><img src="<?= $clsNews->getImage($one0['news_id'],390,292) ?>" alt="<?= str_replace("\"","'",$one0['title']) ?>" /> </a>
+            <h2><a href="<?= $clsNews->getLink($one0['news_id']) ?>" class="title_top_cate"><?= $core->get_limit_content($one0['title'],70) ?></a></h2>
+            <div class="sapo_news"><?= $core->get_limit_content($one0['intro'],100) ?></div>
+            <?php $clsChannel = new Channel;$arr = explode("|",trim($one0['channel_path'], "|")); if($arr) { ?>
+            <ul class="list_news_other tinlienquan">
+            <?php foreach($arr as $one) if($one) { $one = $clsChannel->getOne($one); ?>
+              <li><a title="<?= str_replace("\"","'",$one['title']) ?>" href="<?= $clsChannel->getLink($one['channel_id']) ?>"><?= $one['title'] ?></a> </li>
+            <?php } ?>
+            </ul>
+            <?php } ?>
+        </div>
+        <div class="top_bottom pkg">
+          <ul class="list_topcate">
+          <?php $i=0; foreach($listNews as $key=>$one) { if($i<3) {$one = $clsNews->getOne($one) ?>
+          		<li style=" "><a href="<?= $clsNews->getLink($one['news_id']) ?>" class="thumbblock thumb155">
+                  <img src="<?= $clsNews->getImage($one['news_id'],217,162) ?>" alt="<?= str_replace("\"","'",$one['title']) ?>" /></a>
+                    <h3><a href="<?= $clsNews->getLink($one['news_id']) ?>" class="title_topcate"><?= $core->get_limit_content($one['title'],70) ?></a></h3>
+                </li>
+
+          <?php $i++;unset($listNews[$key]);}} ?>  
+          </ul>
+        </div>
+       <?php $core->getBlock("adsendmobile300x250") ?> 
+                <style>
+                .ttnselect {
+    height: 46px;
+    width: 100%;
+    border-bottom: 1px dashed #aaa;
+    border-top: 1px solid #aaa;
+        margin-top: 10px;
+}
+            .selectttnbot {
+                font-family: Tahoma;
+                font-size: 15px;
+                color: #676767;
+                padding-top: 1px;
+                margin-top: 10px;
+                width: 100%;
+                float: right;
+                padding-bottom: 10px;
+            }
+            .buttontintrongngay {
+                font-weight: bold;
+                cursor: pointer;
+                float: right;
+                margin-left: 5px;
+                    padding: 5px;
+            }
+            .selectttnbot select {
+                color: #929292;
+                font-family: Arial;
+                padding: 3px 5px;
+                float: right;
+                margin-left: 9px;
+            }
+        </style>
+<div class="ttnselect">
+<div class="selectttnbot">
+    <input id="Button1" type="button" value="Xem" class="buttontintrongngay">
+    <select name="" id="dlyear">
+    <option value="0">Năm</option>
+    <option value="2007">2007</option>
+    <option value="2008">2008</option>
+    <option value="2009">2009</option>
+    <option value="2010">2010</option>
+    <option value="2011">2011</option>
+    <option value="2012">2012</option>
+    <option value="2013">2013</option>
+    <option value="2014">2014</option>
+    <option value="2015">2015</option>
+    <option selected="selected" value="2016">2016</option>
+    </select>
+    <select name="" id="dlmonth">
+        <option value="0">Tháng</option>
+        <?php for($i=1;$i<13;$i++) { ?>
+            <option value="<?= $i ?>" <?php if($i == date("m")) echo 'selected="selected"' ?>><?= $i ?></option>
+        <?php } ?>
+    </select>
+    <select name="" id="dlday">
+    <option value="0">Ngày</option>
+    <?php for($i=1;$i<32;$i++) { ?>
+        <option value="<?= $i ?>" <?php if($i == date("d")) echo 'selected="selected"' ?>><?= $i ?></option>
+    <?php } ?>
+    </select>
+    <p>
+    Xem bài theo ngày</p>
+    <div class="clear">
+    </div>
+</div>
+</div>
+
+<script>
+    $(".buttontintrongngay").click(function(){
+        var year = $("#dlyear").val();
+        var month = $("#dlmonth").val();
+        var day = $("#dlday").val();
+        
+        if(year == 0 || month == 0 || day == 0) {alert("Bạn chưa chọn đúng ngày tháng"); return false;}
+        else {
+            window.location = 'http://thethaoso360.com/tin-bong-da-hom-nay/'+day+'-'+month+'-'+year+'/';
+            return false;
+        }
+    });
+</script>
+
+        <ul class="list_cate_news" style="clear: both;">
+
+
+        <?php foreach($listNews as $key=>$one) { $one = $clsNews->getOne($one);
+                if($key==6) {
+                    echo $core->getBlock("adsendmobileduoichuyenmuc");
+                }
+        ?>
+            <li class="pkg" <?php if($key==2) echo 'style="   margin-bottom: 15px;padding-bottom: 15px;border-bottom: 1px dotted #ddd;"'; ?>>
+            	<a class="thumbblock thumb217x155 fl" href="<?= $clsNews->getLink($one['news_id']) ?>"><img src="<?= $clsNews->getImage($one['news_id'],217,162) ?>"/> </a>
+                <div class="info_list_cate fl">
+                	<a href="<?= $clsNews->getLink($one['news_id']) ?>" class="title_list_cate" title="<?= str_replace("\"","'",$one['title']) ?>"><?= $core->get_limit_content($one['title'],65) ?></a>
+                    <div class="time_index"><?= date("H:i d/m/Y",$one['push_date']) ?></div>
+                    <div class="sapo_news"><?= $core->get_limit_content($one['intro'],200) ?></div>
+                </div>
+            </li>
+         <?php } ?>
+         <?php $core->getBlock("adsendmobileduoichuyenmuc") ?> 
+        </ul>
+        <div class="paging pkg" align="center">
+            <span class="divblock">
+            <?php foreach($paging as $p) { ?>
+                <a class="<?php if($page==$p[0]) echo 'active'; ?>" href="p<?= $p[0] ?>"><?= $p[1] ?></a>
+            <?php } ?>
+            </span>
+        </div>
+      </div>
+      
+<div class="col300 fr">
+        <?php $core->getBlock("adsend300x250") ?> 
+
+        
+        <div class="box300 border_box">
+            <?php $core->getBlock("tin_doc_nhieu") ?>
+        </div>
+        <?php $core->getBlock("adsend300x250_v2") ?> 
+        <!--Fan page-->
+        <div class="box300 box_match align-center">
+            <?php $core->getBlock('like_fanpage') ?>
+        </div>
+         
+        <div class="box300">
+          <?php $core->getBlock('truyen_hinh') ?>
+        </div>
+        <?php $core->getBlock('box_anh') ?>
+        <?php $core->getBlock("adsend300x600") ?> 
+      </div>
+    </div>
+  </div>

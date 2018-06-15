@@ -1,0 +1,100 @@
+<div class="box ads mrtop20">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- MY_PC_Cate_970*90_Top_menu -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:970px;height:90px"
+         data-ad-client="ca-pub-1193877176097518"
+         data-ad-slot="5070649789"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+<main class="main">
+    <div class="inner pkg">
+        <div class="pkg">
+            <div class="breadscrum_cat cate-name">
+                <h1><strong><a href=""><?= $slug ?></a></strong></h1>
+            </div>
+
+            <div class="col-alpha fl">
+                <section class="block pkg">
+                                        <div class="box ads" id="sticky_125" style="float: left;width: 15%;">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- MY_PC_Cate_125*600_Sidebar_leff1 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:120px;height:600px"
+                             data-ad-client="ca-pub-1193877176097518"
+                             data-ad-slot="6547382984"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+
+                    </div>
+                    <script>
+                    $(document).ready(function(){
+                        sticky('#sticky_125','footer');
+                    });
+                </script>  
+                    <ul class="list-thumb list-thumb2 col-main list-category">
+                    <?php foreach($listNews as $one) { $one = $clsNews->getOne($one) ?>
+                    <li class="pkg">
+                            <figure class="thumb">
+                                <a href="<?= $clsNews->getLink($one['news_id']) ?>" title="<?= str_replace("\"","'",$one['title']) ?>">
+                                    <?= $clsNews->getHtmlImage($one['news_id'],221,127)  ?>
+                                </a>
+                            </figure>
+                            <div class="info">
+                                <h3 class="title"><a href="<?= $clsNews->getLink($one['news_id']) ?>" title="<?= str_replace("\"","'",$one['title']) ?>"><?= $one['title'] ?></h3>
+                                <div class="metadata"><a title="<?= $clsCategory->getTitle($one['category_id']) ?>" href="<?= $clsCategory->getLink($one['category_id']) ?>" class="cat-name"><?= $clsCategory->getTitle($one['category_id']) ?></a>
+                                <span><?= $core->time_str($one['push_date']) ?></span></div> 
+                                <p class="desc"><?= $one['intro'] ?></p>
+                            </div>
+                        </li> 
+                        <?php } ?>                  
+                    </ul>
+        <div class="paging pkg" align="center">
+            <span class="divblock">
+            <?php foreach($paging as $p) { ?>
+                <a class="<?php if($page==$p[0]) echo 'active'; ?>" href="<?= $clsNews->getLinkTag($slug,$p[0]) ?>"><?= $p[1] ?></a>
+            <?php } ?>
+            </span>
+        </div>
+                        
+                
+                </section>
+            </div>
+            <div class="sidebar fr">
+                            <section class="box ads">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- MY_PC_336*280_Top_Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-1193877176097518"
+     data-ad-slot="9199798185"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </section>
+                <section class="box readmore-box">
+                    <?= $core->getBlock("tin_doc_nhieu") ?>
+                </section>
+                <section class="box ads" id="sticky_300">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- MY_PC_home_336*280_Sidebar_Right2 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1193877176097518"
+     data-ad-slot="4629997780"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</section>
+<script>
+                    $(document).ready(function(){
+                        sticky('#sticky_300','footer');
+                    });
+                </script>  
+            </div>
+        </div>
+    </div>
+</main>

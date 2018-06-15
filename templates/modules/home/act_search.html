@@ -1,0 +1,44 @@
+<div class="content_main pkg">
+  <div class="col230 fl">
+    <div class="menu_left">
+      <ul class="list_menu_left">
+        <li class="first"><a href="" class="head_menu_left">Thương hiệu</a></li>
+        <?php $core->getBlock('thuonghieu') ?>
+      </ul>
+    </div>
+  </div>
+  <div class="col770 fr">
+    <div class="content770">
+      <div class="list_cate pkg">
+        <ul class="list_products_cate">
+          <?php if(!empty($listNews)) foreach($listNews as $oneNew) { $one = $clsProduct->getOne($oneNew); ?>  
+          <li>
+            <div class="shadow_hover"><a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="thumb100per thumb_over fancybox" data-fancybox-group="gallery"><img title="<?php echo $one['title']?>" alt="<?php echo $one['title']?>" src="<?php echo $clsProduct->getImage($one['product_id'],200,200)?>"/> </a>
+           	  <div class="info_list_products_cate">
+                  <a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="title_list_products"><?php echo $one['title']?></a>
+                  <div class="price_old"><?php echo $clsProduct->getPriceOld1($one['product_id'])?> vnđ </div>
+                  <div class="price_list_products">Giá: <?php echo $clsProduct->getPriceNew1($one['product_id'])?> vnđ -<strong> <?php echo $clsProduct->getDiscount($one['product_id'])?>%</strong></div>
+                  <a title="Xem nhanh" href="javascript:void(0)" data="<?= $one['product_id'] ?>" class="quick_view">Xem nhanh </a>
+                  <div class="vote_prodcut">
+                    <?php for($i=0;$i<$one['rate'];$i++) {?>
+                    <a><img src="/images/vote.png"/> </a>
+                    <?php } ?>
+                    <?php $j=5-$one['rate']; for($i=0;$i<$j;$i++) {?>
+                    <a><img src="/images/none_vote.png"/> </a>
+                    <?php } ?>
+                  </div>
+              </div>
+            </div>
+          </li>
+          <?php } ?>
+        </ul>
+      </div>
+      
+      <div class="paging">
+        <?php if($paging) foreach($paging as $one) { ?>
+        <a href="p<?php echo $one[0] ?>" <?php if($page==$one[0]) echo 'class="active"' ?>><?php echo $one[1] ?></a>
+        <?php } ?>
+      </div>
+    </div>
+  </div>
+</div>

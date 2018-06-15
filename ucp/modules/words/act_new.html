@@ -1,0 +1,145 @@
+<style>
+    /*  STACK */
+    .stack_arr1 {
+        position: relative;
+    }
+    .stack_arr1 .input_data {
+        background: #fff;
+        border: 1px solid #bababa;
+        padding: 0;
+        display: inline-block;
+        width: 90%;
+    }
+    .stack_arr1 .input_data ul {
+        display: inline-block;
+        float: left;
+        padding: 5px;
+    }
+    .stack_arr1 .input_data li {
+        float: left;
+        border: 1px solid #bababa;
+        background: #f5f5f5;
+        border-radius: 5px;
+        padding: 3px 19px 3px 5px;
+        margin: 2px 3px;
+        position: relative;
+    }
+    .stack_arr1 .input_data li .remove {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: url(../images/remove.png) center;
+        display: block;
+        top: 3px;
+        right: 1px;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .stack_arr1 .input_data li .remove:hover {
+        opacity: 1;
+    }
+    .stack_arr1 .input_data .text_input {
+        border: none;
+        height: 33px;
+        width: ;
+        padding: 0;
+        outline: none;
+    }
+    .stack_arr1 .show_data {
+    }
+    .stack_arr1 .show_data ul {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        border: 1px solid #bababa;
+        margin-top: 1px;
+        padding: 0;
+        width: 917px;
+    }
+    .stack_arr1 .show_data li a {
+        display: block;
+        padding: 3px 8px;
+    }
+    .stack_arr1 .show_data li a:hover {
+        background: #f5f5f5;
+    }
+</style>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <label>Hiển thị</label>
+                <div>
+                    <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Từ khóa</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <label>Mức độ ưu tiên</label>
+                <input class="text required" type="text" name="uutien" value="<?php echo $uutien ?>" />
+            </div>
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Category</label>
+                    <?php echo $clsCategory->getSelectCatLink('category_id', $category_id, 'chuyenmuc') ?>
+                </div>
+                <div class="col-3 stack_arr1">
+                    <label>Link tags</label>
+                    <div class="input_data">
+                        <ul>
+
+                        </ul>
+                        <input class="text_input" alt="tags" rel="load_ajax" type="text">
+                    </div>
+                    <input class="text curent_input"  type="hidden" value="" name="" />
+                    <div class="show_data"></div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Link</label>
+                <input class="text required" type="text" name="link" value="<?php echo $link ?>" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(".chuyenmuc").change(function(){
+        var link_ = $(".chuyenmuc").val();
+        $("input[name=link]").val(link_);
+    });
+    $('.text_input').keyup(function(e){
+        var title = $(this).val();
+        var obj = $(this).parents('.col-3');
+        if(!title) {
+            obj.find('.show_data').hide();
+        }
+        var act = $(this).attr('rel');
+        var iClass = $(this).attr('alt');
+        obj.find('.show_data').show();
+        $.ajax({
+            type: "POST",
+            url: 'admin.php?mod=words&act='+act+'&title='+title+'&class='+iClass,
+            dataType: "html",
+            success: function(msg){
+                if(parseInt(msg)!='') {
+                    obj.find('.show_data').html(msg);
+                }
+            }
+        });
+    });
+    $('.stack_arr1 .show_data li a').live('click', function(){
+        var ival = $(this).attr('rel');
+        $("input[name=link]").val(ival);
+        $(".stack_arr1 .show_data").empty();
+        return false;
+    });
+    
+</script>

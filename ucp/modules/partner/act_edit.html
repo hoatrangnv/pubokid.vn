@@ -1,0 +1,27 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            
+            <div class="OneField">
+                <label>Image</label>
+                <span class="col-3"><input class="text" type="text" name="image" /></span>
+                <img class="field_photo" width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" type="file" name="image" />
+            </div>
+            <div class="OneField">
+                <label>Link</label>
+                <input class="text required url" type="text" name="link" value="<?php echo $link ?>" />
+            </div>
+            <input name="order_no" value="<?php echo $maxOrderNo ?>" type="hidden" />
+        </form>
+    </div>
+</div>

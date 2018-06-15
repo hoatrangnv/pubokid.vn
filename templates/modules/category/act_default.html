@@ -1,0 +1,137 @@
+<div class="content_main pkg">
+  <div class="col230 fl">
+    <div class="menu_left">
+      <ul class="list_menu_left">
+        <li class="first"><a class="head_menu_left" title="<?php echo $clsCategory->getTitle($category_id)?>" href="<?php echo $clsCategory->getLink($category_id)?>"><?php echo $clsCategory->getTitle($category_id)?></a></li>
+        <?php if(!empty($listCatChild)) foreach($listCatChild as $oneCat) { ?>
+        <li><h1><a title="<?php echo $clsCategory->getTitle($oneCat)?>" href="<?php echo $clsCategory->getLink($oneCat)?>"><?php echo $clsCategory->getTitle($oneCat)?></a></h1></li>
+        <?php } ?>
+      </ul>
+      <ul class="list_menu_left">
+        <li class="first"><a href="" class="head_menu_left">Thương hiệu</a></li>
+        <?php $core->getBlock('thuonghieu') ?>
+      </ul>
+    </div>
+    <div class="product_for_you">
+      <ul>
+        <?php if(!empty($listFeatured)) foreach($listFeatured as $oneFeatured) { $one = $clsProduct->getOne($oneFeatured); ?>
+        <li>
+            <a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="thumb_over thumb100per"><img title="<?php echo $one['title']?>" alt="<?php echo $one['title']?>" src="<?php echo $clsProduct->getImage($one['product_id'],142,142)?>"/></a> 
+            <h3><a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="title_product_for_you	"><?php echo $one['title']?></a></h3>sss
+            <div class="price_old"><?php echo $clsProduct->getPriceOld1($one['product_id'])?> vnđ </div>
+            <div class="price_list_products">Giá: <?php echo $clsProduct->getPriceNew1($one['product_id'])?> vnđ -<strong> <?php echo $clsProduct->getDiscount($one['product_id'])?>%</strong></div>
+            <div class="vote_prodcut">
+              <?php for($i=0;$i<$one['rate'];$i++) {?>
+              <a><img src="/images/vote.png"/> </a>
+              <?php } ?>
+              <?php $j=5-$one['rate']; for($i=0;$i<$j;$i++) {?>
+              <a><img src="/images/none_vote.png"/> </a>
+              <?php } ?>
+            </div>
+        </li>
+        <?php } ?>
+      </ul>
+    </div>
+  </div>
+  <div class="col770 fr">
+    <div class="content770">
+      <div class="breadcump"><a href="/">Trang chủ</a><span class="arr_bread"><img src="/images/arr_bread.png"/> </span>
+      
+      <h1 style="display: inline;"><a title="<?php echo $clsCategory->getTitle($category_id)?>" href="<?php echo $clsCategory->getLink($category_id)?>"><?php echo $clsCategory->getTitle($category_id)?></a></h1>
+      
+      </div>
+      <div class="slide770">
+        <ul class="products_cate">
+          <li><a href="" class="thumb_over thumb740x318"><img src="<?= PCMS_URL ?>photo/Best-Hair-Care-Products-with-Jojoba-Oil-1.jpg" /></a></li>
+          <li><a href="" class="thumb_over thumb740x318"><img src="<?= PCMS_URL ?>photo/20140221-165203-philips-offer.jpg" /></a></li>
+        </ul>
+      </div>
+      
+      <form class="search_cate" id="search_cate_form" action="" method="post">
+          <select name="min" class="slt_search_cate min">
+                <option value="0">Tìm theo giá</option>
+            	<option value="500000" <?php if($min == '100000') echo 'selected' ?>>100.000</option>
+                <option value="1000000" <?php if($min == '500000') echo 'selected' ?>>500.000</option>
+                <option value="2000000" <?php if($min == '1500000') echo 'selected' ?>>1.500.000</option>
+                <option value="3000000" <?php if($min == '2000000') echo 'selected' ?>>2.000.000</option>
+          </select>
+          <select name="max" class="slt_search_cate max">
+                <option value="10000000">Tìm theo giá</option>
+            	<option value="500000" <?php if($max == '500000') echo 'selected' ?>>500.000</option>
+                <option value="1000000" <?php if($max == '1000000') echo 'selected' ?>>1.000.000</option>
+                <option value="2000000" <?php if($max == '2000000') echo 'selected' ?>>2.000.000</option>
+                <option value="3000000" <?php if($max == '3000000') echo 'selected' ?>>3.000.000</option>
+          </select>
+        <select name="order" class="slt_search_cate order">
+            <option value="desc" <?php if($order == 'desc') echo 'selected' ?>  >Giảm dần</option>
+        	<option value="asc" <?php if($order == 'asc') echo 'selected' ?> >Tăng dần</option> ss
+        </select>
+        <a href="javascript:void(0)" class="btn_search btn_search_pr fr" style="padding: 5px 8px;margin: 0px;margin-left: 5px;"><img src="<?= URL_IMAGES ?>/icon_search.png"></a>
+      </form>
+      
+      <script type="text/javascript">
+            $(document).ready(function(){
+                $(".btn_search_pr").click(function() {
+                    $("#search_cate_form").submit();
+                });
+            })    
+        </script>
+      
+      <div class="list_cate pkg">
+        <ul class="list_products_cate">
+          <?php if(!empty($listNew)) foreach($listNew as $oneNew) { $one = $clsProduct->getOne($oneNew); ?>  
+          <li>
+            <div class="shadow_hover"><a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="thumb100per thumb_over fancybox" data-fancybox-group="gallery"><img title="<?php echo $one['title']?>" alt="<?php echo $one['title']?>" src="<?php echo $clsProduct->getImage($one['product_id'],200,200)?>"/> </a>
+           	  <div class="info_list_products_cate">
+                  <a title="<?php echo $one['title']?>" href="<?php echo $clsProduct->getLink($one['product_id'])?>" class="title_list_products"><?php echo $one['title']?></a>
+                  <div class="price_old"><?php echo $clsProduct->getPriceOld1($one['product_id'])?> vnđ </div>
+                  <div class="price_list_products">Giá: <?php echo $clsProduct->getPriceNew1($one['product_id'])?> vnđ -<strong> <?php echo $clsProduct->getDiscount($one['product_id'])?>%</strong></div>
+                  <a title="Xem nhanh" href="javascript:void(0)" data="<?= $one['product_id'] ?>" class="quick_view">Xem nhanh </a>
+                  <div class="vote_prodcut">
+                    <?php for($i=0;$i<$one['rate'];$i++) {?>
+                    <a><img src="/images/vote.png"/> </a>
+                    <?php } ?>
+                    <?php $j=5-$one['rate']; for($i=0;$i<$j;$i++) {?>
+                    <a><img src="/images/none_vote.png"/> </a>
+                    <?php } ?>
+                  </div>
+              </div>
+            </div>
+          </li>
+          <?php } ?>
+        </ul>
+      </div>
+      
+      <div class="paging">
+        <?php if($paging) foreach($paging as $one) { ?>
+        <a href="p<?php echo $one[0] ?>" <?php if($page==$one[0]) echo 'class="active"' ?>><?php echo $one[1] ?></a>
+        <?php } ?>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function(){
+       $('.slide_product').bxSlider({
+      minSlides: 2,
+      maxSlides: 4,
+      slideWidth: 240,
+      slideMargin: 10,
+      pager:false
+    });
+    
+      $('.slide_product1').bxSlider({
+      minSlides: 2,
+      maxSlides: 4,
+      slideWidth: 240,
+      slideMargin: 10,
+      pager:false
+    });
+    
+    $('.products_cate').bxSlider({
+      mode: 'fade',
+    
+      pager:false
+    });
+    });
+</script>

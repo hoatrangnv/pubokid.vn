@@ -1,0 +1,62 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+</style>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <tr class="top">
+                    <td colspan="3">Tiêu đề</td>
+                    <td>Số lượng link</td>                                       
+                    <td>Bài viết</td>
+                    <td>Danh mục</td>
+                    <td>ID</td>
+                </tr>
+                <?php if($listItem) foreach($listItem as $oneItem) { 
+                                        $oneItem=$clsClassTable->getOne($oneItem);
+                    $cons = $clsNews->getCons();                                        
+                    $sl = $clsNews->getCount($cons." and (tags like '%,".$oneItem['title'].",%' or tags like '%, ".$oneItem['title'].",%')");     
+                    
+                    $array_[$oneItem['tags_id']] = $sl;
+                ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <?php $link = '?mod='.$mod.'&act=edit&id='.$oneItem[$pkeyTable]; ?>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td class="title"><a href="?mod=<?php echo $mod ?>&act=edit&id=<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem['title'] ?></a></td>
+                    <td class="iField"><?= $sl ?></td>
+                    <td class="iField" style="width: 15%;"><a href="" onclick="window.open('/admin.php?mod=<?php $clsUser = new User(); $me = $clsUser->getMe(); if($me['user_level_id'] == 3) echo 'news'; else echo 'news_btv';  ?>&act=default&status=3&is_draft=0&is_push=1&tags=<?= $oneItem['title']; ?>', '', 'location=no,scrollbars=1,width=1200,height=600,top=50,left=200,toolbar=no,menubar=no'); return false;">Bài viết</a></td>
+                    <td class="iField" style="width: 15%;">
+                        <?php 
+                            if($oneItem['category_id'] && trim($oneItem['category_id'],'|')!='') $arr = explode("|", trim($oneItem['category_id'],'|')); 
+                            if($arr) foreach($arr as $one) { 
+                                echo $clsCategory->getTitle($one);
+                            } ?>
+                    </td>
+                    <td class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+                
+            </tbody>
+        </table>
+        </form>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            <a href="javascript:frm_submit.submit(); return false;" onclick="" class="btn2" style="float: right; margin-right: 10px;">Cập nhật</a>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</div>

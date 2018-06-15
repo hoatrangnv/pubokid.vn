@@ -1,0 +1,44 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <label>Full Name</label>
+                <input class="text required" type="text" name="full_name" value="<?php echo $full_name ?>" />
+            </div>
+            <div class="OneField">
+                <label>User name</label>
+                <input class="text required" type="text" name="user_name" value="<?php echo $user_name ?>" />
+            </div>
+            <div class="OneField">
+                <label>Image</label>
+                <img class="field_photo" width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" type="file" name="avatar" />
+            </div>
+            <div class="OneField">
+                <label>User pass</label>
+                <input class="text required user_pass" type="password" name="user_pass" value="" />
+            </div>
+            <div class="OneField">
+                <label>Nhập lại pass</label>
+                <input class="text required user_pass_mask" type="password" name="" value="" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.frm_submit').submit(function(){
+        if($('.user_pass').val()!=$('.user_pass_mask').val() && $('.user_pass').val()!='') {
+            alert('Password nhập lại chưa đúng!');
+            $('.user_pass').val('');
+            $('.user_pass_mask').val('');
+            return false;
+        }
+    });
+});
+</script>

@@ -1,0 +1,11 @@
+<h3><a href="<?= $clsCategory->getLink(7) ?>">Ý kiến khách hàng</a></h3>
+        <ul class="ykkh">
+        <?php foreach($listYKien as $id) { $one = $clsNews->getOne($id) ?>
+          <li>
+            <p class="ykImg"><?= $clsNews->getHtmlImage($id,227,134) ?></p>
+            <h4><?= $clsNews->getLinkTitle($id) ?></h4>
+            <p class="ykDate"><?= date("H:i d/m/Y",$one['push_date']) ?></p>
+            <p class="ykTxt"><?= $core->get_limit_content($one['intro'],165) ?></p>
+          </li>
+        <?php } ?>
+        </ul>

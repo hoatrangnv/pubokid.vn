@@ -1,0 +1,69 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            
+        </ul>
+    </div>
+    <div class="pRight">
+        <p style="margin-left: 80px;">
+            <a href="?mod=setting&act=flush" target="_blank" class="btn2">Delete All Cache</a>
+            <a href="<?=SITE_PROTOCOL.SITE_DOMAIN?>/?flush=1" target="_blank" class="btn2">Flush Cache</a>
+        </p>
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-10">
+                    <label>Iframe</label>
+                    <div>
+                        <input type="hidden" name="is_iframe" value="0" />
+                        <input id="is_iframe" type="checkbox" class="iToggle" name="is_iframe" <?php if($oneItem['is_iframe']==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Title</label>
+                <input class="text required" type="text" name="title" value="<?php  echo $oneItem['title'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Logo</label>
+                <img width="30" height="30" src="<?php echo $oneItem['logo'] ?>" alt="" title="Click here to upload image!" />
+                <input class="" id="imageupload" type="file" name="image" />
+            </div>
+            <div class="OneField">
+                <label>Name page</label>
+                <input class="text required" type="text" name="name_page" value="<?php  echo $oneItem['name_page'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Hotline</label>
+                <input class="text" type="text" name="sdt" value="<?php  echo $oneItem['sdt'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Facebook</label>
+                <input class="text" type="text" name="facebook" value="<?php  echo $oneItem['facebook'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Twite</label>
+                <input class="text" type="text" name="tw" value="<?php  echo $oneItem['tw'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Google</label>
+                <input class="text" type="text" name="google" value="<?php  echo $oneItem['google'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Email</label>
+                <input class="text required" type="text" name="email" value="<?php  echo $oneItem['email'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Address</label>
+                <input class="text required" type="text" name="address" value="<?php  echo $oneItem['address'] ?>" />
+            </div>
+            <div class="OneField">
+                <label>Meta description</label>
+                <textarea class="required" name="meta_des" cols="120" rows="6"><?php  echo $oneItem['meta_des'] ?></textarea>
+            </div>
+            <div class="OneField">
+                <label>Meta keywords</label>
+                <textarea class="required" name="meta_key" cols="120" rows="6"><?php  echo $oneItem['meta_key'] ?></textarea>
+            </div>
+        </form>
+    </div>
+</div>

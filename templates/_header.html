@@ -1,0 +1,51 @@
+<nav class="navbar navbar-default affix-top clearfix" role="navigation" id="BB-nav">
+  <div class="container-fluid clearfix">
+    <div class="container nav-container clearfix"> 
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header clearfix">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+        <a class="navbar-brand" href="<?= PCMS_URL ?>"><img src="<?= URL_IMAGES ?>/logo.png?v2" alt="<?=$title_page ?>" /></a>< </div>
+      
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="col-sm-9 col-md-9 hRight clearfix"> 
+        <span class="social clearfix"> 
+            <a href="<?= META_FB ?>"><img src="<?= URL_IMAGES ?>/icoF.png" alt="" /></a> 
+            <a href="#"><img src="<?= URL_IMAGES ?>/icoT.png" alt="" /></a> 
+            <a href="#"><img src="<?= URL_IMAGES ?>/icoG.png" alt="" /></a> 
+        </span> 
+        <span class="holine">Hotline: <a href="#"><?= META_SDT ?></a></span> 
+        <span class="mail">Email: <a href="#"><?= PAGE_EMAIL ?></a></span> </div>
+        <div class="navigation_top"></div>
+
+        <ul class="nav navbar-nav BB-nav navigation">
+          <li class="<?php if($mod == 'home') echo 'active'; ?>"><a href="<?= PCMS_URL ?>">Trang chủ</a></li>
+          <?php foreach($menu as $m) { $cat = $clsCategory->getOne($m); ?>
+            <li class="<?php if($active == $m) echo 'active'; ?>"><a href="<?= $clsCategory->getLink($m) ?>"><?= $cat['title'] ?></a></li>
+          <?php } ?>
+          <li class="searchR" style="border-radius: 8px;border: 1px solid #a2a2a2;">
+            <form action="" style="border-radius: 10px;">
+            <input type="text" class="txt_search_web" id="" name="" value="" style="border-radius: 10px;" placeholder="Tìm kiếm ...">
+            <input type="submit" id="" name="" value="" style="border-radius: 10px;" class="submit btn_search_web">
+          </form>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse --> 
+    </div>
+  </div>
+</nav>
+          <script>
+            $('.txt_search_web').keyup(function(e){
+                var keycode = (e.keyCode ? e.keyCode : e.which);
+                if(keycode == 13)
+                {
+                    $(".txt_search_web").click();
+                }
+            });
+            $(".btn_search_web").click(function(){
+                var link = '<?= PCMS_URL ?>/search/'+$(".txt_search_web").val()+'/';
+                window.location = link;
+                return false;
+            });
+        </script>

@@ -1,0 +1,54 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+</style>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <tr class="top">
+                    <td colspan="4">Tiêu đề</td>
+                    <td>Xem</td>
+                    <td>Box chuyên đề</td>
+                    <td>Ngày tạo</td>
+                    <td>ID</td>
+                </tr>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <?php $link = '?mod='.$mod.'&act=edit&id='.$oneItem[$pkeyTable]; ?>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td style="width: 25px; padding-left: 10px;"><a href="<?php echo $link ?>"><img style="border: 1px solid #bababa;" src="<?php echo $clsClassTable->getImage($oneItem[$pkeyTable], 25, 25) ?>" width="25" height="25" /></a></td>
+                    <td class="title"><a href="?mod=<?php echo $mod ?>&act=edit&id=<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem['title'] ?></a></td>
+                    <td class="iField" style="width: 8%;">
+                        <a target="_blank" href="<?= $clsClassTable->getLink($oneItem[$pkeyTable]) ?>">Xem</a>
+                    </td>
+                    <td class="iField" style="width: 8%;">
+                        <input name="order_no[<?php echo $oneItem[$pkeyTable] ?>]" type="text" class="text number" value="<?php echo $oneItem['order_no'] ?>" maxlength="1" style="width: 25px; text-align: center;" autocomplete="OFF" />
+                    </td>
+                    <td class="reg_date"><span title="<?php echo $core->time_str($oneItem['reg_date']) ?>"><?php echo $core->time_ago($oneItem['reg_date']) ?></span></td>
+                    <td class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        </form>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            <a href="javascript:frm_submit.submit(); return false;" onclick="" class="btn2" style="float: right; margin-right: 10px;">Cập nhật</a>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-3">
+                    <label>Thành viên</label>
+                    <?php echo $clsUser->getSelect('user_id', $user_id, '') ?>
+                </div>
+                <div class="col-3">
+                    <label>Bút danh</label>
+                    <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Note</label>
+                <textarea name="note" maxlength="255" style="width: 616px;height: 73px;resize: none;"><?php echo $note ?></textarea>
+            </div>
+        </form>
+    </div>
+</div>

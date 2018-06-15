@@ -1,0 +1,86 @@
+<div class="wrapper">
+    <ul class="breadcrumb">
+        <li><a href="<?= PCMS_URL ?>/admin.php?mod=gltt">Giao lưu trực tuyến</a></li>
+        <li><a href="<?= PCMS_URL ?>/admin.php?mod=hoidap&act=default&id=<?=$_GET['id']?>"><?=$oneItem['title']?></a></li>
+    </ul>
+</div>
+<div class="line"></div>
+<style>
+.label, .badge {display: inline-block;padding: 2px 4px !important;font-size: 11.844px !important;line-height: 14px;color: #fff !important;text-shadow: 0 -1px 0 rgba(0,0,0,0.25);white-space: nowrap;vertical-align: baseline;background-color: #999;}
+.label-success, .badge-success {background-color: #3cc051;background-image: none !important;text-shadow: none !important;}
+.label-info, .badge-info {background-color: #57b5e3;background-image: none !important;text-shadow: none !important;}
+</style>
+
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu_gltt') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <?php
+                        $link = '?mod='.$mod.'&act=edit&gltt_id='.$oneItem['gltt_id'].'&id='.$oneItem[$pkeyTable];
+                        $str_ans = ($oneItem['answer_content'])?'Đã':'Chưa';
+                        $class_ans = ($oneItem['answer_content'])?'label-success':'label-info';
+                    ?>
+                    <td class="title"><a href="<?php echo $link ?>"><span style="font-size: 11px; font-weight: bold; color: #999;">[<?php echo $oneItem['ask_name'] ?>]</span> <?php echo $oneItem['ask_content'] ?></a></td>
+                    <?php if($is_user_create || $me['user_level_id'] == 3) { ?>
+                    <td style="width: 100px;" class="user_field">
+                        <?=$clsUser->getSelectMuti('user_id', $oneItem['user_related'], '" style="width: 200px;height:100px" data-id="'.$oneItem[$pkeyTable])?>
+                    </td>
+                    <td class="iField" style="width: 80px;margin: 5px;"><a href="#" data-id="<?php echo $oneItem[$pkeyTable] ?>" class="btn2 btn_change">Chuyển CH</a></td>
+                    <?php } ?>
+                    <td class="iField" style="width: 100px;"><?php if($oneItem['is_show']) echo 'Đã public'; else echo 'Chưa public' ?></td>
+                    <td style="text-align: left; padding-left: 12px;">
+                        <a class="label <?=$class_ans?>" href="?mod=hoidap&act=edit&id=<?=$oneItem[$pkeyTable]?>" target="_blank" title=""><?=$str_ans?> trả lời</a>
+                    </td>
+                    <td class="reg_date"><span><?php echo date("H:i d/m/Y",strtotime($oneItem['reg_date'])); ?></span></td>
+                    <td style="display: none;" class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                    <?php $first=true; $url='?'; if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else $url.='&'; $url.=$key.'='.$val; } ?>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            <?php $link_export  = $core->getAddress().'&output=excel'; ?>
+            
+            <a href="<?php echo $link_export ?>&nolimit=1" class="btn2" style="float: right; margin-right: 8px;">Xuất excel All</a>
+            <a href="<?php echo $link_export ?>" class="btn2" style="float: right; margin-right: 8px;">Xuất excel</a>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.mnu_gltt').addClass('active');
+    $('.btn_change').click(function(){
+        
+        var hoidap_id = $(this).attr('data-id');
+        var obj_select = $(this).parents("tr").find("select");
+        var user_related = obj_select.val();
+        var gltt_id = '<?php echo $_GET["gltt_id"] ?>';
+        
+        $.ajax({
+    		type: "POST",
+    		url: "/admin.php?mod=hoidap&act=setUser",
+    		data:  {user_related: user_related, hoidap_id: hoidap_id, gltt_id: gltt_id},
+    		dataType: "html",
+    		success: function(msg){
+    			if(parseInt(msg)!=1) alert('Hệ thống đang nâng cấp. Vui lòng quay lại sau.');
+    		}
+    	});
+    });
+});
+</script>

@@ -1,0 +1,152 @@
+@charset "utf-8";
+/* CSS Document */
+
+a {    text-decoration:none;}
+.box-news-wrapper {width:678px; float: left; margin-right: 20px;}
+.box-news-top {
+    width:665px;
+    float:left;
+    margin: -15px 0 15px 10px;
+}
+.box-news-top-title {float:left; margin-bottom: 7px;}
+.box-news-top-title p {
+    color: #525252;
+    float: left;
+    font-size: 11px;
+    margin: 0;
+}
+.box-news-top-title img { margin-left: 10px; margin-top: 10px;}
+
+.box-news-top-content {float:left;}
+.box-news-content { padding-left: 15px;}
+.box-news-content ul {margin:0; padding-left: 0;}
+.box-news-content ul li { list-style:none; }
+.box-news-content ul li a {
+    background: url("http://media.tinmoi.vn/block/bullet-dot_07.png") no-repeat scroll 0 center transparent;
+    padding-left: 10px;
+    color:#999;
+    float: left;
+}
+.box-news-content img { float: left; margin-top: 7px; margin-bottom: 7px;}
+
+.box-news-suggest {
+    width:160px; height:557px;
+    background:#fbfbfb;
+    border-top:2px solid #b6d1e1;
+    border-right:1px solid #eee;
+    border-left:1px solid #eee;
+    border-bottom:1px solid #eee;
+    float:right;
+    position:relative;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.box-news-suggest-title {
+    left: -27px;
+    position: absolute;
+    top: -3px;   
+}
+.title {
+    background: none repeat scroll 0 0 white;
+    color: #D70000;
+    font-size: 14px;
+    left: 50px;
+    padding: 0 5px;
+    position: absolute;
+    text-transform: uppercase;
+    top: -10px;
+
+}
+.box-news-suggest-content {
+    margin-left: 15px;
+    margin-top: 25px;
+    width: 130px;
+    border-bottom:1px solid #dfdfdf;
+    padding-bottom: 20px;
+}
+.img-130x85 {width:130px; height:85px; margin-bottom: 7px;}
+.img-120x75 {width:120px; height:75px; margin-bottom: 7px;}
+.img-130x85:hover, .img-120x75:hover {cursor:pointer;}
+.box-news-suggest-a {    
+    color: #111111;
+    font-size: 14px;
+    line-height: 18px;
+}
+.box-news-suggest-a:hover, .box-news-content ul li a:hover, .box-bews-today-content a:hover {color:#bb0003;}
+
+.box-news-suggest-hor {
+    float: left;
+    height: 185px;
+    width: 635px;
+}
+.suggest-hor { float:left; border:none; margin-right: 12px;}
+
+.box-news-suggest-ver {
+    width:285px; height:345px;
+}
+
+.box-news-suggest-wrapper {
+    float: left;
+    width: 285px;
+    border-top: 1px solid #DFDFDF;
+}
+.hor-content {
+    border: medium none;
+    float: left;
+    margin-left: 13px;
+    margin-right: -4px;
+    margin-top: 20px;
+    padding-bottom: 15px;
+    width: 130px;
+}
+
+.box-news-suggest-link {
+    float:left;
+    width:283px; height:229px;
+    padding-top: 10px;
+}
+.suggest-link {
+    border-bottom: 1px solid #DBDBDB;
+    margin: 15px 16px 0;
+    padding-bottom: 10px;
+}
+.suggest-link a {
+    background: url("http://media.tinmoi.vn/block/bullet-arrow_31.png") no-repeat scroll 0 6px transparent;
+    display: block;
+    padding-left: 15px;
+}
+
+.box-news-today {
+    width:300px;
+    float: left;
+    border-top:3px solid #ca0002;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.title-today {
+    left: 70px;
+    position: absolute;
+    top: -15px;
+}
+
+.box-bews-today-content {
+    border-bottom: 1px solid #F1F1F1;
+    margin: 12px 0 0;
+    overflow: hidden;
+}
+.box-bews-today-content img {    
+    float: left;
+    margin-bottom: 13px;
+    margin-right: 15px;
+}
+.box-bews-today-content a { color: #333333;  font-size: 14px;}
+.box-bews-today-content p {
+    color: #999999;
+    font-size: 12px;
+    margin-top: 5px;
+}
+.img-100x70 {
+    width:100px; height:70px;
+}
+.img-100x70:hover {cursor:pointer;}

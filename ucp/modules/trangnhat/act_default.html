@@ -1,0 +1,68 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+</style>
+<?php if($_GET['category_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsCategory->getBreadcrumb($_GET['category_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="3">Tiêu đề</td>
+                    <td>Xem</td>
+                    <td>Ngày tạo</td>
+                    <td colspan="2">ID</td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr>
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <?php
+                        $link = '?mod='.$mod.'&act=edit&id='.$oneItem[$pkeyTable];
+                    ?>
+                    <td class="title"><a href="<?php echo $link ?>"><?php echo $oneItem['title'] ?></a></td>                    
+                    <td style="width: 100px;"><a href="<?= $clsClassTable->getLink($oneItem[$pkeyTable]) ?>">Xem</a></td>
+                    <td class="reg_date"><span><?php echo $clsClassTable->getRegDate($oneItem[$pkeyTable]) ?></span></td>
+                    <td class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><a href="" target="_blank" title=""><?php echo $oneItem[$pkeyTable] ?></a></td>
+                    <?php $first=true; $url='?'; if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else $url.='&'; $url.=$key.'='.$val; } ?>
+                    <td class="move_up_down">
+                        <a href="<?php echo $url ?>&act=movedown&id=<?php echo $oneItem[$pkeyTable] ?>" class="move_up"></a>
+                        <a href="<?php echo $url ?>&act=moveup&id=<?php echo $oneItem[$pkeyTable] ?>" class="move_down"></a>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+        </div>
+        <div>
+            <p>Tổng views trong tuần: <strong><?=$core->toString($views_week)?></strong></p>
+            <p>Tổng views trong tháng: <strong><?=$core->toString($views_month)?></strong></p>
+            <br />
+        </div>
+    </div>
+</div>

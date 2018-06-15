@@ -1,0 +1,71 @@
+<section class="bannerBtm bannerBtm2"> <a href="<?= PCMS_URL ?>/datmua-pubokid.html"><img src="<?= URL_IMAGES ?>/banner2.jpg" alt="" /></a> </section>
+<section class="contentD">
+    <div class="container">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 orderOut">
+            <div class="orderTop clearfix">
+                <h3>ĐĂNG KÝ TƯ VẤN</h3>
+                <div class="orderInfo">
+                    <p>Quý khách vui lòng để lại thông tin, Dược sỹ tư vấn Pubokid Gold sẽ gọi lại trong vòng 30 phút.</p>
+                    <p style="font-weight: bold">Nếu cần liên hệ sớm vui lòng gọi: <a href="tel:02438540999">0243.854.0999</a> hoặc 
+                        <a href="tel:0945518888‬">094.551.8888‬</a> (Dược sĩ Hồng Vân)</p>
+                    <p>Dấu (*) là phần thông tin bắt buộc cần điền.</p>
+                </div>
+            </div>
+            <div class="orderForm clearfix">
+                <form action="" method="post">
+                    <div class="form-group">
+                        <label for="fullname">Họ tên *</label>
+                        <input type="text" id="fullname" name="fullname" value="" class="in_text _full_name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile">Điện thoại *</label>
+                        <input type="text" id="mobile" name="mobile" value="" class="in_text _mobile" />
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" id="address" name="address" value="" class="in_text _address" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tinhtrangcon">Tình trạng của con</label>
+                        <input type="text" id="tinhtrangcon" name="tinhtrangcon" value="" class="in_text _tinhtrangcon" />
+                    </div>
+                    <div class="dathang" style="margin-top: 0">
+                        <input type="button" value="Đăng ký tư vấn" class="in_submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</section>
+<script>
+    $(".in_submit").click(function () {
+        var obj = $(this).parents('form');
+        var full_name = obj.find("._full_name").val();
+        var mobile = obj.find("._mobile").val();
+        var address = obj.find("._address").val();
+        var tinhtrangcon = obj.find("._tinhtrangcon").val();
+
+        if (full_name === "" || mobile === "") {
+            alert("Bạn phải điền tên và số điện thoại. Cảm ơn bạn đã đặt hàng");
+            return false;
+        } else {
+            var id = $(this).find('.value_id:last').text();
+            var link = "index.php?mod=product&act=adddonhang";
+            $.ajax({
+                type: "POST",
+                url: link,
+                dataType: "html",
+                data: {full_name: full_name, mobile: mobile, tinhtrangcon: tinhtrangcon, address: address},
+                success: function (msg) {
+                    if (parseInt(msg) === 1) {
+                        window.location = '<?= PCMS_URL ?>/success.html';
+                        $('.in_text').val('');
+                        $('.area_text').val('');
+                    }
+                }
+            });
+        }
+    });
+</script>

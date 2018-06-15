@@ -1,0 +1,82 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+#btn_edit, #btn_new {display: none !important;}
+</style>
+<?php if($_GET['category_id']) { ?>
+<div class="wrapper">
+    <ul class="breadcrumb">
+    <?php $breadcrumb = $clsCategory->getBreadcrumb($_GET['category_id']);
+        if($breadcrumb) foreach($breadcrumb as $oneCat) {
+            echo '<li><a href="?mod=category&parent_id='.$oneCat.'">'.$clsCategory->getTitle($oneCat).'</a></li>';
+        }
+    ?>
+    </ul>
+</div>
+<div class="line"></div>
+<?php } ?>
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left menu-left-blue">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr>
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td class="title"><a target="_blank" style="font-size: 11px;" href="<?php echo $clsNews->getLink($oneItem['news_id']) ?>"><?php echo $oneItem['name'].': '.$oneItem['content'].' ('.$oneItem['email'].')' ?></a></td>
+                    <td class="iField parent_reply" data="<?= $oneItem['comment_id'] ?>" style="cursor: pointer;width: 60px;"><?php if($oneItem['parent_id'] == 0) echo $clsClassTable->getCount('is_trash = 0 and parent_id = '.$oneItem['comment_id']); ?> reply</td>
+                    <td class="iField" style="width: 60px;"><?= $oneItem['liked'] ?> like</td>
+                    <td class="iField" style="width: 90px;"><a href="?mod=<?php echo $mod ?>&act=ajax&field=is_push&value=<?php if($oneItem['is_push']==1) echo '0'; else echo '1'; ?>&id=<?php echo $oneItem[$pkeyTable] ?>" class="act_ajax js_check_<?php if($oneItem['is_push']==1) echo 'on'; else echo 'off'; ?>">Xuất bản</a></td>
+                    <td class="iField" style="width: 40px;"><a href="?mod=comment&act=edit&id=<?=$oneItem[$pkeyTable]?>">Sửa</a></td>
+                    
+                    <td class="reg_date"><span><?php echo date("H:i d/m/Y",strtotime($oneItem['reg_date'])) ?></span></td>
+                    <td style="display: none;" class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>    
+                    <?php if($oneItem['parent_id'] == 0) { 
+                        $listReply = $clsClassTable->getAll('is_trash = 0 and parent_id = '.$oneItem['comment_id']);
+                        foreach($listReply as $oneItem1) { $oneItem1=$clsClassTable->getOne($oneItem1); ?>
+                        <tr class="reply_<?= $oneItem['comment_id'] ?>" style="display: none;">
+                            <td class="first"></td>
+                            <td class="checkbox"><div><span></span></div></td>
+                            <td class="title"><a target="_blank" style="font-size: 11px;margin-left: 10px;" href="<?php echo $clsNews->getLink($oneItem1['news_id']) ?>">----- <?php echo $oneItem1['name'].': '.$oneItem1['content'].' ('.$oneItem1['email'].')' ?></a></td>
+                            <td class="iField" style="width: 60px;"></td>
+                            <td class="iField" style="width: 60px;"><?= $oneItem1['liked'] ?> like</td>
+                            <td class="iField" style="width: 90px;"><a href="?mod=<?php echo $mod ?>&act=ajax&field=is_push&value=<?php if($oneItem1['is_push']==1) echo '0'; else echo '1'; ?>&id=<?php echo $oneItem1[$pkeyTable] ?>" class="act_ajax js_check_<?php if($oneItem1['is_push']==1) echo 'on'; else echo 'off'; ?>">Xuất bản</a></td>
+                            <td class="iField" style="width: 40px;"><a href="?mod=comment&act=edit&id=<?=$oneItem1[$pkeyTable]?>">Sửa</a></td>
+                            
+                            <td class="reg_date"><span><?php echo date("H:i d/m/Y",strtotime($oneItem1['reg_date'])) ?></span></td>
+                            <td style="display: none;" class="value_id" id="value_id_<?php echo $oneItem1[$pkeyTable] ?>"><?php echo $oneItem1[$pkeyTable] ?></td>
+                        </tr>
+                    
+                    <?php        
+                        }
+                    ?>
+                    
+                    <?php } ?>
+                    
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+                
+                <script>
+                    $(".parent_reply").click(function(){
+                        var data = $(this).attr('data');
+                        $(".reply_"+data).show();
+                    });
+                </script>
+                
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+        </div>
+    </div>
+</div>

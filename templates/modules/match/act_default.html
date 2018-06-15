@@ -1,0 +1,43 @@
+<link rel="stylesheet" type="text/css" href="<?= URL_CSS ?>/livethethaoso.css" />
+<style>
+    #content_see_match li.full .info_match {
+        background: #ccc;
+    }
+</style>
+<div class="grid1060">
+    <div class="block20"></div>
+    <div class="content_wrapper pkg">
+ 
+      <div class="break_cump pkg"> 
+        <a href="" class="first fl">Xem bóng đá trực tuyến</a> 
+      </div>
+      <div class="list_see_movie" id="content_see_match">
+      <?php foreach($listNews as $one) { $one = $clsNews->getOne($one) ?>
+          <li <?php if($one['full_time']) echo 'class="full"'; else if($one['is_featured']) echo 'class="hot"' ?> >
+            <a href="<?= $clsNews->getLink($one['news_id']); ?>" title="<?= $one['title']; ?>">
+                <div class="logo_team pkg" align="center">
+                    <div class="team1 fl-left"><img src="<?= $clsTeam->getImage($one['home_team_id'],61,61) ?>"/></div>
+                    <span class="time_match"><strong><?= $one['match_time'] ?></strong><?= $one['match_date'] ?></span>
+                    <div class="team2 fl-right"><img src="<?= $clsTeam->getImage($one['away_team_id'],61,61) ?>"></div>
+                </div>
+                <div class="info_match">
+                    <div class="name_team">
+                        <?= $clsTeam->getTitle($one['home_team_id']) ?> vs <?= $clsTeam->getTitle($one['away_team_id']) ?>
+                    </div>
+                    <span>[ <?= $one['league'] ?> ]</span>
+                </div>
+            </a>
+        </li>
+      <?php } ?>
+      
+      </div>
+      <div class="block20"></div>
+      <div class="paging pkg" align="center">
+            <span class="divblock">
+            <?php foreach($paging as $p) { ?>
+                <a class="<?php if($page==$p[0]) echo 'active'; ?>" href="p<?= $p[0] ?>"><?= $p[1] ?></a>
+            <?php } ?>
+            </span>
+        </div>
+    </div>
+  </div>

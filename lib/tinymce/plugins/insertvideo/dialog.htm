@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+	<title>Chèn video</title>
+	<script type="text/javascript" src="../../tiny_mce_popup.js?1111"></script>
+	<script type="text/javascript" src="js/dialog.js"></script>
+</head>
+<body>
+<form onsubmit="ExampleDialog.insert();return false;" action="#">
+	<p>Chèn video</p>
+	<p>Nội dung video:   <textarea id="someval" name="someval" cols="80" rows="15"></textarea>
+	<div class="mceActionPanel">
+		<input type="button" id="insert" name="insert" value="{#insert}" onclick="ExampleDialog.insert();" />
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+	</div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="3">Tên</td>
+                    <td>Điện thoại</td>
+                    <td>Email</td>
+                    <td>Địa chỉ</td>
+                    <td>Trang thái</td>
+                    <td>Ngày đặt</td>
+                    <td>Địa chỉ SDT</td>
+                    <td>ID</td>
+                </tr>
+                <?php } ?>
+            
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    <td class="iField" style="width: 150px;"><a href="/admin.php?mod=<?= $mod ?>&act=edit&id=<?php echo $oneItem[$pkeyTable] ?>"><?= $oneItem['full_name'] ?></a></td>
+                    <td class="iField" style="width: 150px;"><?= $oneItem['mobile'] ?></td>
+                    <td class="iField" style="width: 150px;"><?= $oneItem['email'] ?></td>
+                    <td class="iField" style="width: 150px;"><?= $oneItem['address'] ?></td>
+                    <td class="iField" style="width: 150px;"><?php if($oneItem['is_check']) echo 'Đã check'; else echo 'Chưa check'; ?></td>
+                    <td class="reg_date" style="width: 150px;"><span title="<?php echo date("H:i d/m/Y",$oneItem['reg_date']) ?>"><?php echo date("H:i d/m/Y",$oneItem['reg_date']) ?></span></td>
+                    <td class="iField" style="width: 150px;"><?= $oneItem['add_start'] ?></td>
+                    <td class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            
+            <?php $link_export  = $core->getAddress().'&output=excel'; ?>
+        </div>
+    </div>
+</div>

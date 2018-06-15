@@ -1,0 +1,88 @@
+<style>
+.tbl-list tr.top {border-top: 1px solid #DDD;}
+.tbl-list tr.top td {font-size: 11px; font-weight: bold; color: #666; background: rgba(243,243,243,.85) !important; text-align: center;}
+.navigation {display: none;}
+.iField input[type=text] {width: 58px !important; text-align: center;}
+.iField .btn2 {height: 20px;line-height: 20px;padding: 0 3px;font-size: 10px;}
+tr.bg_blue {background: #c8f099 !important;}
+.iField .dialog {display: none;}
+.lbl_noti {float: right; font-size: 11px; font-weight: bold; margin-right: 13px; color: #36a318; line-height: 32px;display: none;}
+</style>
+
+<div class="wrapper w-content" style="padding-left: 0;">
+    <div class="pRight">
+        <table class="tbl-list" style="border-collapse: collapse;">
+            <tbody>
+                <?php if($listItem) { ?>
+                <tr class="top">
+                    <td colspan="4">Tiêu đề</td>
+                    <td style="width: 7%;">Thành viên</td>
+                    <td style="width: 10%;">Bút danh</td>
+                    <td style="width: 5%;">Views</td>
+                    <td>Tin bài</td>
+                    <td>Hình ảnh</td>
+                    <td>Video</td>
+                    <td>Audio</td>
+                    <td>Khác</td>
+                    <td>Tổng</td>
+                    <td>Ngày viết</td>
+                    <td>History</td>
+                </tr>
+                <?php } ?>
+                <?php if($listItem) foreach($listItem as $oneItem) { $oneItem=$clsClassTable->getOne($oneItem); ?>
+                <tr class="">
+                    <td class="first"></td>
+                    <td class="checkbox"><div><span></span></div></td>
+                    
+                    <td style="width: 25px; padding-left: 10px;"><img style="border: 1px solid #bababa;" src="<?php echo $clsClassTable->getImage($oneItem[$pkeyTable], 25, 25, 'out') ?>" width="25" height="25" /></td>
+                    <td class="title"><a target="_blank" href="<?= $clsClassTable->getLink($oneItem['news_id']) ?>"><?php echo $oneItem['title'] ?></a></td>
+                    <td class="iField" style="font-weight: bold;"><?php $oneUser = $clsUser->getOne($oneItem['user_id']); echo $oneUser['user_name']; ?></td>
+                    <td class="iField"><?php echo $clsSignature->getTitle($oneItem['signature_id']); ?></td>
+                    <td class="iField"><a target="_blank" href="<?= $clsClassTable->getLink($oneItem['news_id']) ?>"><?php echo $core->toString($oneItem['views']) ?></a></td>
+                    <td class="iField"><?php echo $core->toString($oneItem['royalty_news']) ?></td>
+                    <td class="iField"><?php echo $core->toString($oneItem['royalty_photo']) ?></td>
+                    <td class="iField"><?php echo $core->toString($oneItem['royalty_video']) ?></td>
+                    <td class="iField"><?php echo $core->toString($oneItem['royalty_audio']) ?></td>
+                    <td class="iField"><?php echo $core->toString($oneItem['royalty_other']) ?></td>
+                    <td class="iField total_price"><?php echo $core->toString($oneItem['royalty_news']+$oneItem['royalty_photo']+$oneItem['royalty_video']+$oneItem['royalty_audio']+$oneItem['royalty_other']) ?></td>
+                    <td class="reg_date"><span><?php echo $clsClassTable->getRegDate($oneItem[$pkeyTable]) ?></span></td>
+                    <td class="iField">
+                        <a href="#" class="btn_note" title="Ghi chú"><img src="/ucp/themes/images/note<?php if(!$oneItem['note']) echo '-black' ?>.png" height="20" /></a>
+                        <a href="/admin.php?mod=history&news_id=<?php echo $oneItem[$pkeyTable] ?>" title="Xem lịch sử"><img src="/ucp/themes/images/history.png" height="20" /></a>
+                        <div class="dialog" title="<?php echo $core->get_limit_content($oneItem['title'], 40) ?>">
+                          <textarea name="note" style="margin: 0px;width: 259px;height: 113px; resize: none;" ><?php echo $oneItem['note'] ?></textarea>
+                          <div style="width: 100%; display: inline-block;">
+                            <a data-id="<?php echo $oneItem['news_id'] ?>" class="btn2 save_note" href="#" style="float: right;">Save</a>
+                            <span class="lbl_noti">Saved!</span>
+                          </div>
+                        </div>
+                    </td>
+                    <td style="display: none;" class="value_id" id="value_id_<?php echo $oneItem[$pkeyTable] ?>"><?php echo $oneItem[$pkeyTable] ?></td>
+                    <?php $first=true; $url='?'; if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else $url.='&'; $url.=$key.'='.$val; } ?>
+                </tr>
+                <?php } ?>
+                <tr class="top">
+                    <td colspan="7">Tổng</td>
+                    <td><?php echo $core->toString($total_news) ?></td>
+                    <td><?php echo $core->toString($total_photo) ?></td>
+                    <td><?php echo $core->toString($total_video) ?></td>
+                    <td><?php echo $core->toString($total_audio) ?></td>
+                    <td><?php echo $core->toString($total_other) ?></td>
+                    <td><?php echo $core->toString($total_news+$total_photo+$total_video+$total_audio+$total_other) ?></td>
+                    <td colspan="3"></td>
+                </tr>
+                <?php if($listItem=='') { ?>
+                    <p>Không có bản ghi nào!</p>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div style="padding: 10px 0;">
+            <?php $link_export  = $core->getAddress().'&output=excel'; ?>
+            <?php if($paging) foreach($paging as $oneItem) { ?>        
+            <a href="?<?php $first=true; unset($_GET['page']); if($_GET) foreach($_GET as $key => $val) { if($first) $first=false; else echo '&'; echo $key.'='.$val; } ?>&page=<?php echo $oneItem[0] ?>" title="<?php echo $oneItem[1] ?>" class="<?php if($cursorPage==$oneItem[0]) echo 'btn3'; else echo 'btn2'; ?>"><?php echo $oneItem[1] ?></a>
+            <?php } ?>
+            <a href="<?php echo $link_export ?>&nolimit=1" class="btn2" style="float: right; margin-right: 8px;">Xuất excel All</a>
+            <a href="<?php echo $link_export ?>" class="btn2" style="float: right; margin-right: 8px;">Xuất excel</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <input type="button" class="btn2 sendartice" value="Gửi luôn" style="cursor: pointer;" />
+        <img src="<?= URL_IMAGES ?>/loading1.gif" width="30px" height="30px" style="display: none;" class="loading1" />
+        <script>
+            $(".sendartice").click(function(){
+                var id = '<?= $_GET['id'] ?>';
+                var link = "admin.php?mod=subscribe&act=sendartice&id="+id;
+                $(".loading1").show();
+                $.ajax({
+                    type: "POST",
+                    url: link,
+                    dataType: "html",
+                    success: function(msg){
+                        $(".loading1").hide();
+                        if(parseInt(msg)!=0) {
+                            alert('Đã gửi thành công '+msg+' mail');
+                        } else {
+                            alert('Có lỗi trong quá trình gửi mail');
+                        }
+                    }
+                });
+            });
+        </script>
+        
+        <?php
+
+            if($is_send == 1) echo '<span style="color: red">Mail đã gửi</span>'; else 
+            if($send_mail>time())  echo '<span style="color: red">Mail chờ gửi</span>';
+        ?>
+        
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            <div class="OneField">
+                <div class="col-7">
+                    <label>Xuất bản</label>
+                    <div>   
+                        <input name="is_push" type="hidden" value="0" />
+                        <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo $title ?>" />
+            </div>
+            <div class="OneField">
+                <div class="col-2">
+                    <label>Kiểu tin gửi</label>
+                    <select name="type">
+                        <option value="1" <?php if($type==1) echo 'selected=""' ?> >Gửi theo chuyên mục</option>
+                        <option value="2" <?php if($type==2) echo 'selected=""' ?> >Gửi tin NB trang chủ</option>
+                        <option value="3" <?php if($type==3) echo 'selected=""' ?> >Gửi theo bài</option>
+                        <option value="4" <?php if($type==4) echo 'selected=""' ?> >Gửi tin mới</option>
+                    </select>
+                </div>
+                <div class="col-2 abc abc1" style="display: none;">
+                    <label>Chuyên mục</label>
+                    <?php $clsCategory = new Category;echo $clsCategory->getSelectCat('category_id', $category_id) ?>
+                </div>
+            </div>
+            <div class="OneField OneFieldNewsRelated abc abc2" style="display: none;">
+                <label>Tin gửi</label>
+                <div class="stack_arr">
+                    <div class="input_data">
+                        <ul>
+                            <?php $arr = explode("|", $news_id); if($arr) foreach($arr as $one) if($one) { ?>
+                            <li style="background: #ddd;"><span class="title"><?php echo $clsNews->getTitle($one) ?></span><span class="remove" rel="<?php echo $one ?>"></span></li>
+                            <?php } ?>
+                        </ul>
+                        <input class="text_input noreset" rel="load_ajax" alt="news" type="text" />
+                    </div>
+                    <div class="show_data"></div>
+                    <input class="curent_input" type="hidden" name="news_id" value="<?php if($news_id) echo $news_id; else echo '|'; ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <div class="col-5">
+                    <label title="Hiện tại: <?php echo date('d/m/Y H:i') ?>">Hẹn giờ gửi bài</label>
+                    <input class="text datetimepicker" name="send_date" value="<?php if($send_date) echo date('d/m/Y H:i', $send_date); else echo date('d/m/Y H:i'); ?>" />
+                </div>
+            </div>
+            
+            <script>
+                var type = $("select[name=type]").val();
+                $(".abc").hide();
+                if(type == 1) {
+                    $(".abc1").show();
+                }
+                if(type == 3) {
+                    $(".abc2").show();
+                }
+                $("select[name=type]").change(function(){
+                    var type = $("select[name=type]").val();
+                    $(".abc").hide();
+                    if(type == 1) {
+                        $(".abc1").show();
+                    }
+                    if(type == 3) {
+                        $(".abc2").show();
+                    }
+                });
+                
+            </script>
+            
+            
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('.datetimepicker').datetimepicker({
+    dateFormat: "dd/mm/yy"
+});
+</script>

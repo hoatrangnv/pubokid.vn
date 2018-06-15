@@ -1,0 +1,440 @@
+<div class="wrapper w-content">
+    <div class="pLeft">
+        <ul class="menu-left">
+            <?php $core->getBlock('sub_menu') ?>
+        </ul>
+    </div>
+    <div class="pRight">
+        <form class="frm_submit" id="frm_submit" name="frm_submit" action="" method="post" enctype="multipart/form-data">
+            
+            <div class="box-note">
+                <span><a target="_blank" href="<?= $clsClassTable->getLink($news_id) ?>">Chức năng</a></span>
+                <hr/>
+            </div> 
+            
+            <div class="OneField">
+                <div class="col-10">
+                    <label>Nổi bật trang chủ</label>
+                    <div>
+                        <input type="hidden" name="is_pick" value="0" />
+                        <input id="is_pick" type="checkbox" class="iToggle" name="is_pick" <?php if($is_pick==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Tiêu điểm</label>
+                    <div>
+                        <input type="hidden" name="is_top" value="0" />
+                        <input id="is_top" type="checkbox" class="iToggle" name="is_top" <?php if($is_top==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Tin mới</label>
+                    <div>
+                        <input type="hidden" name="is_hot" value="0" />
+                        <input id="is_hot" type="checkbox" class="iToggle" name="is_hot" <?php if($is_hot==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>NB chuyên mục</label>
+                    <div>
+                        <input type="hidden" name="is_featured" value="0" />
+                        <input id="is_featured" type="checkbox" class="iToggle" name="is_featured" <?php if($is_featured==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Lưu nháp</label>
+                    <div>
+                        <input type="hidden" name="is_draft" value="0" />
+                        <input id="is_draft" type="checkbox" class="iToggle" name="is_draft" <?php if($is_draft==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>TĐ kết thúc</label>
+                    <div>
+                        <input type="hidden" name="full_time" value="0" />
+                        <input id="full_time" type="checkbox" class="iToggle" name="full_time" <?php if($full_time==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                <div class="col-10">
+                    <label>Xuất bản</label>
+                    <div>
+                        <input name="is_push" type="hidden" value="0" />
+                        <input id="is_push" type="checkbox" class="iToggle" name="is_push" <?php if($is_push==1) echo 'checked="checked"' ?> value="1" />
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="OneField">
+                <label>Tiêu đề</label>
+                <input class="text required" type="text" name="title" value="<?php echo htmlentities($title, ENT_QUOTES | ENT_IGNORE, "UTF-8") ?>" />
+            </div>
+            <div class="OneField">
+                <label>Mô tả</label>
+                <textarea name="intro" style="width: 917px; height: 100px;"><?php echo $intro ?></textarea>
+            </div>
+            
+            <div class="OneField">
+                <label>Hình ảnh</label>
+                <span class="col-3"><input disabled="disabled" class="text" type="text" name="image" /></span>
+                <img width="30" height="30" src="<?php if($image) echo $image; else echo DIR_IMAGES.'/no_photo.jpg'; ?>" alt="" title="Click here to upload image!" />
+                <input class="" id="imageupload" type="file" name="image" />
+            </div>
+            <div class="OneField tags">
+                <label>Tags</label>
+                <div class="input_data">
+                    <ul>
+                    <?php $arr = explode(",", html_entity_decode($tags)); if($arr) foreach($arr as $one) if(trim($one)!='') {  ?>
+                    <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $one ?></span><span class="remove" rel="<?php echo $one ?>"></span></li>
+                    <?php } ?>
+                    </ul>
+                    <input class="text_input" rel="load_ajax" type="text">
+                </div>
+                <input class="text curent_input"  type="hidden" value="<?php if($tags) echo $tags; else echo ','; ?>" name="tags" />
+                <div class="show_data"></div>
+            </div>
+            <!-- Begin -->
+            <style>
+            .SEO {width: 900px;}
+            .SEO a {color: #0384C2;text-decoration: none;text-shadow: 0px 0px 0px transparent;}
+            .SEO label {display: inline;width: 160px;font-size: 12px;line-height: 1.5;color: #303030;padding-right: 15px;float: left;}
+            .SEO input[type = "text"] {width: 450px;float: left;display: inline-block;margin-right: 20px;}
+            .SEO div.cleaner {border-bottom: solid 1px #e8e7e3;height: 10px;margin-bottom: 10px;clear: both;}
+            .SEO textarea {line-height: 1.6;height: 130px;}
+            .SEO .star-score {display: inline;width: 160px;font-size: 12px;line-height: 1.5;color: #303030;padding-right: 15px;float: left;}
+            </style>            
+            <script type="text/javascript">
+            function seo_config() {var ele = document.getElementById("seoConfigText");var text = document.getElementById("seoDisplayConfig");if(ele.style.display == "block") {ele.style.display = "none";text.innerHTML = "SEO";}else {ele.style.display = "block";text.innerHTML = "SEO";}}
+            </script>
+            <div class="SEO" style="background: none repeat scroll 0 0 #FFFFDD; border: 1px solid #DDDDDD; padding: 10px;">
+            <a id="seoDisplayConfig" href="javascript:seo_config();" class="text-seo">SEO</a>
+                <div id="seoConfigText" class="quick_table" style="display: none; margin-top: 20px;">   
+                    <label>Title:<br />
+                        <b id="count_seo_tit">65</b>
+                    </label>
+                    <input class="text" id="seo_tit" type="text" value="<?php echo  htmlentities($meta_title, ENT_QUOTES | ENT_IGNORE, "UTF-8") ?>" name="meta_title" />
+                    <div class="cleaner">&nbsp;</div>
+                    <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('#seo_tit').keyup(function(){
+                            $('#count_seo_tit').text(parseInt($(this).val().length));
+                            if(parseInt($(this).val().length) > 65) {
+                                $("#count_seo_tit").css("color","#c32c2c");
+                            } else {
+                                $("#count_seo_tit").css("color","#000");
+                            }
+                        });
+                        $('#seo_tit').keyup();
+                    });
+                    </script>
+                    
+                    <label>Slug:</label>
+                    <input class="text" type="text" value="<?php echo $slug ?>" name="slug" />
+                    <div class="cleaner">&nbsp;</div>
+                    <label>Keyword:</label>
+                    <textarea name="meta_keyword" cols="80"><?= $meta_keyword ?></textarea>
+                     <div class="cleaner">&nbsp;</div>
+                    <label>Description:<br />
+                        <b id="count_seo_des">160</b>
+                    </label>
+                    <textarea id="seo_des" name="meta_description" cols="80"><?php echo $meta_description ?></textarea>
+                   
+                                        
+                    
+                    <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('#seo_des').keyup(function(){
+                            $('#count_seo_des').text(parseInt($(this).val().length));
+                            if(parseInt($(this).val().length) > 160) {
+                                $("#count_seo_des").css("color","#c32c2c");
+                            } else {
+                                $("#count_seo_des").css("color","#000");
+                            }
+                        });
+                        $('#seo_des').keyup();
+                    });
+                    </script>
+                </div>
+            </div>
+            <!-- End -->
+            <div class="box-note">
+                <span>Thông tin trận đấu</span>
+                <hr/>
+            </div> 
+            
+            <div class="OneField">
+                <div class="col-2">
+                    <label>Sân nhà</label>
+                    <div class="stack_arr">
+                        <div class="input_data">
+                            <ul id="input_data_ul_keywords">
+                            <?php if($home_team_id) { ?>
+                                <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $clsTeam->getTitle($home_team_id) ?></span><span class="remove" rel="<?= $home_team_id ?>"></span></li>
+                            <?php } ?>
+                            </ul>
+                            <input class="text_input" rel="load_ajax" alt="team" type="text" style="width: 100px;"  />
+                        </div>
+                        <div class="show_data"></div>
+                        <input id="txt_keywords" class="curent_input" type="hidden" name="home_team_id" value="<?php if($home_team_id) echo $home_team_id; ?>" />
+                    </div>
+                </div>
+                <div class="col-2">
+                    <label>Sân khách</label>
+                    <div class="stack_arr">
+                        <div class="input_data">
+                            <ul id="input_data_ul_keywords">
+                            <?php if($away_team_id) { ?>
+                                <li style="background: #ddd;" class="keywords_fix"><span class="title"><?php echo $clsTeam->getTitle($away_team_id) ?></span><span class="remove" rel="<?= $away_team_id ?>"></span></li>
+                            <?php } ?>
+                            </ul>
+                            <input class="text_input" rel="load_ajax" alt="team" type="text" style="width: 100px;"  />
+                        </div>
+                        <div class="show_data"></div>
+                        <input id="txt_keywords" class="curent_input" type="hidden" name="away_team_id" value="<?php if($away_team_id) echo $away_team_id; ?>" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="OneField">
+                <div class="col-4">
+                    <label>Giải đấu</label>
+                    <input class="text" type="text" name="league" value="<?php echo $league ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Kết quả</label>
+                    <input class="text" type="text" name="result" placeholder="0-0" value="<?php echo $result ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Thời gian</label>
+                    <input class="text" type="text" name="match_time" placeholder="00:00" value="<?php echo $match_time ?>" />
+                </div>
+                <div class="col-4">
+                    <label>Ngày tháng</label>
+                    <input class="text datepicker" type="text" name="match_date" value="<?php echo $match_date ?>" />
+                </div>
+            </div>
+            <div class="OneField">
+                <label>Đội hình</label>
+                <textarea class="tinymcemini2" name="doihinh" style="width: 917px; height: 100px;"><?= $doihinh ?></textarea>
+            </div>
+            
+            <?php if($embed_live) $embed_live=json_decode($embed_live,true); ?>
+            <div class="OneField tmnhtml">
+                <label>Mã nhúng trực tiếp</label>
+                <?php foreach($embed_live as $embed) { if($embed){ ?>
+                    <textarea name="embed_live[]" style="width: 917px; height: 100px;"><?php echo $embed ?></textarea>
+                <?php }} ?>
+            </div>
+            
+            <input type="button" class="btn2 tmn" value="Thêm mã nhúng" />
+            
+            <script>
+                $(".tmn").live("click",function(){
+                    $(".tmnhtml").append('<textarea name="embed_live[]" style="width: 917px; height: 100px;"></textarea>');
+                });
+            </script>
+            
+            <div class="box-note">
+                <span>Diễn biến trận đấu</span>
+                <hr/>
+            </div> 
+            
+            
+            <?php if($live) $live=json_decode($live,true);
+            ?>
+            <div class="OneField">
+                <div class="col-4">Thời gian</div>
+                <div class="col-1">Nội dung</div>
+            </div>
+            
+            <div class="OneField info_default">
+                <?php if($live1){ foreach($live1 as $k=>$info) { $info = $clsLive->getOne($info); ?>
+                <div class="match" data_news="<?= $_GET['id'] ?>" data_match="<?= $info['match_id'] ?>">
+                    <div class="col-4">
+                        <div class="col-2" style="margin-bottom: 5px;margin-right: 12px;width: 44%;">
+                            <input class="text time" type="text" name="" value="<?php echo $info["time"] ?>" />
+                        </div>
+                        <div class="col-2">
+                            <select name="" class="icon">
+                                <option value="0" <?php if($info["icon"] == 0) echo 'selected=""' ?> >---</option>
+                                <option value="1" <?php if($info["icon"] == 1) echo 'selected=""' ?> >Thẻ đỏ</option>
+                                <option value="2" <?php if($info["icon"] == 2) echo 'selected=""' ?> >Thẻ vàng</option>
+                                <option value="3" <?php if($info["icon"] == 3) echo 'selected=""' ?> >Vào</option>
+                                <option value="4" <?php if($info["icon"] == 4) echo 'selected=""' ?> >T vàng 2</option>
+                                <option value="5" <?php if($info["icon"] == 5) echo 'selected=""' ?> >Pen(Không vào)</option>
+                                <option value="6" <?php if($info["icon"] == 6) echo 'selected=""' ?> >Thay người</option>
+                            </select>
+                        </div>
+                        <div class="col-1" style="width: 96%;margin-bottom: 5px;">
+                            <input class="text order_by" type="text" value="<?php echo $info["order_by"] ?>" />
+                        </div>
+                        <div style="clear: both;">
+                        <a href="javascript:void(0)" class="btn2 reload">Reload</a>
+                        <a href="javascript:void(0)" class="btn2 update">Update</a>
+                        <a href="javascript:void(0)" class="btn2 delete">Delete</a>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <textarea class="tinymcemini2 content" data="" name=""><?php echo $info["content"] ?></textarea>
+                    </div>
+                </div>
+                <?php }} else { ?>
+                <div class="match" data_news="<?= $_GET['id'] ?>" data_match="">
+                    <div class="col-4">
+                    <div class="col-2" style="margin-bottom: 5px;margin-right: 12px;width: 44%;">
+                        <input class="text time" type="text" name="live[0][time]" value="" />
+                    </div>
+                    <div class="col-2">
+                        <select name="" class="icon">
+                            <option value="0" >---</option>
+                            <option value="1">Thẻ đỏ</option>
+                            <option value="2">Thẻ vàng</option>
+                            <option value="3">Vào</option>
+                            <option value="4">T vàng 2</option>
+                            <option value="5">Pen(Không vào)</option>
+                            <option value="6">Thay người</option>
+                        </select>
+                    </div>
+                    <div class="col-1" style="width: 96%;margin-bottom: 5px;">
+                        <input class="text order_by" type="text" placeholder="Sắp xếp" value="1" />
+                    </div>
+                    <div style="clear: both;">
+                        <a href="javascript:void(0)" class="btn2 insert">Insert</a>
+                        <a href="javascript:void(0)" class="btn2 reload" style="display: none;">Reload</a>
+                        <a href="javascript:void(0)" class="btn2 update" style="display: none;">Update</a>
+                        <a href="javascript:void(0)" class="btn2 delete" style="display: none;">Delete</a>
+                    </div>
+                    </div>
+                    <div class="col-1">
+                        <textarea class="tinymcemini2 content" data="0"></textarea>
+                    </div>
+                </div>
+                <?php } ?>
+            </div>
+            <p class="more_info">Thêm thông tin</p>
+            
+            <script>
+                $(".insert").live("click",function(){
+                    var obj = $(this).parents(".match");
+                    var time = obj.find(".time").val();
+                    var icon = obj.find(".icon").val();
+                    var order_by = obj.find(".order_by").val();
+                    var content = obj.find(".content").val();
+                    if(!content) {
+                        alert("Không được để trống nội dung");
+                        return false;
+                    }
+                    var link = "admin.php?mod=match&act=ajaxinsert";
+                    var news_id = obj.attr("data_news");
+                    $.ajax({
+                        type: "POST",
+                        url: link,
+                        dataType: "html",
+                        data: {time: time, content: content,news_id:news_id,icon:icon,order_by:order_by},
+                        success: function(msg){
+                            if(parseInt(msg) > 0) {
+                                obj.attr("data_match",parseInt(msg));
+                                obj.find(".insert").hide();
+                                obj.find(".update").show();
+                                obj.find(".reload").show();
+                                obj.find(".delete").show();
+                            } else {
+                                alert("Lỗi trong quá trình thêm");
+                            }
+                        }
+                    });     
+                });
+                
+                $(".update").live("click",function(){
+                    var obj = $(this).parents(".match");
+                    var time = obj.find(".time").val();
+                    var icon = obj.find(".icon").val();
+                    var content = obj.find(".content").val();
+                    var order_by = obj.find(".order_by").val();
+                    var link = "admin.php?mod=match&act=ajaxupdate";
+                    var match_id = obj.attr("data_match");
+                    $.ajax({
+                        type: "POST",
+                        url: link,
+                        dataType: "html",
+                        data: {time: time, content: content,match_id:match_id,icon:icon,order_by:order_by},
+                        success: function(msg){
+                            if(parseInt(msg) > 0) {
+                                alert("Update thành công");
+                            } else {
+                                alert("Lỗi trong quá trình update");
+                            }
+                        }
+                    });     
+                });
+                
+                $(".delete").live("click",function(){
+                    var r = confirm("Bạn có chắc chắn muốn xóa");
+                    if (r == true) {
+                        var obj = $(this).parents(".match");
+                        var link = "admin.php?mod=match&act=ajaxdelete";
+                        var match_id = obj.attr("data_match");
+                        $.ajax({
+                            type: "POST",
+                            url: link,
+                            dataType: "html",
+                            data: {match_id:match_id},
+                            success: function(msg){
+                                if(parseInt(msg) > 0) {
+                                    obj.remove();
+                                    alert("Delete thành công");
+                                } else {
+                                    alert("Lỗi trong quá trình delete");
+                                }
+                            }
+                        });    
+                    } else {
+                        alert("Đã dừng quá trình delete");
+                    }
+                });
+                
+                $(".reload").live("click",function(){
+
+
+                        var obj = $(this).parents(".match");
+                        var link = "admin.php?mod=match&act=ajaxreload";
+                        var match_id = obj.attr("data_match");
+                        $.ajax({
+                            type: "POST",
+                            url: link,
+                            dataType: "json",
+                            data: {match_id:match_id},
+                            success: function(msg){
+                                obj.find(".time").val(msg.time);
+                                obj.find(".content").val(msg.content);
+                            }
+                        });    
+
+                });
+            </script>
+            
+            <script>
+                $(".more_info").click(function() {
+                    var d = new Date();
+                    var n = d.getTime();
+                    var order_by = $(".info_default").find(".order_by").last().val();
+                    var next_order_by = parseInt(order_by) + 10;
+                    var html_info = '<div class="match" data_news="<?= $_GET['id'] ?>" data_match=""><div class="col-4"><div class="col-2" style="margin-bottom: 5px;margin-right: 12px;width: 44%;"><input class="text time" type="text" value="" /></div>'+
+                                    '<div class="col-2"><select class="icon"><option value="0">---</option><option value="1">Thẻ đỏ</option><option value="2">Thẻ vàng</option><option value="3">Vào</option><option value="4">Tvàng 2</option><option value="5">Pen(Không vào)</option><option value="6">Thay người</option></select></div><div class="col-1" style="width: 96%;margin-bottom: 5px;"><input class="text order_by" type="text" placeholder="Sắp xếp" value="'+next_order_by+'" /></div><div style="clear: both;"><a href="javascript:void(0)" class="btn2 insert">Insert</a><a href="javascript:void(0)" class="btn2 reload" style="display: none;">Reload</a><a href="javascript:void(0)" class="btn2 update" style="display: none;">Update</a><a href="javascript:void(0)" class="btn2 delete" style="display: none;">Delete</a></div></div>'+
+                                    '<div class="col-1"><textarea id="ta_append_'+n+'" class="tinymcemini2 content" style="width:500px; height:100px"></textarea></div></div>';
+                    $(".info_default").append(html_info);
+                    
+                    tinymce.EditorManager.execCommand('mceAddEditor', false, "ta_append_"+n);
+                });
+            </script>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+
+$('.datepicker').datepicker({
+    dateFormat: 'dd-mm-yy',
+});
+</script>
